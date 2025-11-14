@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuUI", "Sudoku.vcxproj", "{8B06833A-7307-4CF0-BD83-5737D82987B1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9565ED0E-50CE-4AC0-981F-9B049C4390CC} = {9565ED0E-50CE-4AC0-981F-9B049C4390CC}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuTests", "..\SudokuTests\SudokuTests.vcxproj", "{9B062DD7-816F-4892-BE6F-CA346D877488}"
 EndProject
