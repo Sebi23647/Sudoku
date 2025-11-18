@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8 d17.14
+VisualStudioVersion = 17.14.36623.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuLib", "SudokuLib\SudokuLib.vcxproj", "{522FDC32-C05C-41E2-B5A9-F0886B8DD114}"
 EndProject
@@ -11,6 +11,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuUI", "SudokuUI\Sudoku
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuTests", "SudokuTests\SudokuTests.vcxproj", "{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{522FDC32-C05C-41E2-B5A9-F0886B8DD114} = {522FDC32-C05C-41E2-B5A9-F0886B8DD114}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
