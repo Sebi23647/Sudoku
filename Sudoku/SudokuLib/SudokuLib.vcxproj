@@ -123,7 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SudokuGame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CellState.h" />
+    <ClInclude Include="Difficulty.h" />
+    <ClInclude Include="IObserver.h" />
+    <ClInclude Include="ISudokuGame.h" />
+    <ClInclude Include="SudokuGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

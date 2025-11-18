@@ -10,6 +10,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuUI", "SudokuUI\Sudoku
 		{522FDC32-C05C-41E2-B5A9-F0886B8DD114} = {522FDC32-C05C-41E2-B5A9-F0886B8DD114}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SudokuTests", "SudokuTests\SudokuTests.vcxproj", "{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +36,14 @@ Global
 		{F45A7C5F-DCF2-4CB5-A346-FF0D0B8B4F32}.Release|x64.Build.0 = Release|x64
 		{F45A7C5F-DCF2-4CB5-A346-FF0D0B8B4F32}.Release|x86.ActiveCfg = Release|Win32
 		{F45A7C5F-DCF2-4CB5-A346-FF0D0B8B4F32}.Release|x86.Build.0 = Release|Win32
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Debug|x64.ActiveCfg = Debug|x64
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Debug|x64.Build.0 = Debug|x64
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Debug|x86.ActiveCfg = Debug|Win32
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Debug|x86.Build.0 = Debug|Win32
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Release|x64.ActiveCfg = Release|x64
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Release|x64.Build.0 = Release|x64
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Release|x86.ActiveCfg = Release|Win32
+		{6DCD9EBC-22DF-4701-86C4-33DA87F846FF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
