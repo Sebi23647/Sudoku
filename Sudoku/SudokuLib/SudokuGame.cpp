@@ -30,9 +30,6 @@ void SudokuGame::generatePuzzle() {
     removeCells();
 }
 
-//bool SudokuGame::fillBoard() {
-//    return fillCell(0);
-//}
 
 bool SudokuGame::fillCell(int pos) {
     if (pos == 81) return true;
@@ -183,4 +180,8 @@ void SudokuGame::notifyAttemptsChanged() {
     for (auto observer : observers) {
         observer->onAttemptsChanged(remainingAttempts);
     }
+}
+
+void SudokuGame::fillBoard() {
+    fillCell(0);
 }
