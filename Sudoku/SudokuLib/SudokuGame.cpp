@@ -4,14 +4,16 @@
 #include <cstring>
 #include <ctime>
 
-SudokuGame::SudokuGame() : currentDifficulty(Difficulty::MEDIUM), remainingAttempts(3) {
+SudokuGame::SudokuGame() : currentDifficulty(Difficulty::MEDIUM), remainingAttempts(3),
+timerRunning(false), elapsedSeconds(0) {
     std::memset(board, 0, sizeof(board));
     std::memset(solutionBoard, 0, sizeof(solutionBoard));
     std::memset(initialCells, false, sizeof(initialCells));
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
 
-SudokuGame::SudokuGame(Difficulty difficulty) : currentDifficulty(difficulty), remainingAttempts(3) {
+SudokuGame::SudokuGame(Difficulty difficulty) : currentDifficulty(difficulty), remainingAttempts(3),
+timerRunning(false), elapsedSeconds(0) {
     std::memset(board, 0, sizeof(board));
     std::memset(solutionBoard, 0, sizeof(solutionBoard));
     std::memset(initialCells, false, sizeof(initialCells));
@@ -20,7 +22,9 @@ SudokuGame::SudokuGame(Difficulty difficulty) : currentDifficulty(difficulty), r
 
 void SudokuGame::startNewGame() {
     remainingAttempts = 3;
+    resetTimer();
     generatePuzzle();
+    startTimer();
     notifyBoardChanged();
     notifyAttemptsChanged();
 }
@@ -156,6 +160,7 @@ bool SudokuGame::setValue(int row, int col, int value) {
         notifyBoardChanged();
 
         if (isComplete()) {
+            stopTimer();
             notifyGameComplete();
         }
         return true;
@@ -166,7 +171,7 @@ bool SudokuGame::setValue(int row, int col, int value) {
         notifyAttemptsChanged();
 
         if (remainingAttempts <= 0) {
-            // Game over logic could be added here
+            stopTimer();
         }
 
         return false;
@@ -257,6 +262,8 @@ void SudokuGame::reset() {
     }
 
     remainingAttempts = 3;
+    resetTimer();
+    startTimer();
     notifyBoardChanged();
     notifyAttemptsChanged();
 }
@@ -303,4 +310,32 @@ void SudokuGame::fillBoard() {
 
 void SudokuGame::saveSolution() {
     std::memcpy(solutionBoard, board, sizeof(board));
+}
+
+// Timer methods
+void SudokuGame::startTimer() {
+    startTime = std::chrono::steady_clock::now();
+    timerRunning = true;
+}
+
+void SudokuGame::stopTimer() {
+    if (timerRunning) {
+        auto now = std::chrono::steady_clock::now();
+        elapsedSeconds += std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+        timerRunning = false;
+    }
+}
+
+void SudokuGame::resetTimer() {
+    elapsedSeconds = 0;
+    timerRunning = false;
+}
+
+int SudokuGame::getElapsedTime() const {
+    if (timerRunning) {
+        auto now = std::chrono::steady_clock::now();
+        int current = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
+        return elapsedSeconds + current;
+    }
+    return elapsedSeconds;
 }
