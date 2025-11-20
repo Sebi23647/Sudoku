@@ -2,6 +2,7 @@
 #include "Difficulty.h"
 #include "CellState.h"
 #include <sstream>
+#include <iomanip>
 
 SudokuUI::SudokuUI(ISudokuGame* sudokuGame, sf::RenderWindow& win)
     : game(sudokuGame), window(win), selectedRow(-1), selectedCol(-1),
@@ -13,6 +14,15 @@ SudokuUI::SudokuUI(ISudokuGame* sudokuGame, sf::RenderWindow& win)
 
 bool SudokuUI::loadFont(const std::string& fontPath) {
     return font.openFromFile(fontPath);
+}
+
+std::string SudokuUI::formatTime(int seconds) const {
+    int mins = seconds / 60;
+    int secs = seconds % 60;
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(2) << mins << ":"
+        << std::setfill('0') << std::setw(2) << secs;
+    return oss.str();
 }
 
 void SudokuUI::drawGrid() {
@@ -40,6 +50,32 @@ void SudokuUI::drawSelection() {
         ));
         selection.setFillColor(SELECTED_COLOR);
         window.draw(selection);
+    }
+}
+
+void SudokuUI::drawHighlights() {
+    // Evidențiază celulele cu aceeași valoare ca cea selectată
+    if (selectedRow >= 0 && selectedRow < 9 && selectedCol >= 0 && selectedCol < 9) {
+        int selectedValue = game->getValue(selectedRow, selectedCol);
+
+        if (selectedValue != 0) {
+            for (int row = 0; row < 9; row++) {
+                for (int col = 0; col < 9; col++) {
+                    if (game->getValue(row, col) == selectedValue) {
+                        // Nu evidenția celula selectată (e deja evidențiată altfel)
+                        if (row == selectedRow && col == selectedCol) continue;
+
+                        sf::RectangleShape highlight(sf::Vector2f(CELL_SIZE, CELL_SIZE));
+                        highlight.setPosition(sf::Vector2f(
+                            BOARD_OFFSET_X + col * CELL_SIZE,
+                            BOARD_OFFSET_Y + row * CELL_SIZE
+                        ));
+                        highlight.setFillColor(HIGHLIGHT_COLOR);
+                        window.draw(highlight);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -97,6 +133,19 @@ void SudokuUI::drawInfo() {
     info.setFillColor(GRID_COLOR);
     info.setPosition(sf::Vector2f(BOARD_OFFSET_X + 250, 30));
     window.draw(info);
+
+    // Timer în dreapta sus
+    sf::Text timer(font);
+    timer.setString("Time: " + formatTime(game->getElapsedTime()));
+    timer.setCharacterSize(20);
+    timer.setFillColor(sf::Color(70, 130, 180));
+    timer.setStyle(sf::Text::Bold);
+    sf::FloatRect timerBounds = timer.getLocalBounds();
+    timer.setPosition(sf::Vector2f(
+        BOARD_OFFSET_X + CELL_SIZE * 9 - timerBounds.size.x - 10,
+        25
+    ));
+    window.draw(timer);
 
     sf::Text controls(font);
     controls.setString("Press 1-9 to fill | 0/Delete to clear | Arrow keys to move");
@@ -186,8 +235,17 @@ void SudokuUI::drawGameOverlay() {
         winText.setFillColor(sf::Color(100, 255, 100));
         winText.setStyle(sf::Text::Bold);
         sf::FloatRect bounds = winText.getLocalBounds();
-        winText.setPosition(sf::Vector2f(350 - bounds.size.x / 2, 370));
+        winText.setPosition(sf::Vector2f(350 - bounds.size.x / 2, 340));
         window.draw(winText);
+
+        // Afișează timpul final
+        sf::Text timeText(font);
+        timeText.setString("Time: " + formatTime(game->getElapsedTime()));
+        timeText.setCharacterSize(24);
+        timeText.setFillColor(sf::Color::White);
+        sf::FloatRect timeBounds = timeText.getLocalBounds();
+        timeText.setPosition(sf::Vector2f(350 - timeBounds.size.x / 2, 420));
+        window.draw(timeText);
     }
 }
 
@@ -199,6 +257,7 @@ void SudokuUI::render() {
     }
     else {
         drawSelection();
+        drawHighlights();  // Desenează evidențierile ÎNAINTE de grid
         drawGrid();
         drawNumbers();
         drawInfo();

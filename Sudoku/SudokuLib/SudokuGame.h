@@ -1,59 +1,61 @@
-#pragma once
+#ifndef SUDOKUGAME_H
+#define SUDOKUGAME_H
 
 #include "ISudokuGame.h"
-#include "IObserver.h"
 #include "Difficulty.h"
 #include "CellState.h"
-#include <vector>
 #include <list>
+#include <chrono>
 
 class SudokuGame : public ISudokuGame {
 private:
     int board[9][9];
     int solutionBoard[9][9];
     bool initialCells[9][9];
-    std::list<IObserver*> observers;
-    int remainingAttempts;
     Difficulty currentDifficulty;
+    int remainingAttempts;
+    std::list<IObserver*> observers;
 
-    // Observer notifications
-    void notifyBoardChanged();
-    void notifyGameComplete();
-    void notifyAttemptsChanged();
-    
-    // Validation
-    bool isValidMove(int row, int col, int value) const;
-    bool isSafe(int row, int col, int num) const;
-    bool isValidPosition(int row, int col) const;
-    
-    // Puzzle generation
-    void generatePuzzle();
+    // Timer
+    std::chrono::steady_clock::time_point startTime;
+    bool timerRunning;
+    int elapsedSeconds;
+
     void fillBoard();
     bool fillCell(int pos);
     void removeCells();
+    bool isSafe(int row, int col, int num) const;
     void saveSolution();
+    bool isValidPosition(int row, int col) const;
+
+    void notifyBoardChanged();
+    void notifyGameComplete();
+    void notifyAttemptsChanged();
 
 public:
     SudokuGame();
-    explicit SudokuGame(Difficulty difficulty);
+    SudokuGame(Difficulty difficulty);
 
-    // Game control
     void startNewGame() override;
     void startNewGame(Difficulty difficulty) override;
-    void reset() override;
-    
-    // Board manipulation
+    void generatePuzzle() override;
     bool setValue(int row, int col, int value) override;
+    bool isValidMove(int row, int col, int value) const override;
     int getValue(int row, int col) const override;
     CellState getCellState(int row, int col) const override;
-    
-    // Game state
     bool isComplete() const override;
     int getRemainingAttempts() const override;
     Difficulty getCurrentDifficulty() const override;
-    
-    // Observer pattern
+    void reset() override;
+
     void attachObserver(IObserver* observer) override;
     void detachObserver(IObserver* observer) override;
+
+    // Timer methods
+    void startTimer();
+    void stopTimer();
+    void resetTimer();
+    int getElapsedTime() const;
 };
 
+#endif
