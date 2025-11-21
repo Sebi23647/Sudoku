@@ -35,18 +35,14 @@ void SudokuGame::startNewGame(Difficulty difficulty) {
 }
 
 void SudokuGame::generatePuzzle() {
-    // Reset boards
     std::memset(board, 0, sizeof(board));
     std::memset(solutionBoard, 0, sizeof(solutionBoard));
     std::memset(initialCells, false, sizeof(initialCells));
 
-    // Generate complete valid board
     fillBoard();
 
-    // Save the solution
     saveSolution();
 
-    // Remove cells based on difficulty
     removeCells();
 }
 
@@ -95,7 +91,6 @@ void SudokuGame::removeCells() {
         }
     }
 
-    // Mark remaining cells as initial/fixed
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (board[i][j] != 0) {
@@ -106,14 +101,12 @@ void SudokuGame::removeCells() {
 }
 
 bool SudokuGame::isSafe(int row, int col, int num) const {
-    // Check row and column
     for (int x = 0; x < 9; x++) {
         if (board[row][x] == num || board[x][col] == num) {
             return false;
         }
     }
 
-    // Check 3x3 box
     int startRow = row - row % 3;
     int startCol = col - col % 3;
     for (int i = 0; i < 3; i++) {
@@ -132,29 +125,24 @@ bool SudokuGame::isValidPosition(int row, int col) const {
 }
 
 bool SudokuGame::setValue(int row, int col, int value) {
-    // Validate position
     if (!isValidPosition(row, col)) {
         return false;
     }
 
-    // Validate value range
     if (value < 0 || value > 9) {
         return false;
     }
 
-    // Cannot modify initial cells
     if (initialCells[row][col]) {
         return false;
     }
 
-    // Allow clearing a cell
     if (value == 0) {
         board[row][col] = 0;
         notifyBoardChanged();
         return true;
     }
 
-    // Check if move is valid
     if (isValidMove(row, col, value)) {
         board[row][col] = value;
         notifyBoardChanged();
@@ -166,7 +154,6 @@ bool SudokuGame::setValue(int row, int col, int value) {
         return true;
     }
     else {
-        // Invalid move - decrease attempts
         remainingAttempts--;
         notifyAttemptsChanged();
 
@@ -179,14 +166,11 @@ bool SudokuGame::setValue(int row, int col, int value) {
 }
 
 bool SudokuGame::isValidMove(int row, int col, int value) const {
-    // Temporarily store current value
     int temp = board[row][col];
 
-    // Temporarily set to 0 to check if new value is safe
     const_cast<int&>(board[row][col]) = 0;
     bool safe = isSafe(row, col, value);
 
-    // Restore original value
     const_cast<int&>(board[row][col]) = temp;
 
     return safe;
@@ -216,7 +200,6 @@ CellState SudokuGame::getCellState(int row, int col) const {
 }
 
 bool SudokuGame::isComplete() const {
-    // Check if all cells are filled
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (board[i][j] == 0) {
@@ -225,7 +208,6 @@ bool SudokuGame::isComplete() const {
         }
     }
 
-    // Verify solution is correct
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             int temp = board[i][j];
@@ -252,7 +234,6 @@ Difficulty SudokuGame::getCurrentDifficulty() const {
 }
 
 void SudokuGame::reset() {
-    // Clear all non-initial cells
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (!initialCells[i][j]) {
@@ -312,7 +293,6 @@ void SudokuGame::saveSolution() {
     std::memcpy(solutionBoard, board, sizeof(board));
 }
 
-// Timer methods
 void SudokuGame::startTimer() {
     startTime = std::chrono::steady_clock::now();
     timerRunning = true;

@@ -14,12 +14,10 @@ private:
     bool initialCells[9][9];
     Difficulty currentDifficulty;
     int remainingAttempts;
-    std::list<IObserver*> observers;
-
-    // Timer
     std::chrono::steady_clock::time_point startTime;
     bool timerRunning;
     int elapsedSeconds;
+    std::list<IObserver*> observers;
 
     void fillBoard();
     bool fillCell(int pos);
@@ -48,14 +46,13 @@ public:
     Difficulty getCurrentDifficulty() const override;
     void reset() override;
 
-    void attachObserver(IObserver* observer) override;
-    void detachObserver(IObserver* observer) override;
-
-    // Timer methods
     void startTimer();
     void stopTimer();
     void resetTimer();
     int getElapsedTime() const;
+
+    void attachObserver(IObserver* observer) override;
+    void detachObserver(IObserver* observer) override;
 };
 
 #endif

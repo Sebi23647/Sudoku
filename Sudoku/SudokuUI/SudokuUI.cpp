@@ -54,7 +54,6 @@ void SudokuUI::drawSelection() {
 }
 
 void SudokuUI::drawHighlights() {
-    // Evidențiază celulele cu aceeași valoare ca cea selectată
     if (selectedRow >= 0 && selectedRow < 9 && selectedCol >= 0 && selectedCol < 9) {
         int selectedValue = game->getValue(selectedRow, selectedCol);
 
@@ -62,7 +61,6 @@ void SudokuUI::drawHighlights() {
             for (int row = 0; row < 9; row++) {
                 for (int col = 0; col < 9; col++) {
                     if (game->getValue(row, col) == selectedValue) {
-                        // Nu evidenția celula selectată (e deja evidențiată altfel)
                         if (row == selectedRow && col == selectedCol) continue;
 
                         sf::RectangleShape highlight(sf::Vector2f(CELL_SIZE, CELL_SIZE));
@@ -134,7 +132,6 @@ void SudokuUI::drawInfo() {
     info.setPosition(sf::Vector2f(BOARD_OFFSET_X + 250, 30));
     window.draw(info);
 
-    // Timer în dreapta sus
     sf::Text timer(font);
     timer.setString("Time: " + formatTime(game->getElapsedTime()));
     timer.setCharacterSize(20);
@@ -257,7 +254,7 @@ void SudokuUI::render() {
     }
     else {
         drawSelection();
-        drawHighlights();  // Desenează evidențierile ÎNAINTE de grid
+        drawHighlights(); 
         drawGrid();
         drawNumbers();
         drawInfo();
