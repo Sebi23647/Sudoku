@@ -14,6 +14,7 @@ private:
     int selectedRow;
     int selectedCol;
     bool gameWon;
+    bool gameLost;
     bool showDifficultyMenu;
     bool showUsernameInput;
     bool showLeaderboard;
@@ -32,6 +33,13 @@ private:
     const sf::Color HIGHLIGHT_COLOR = sf::Color(200, 230, 255, 100);
     const sf::Color FIXED_COLOR = sf::Color(20, 20, 20);
     const sf::Color FILLED_COLOR = sf::Color(70, 130, 180);
+
+    // Culori moderne
+    const sf::Color PRIMARY_COLOR = sf::Color(99, 102, 241);      // Indigo modern
+    const sf::Color SECONDARY_COLOR = sf::Color(139, 92, 246);    // Purple
+    const sf::Color SUCCESS_COLOR = sf::Color(34, 197, 94);       // Green
+    const sf::Color DANGER_COLOR = sf::Color(239, 68, 68);        // Red
+    const sf::Color WARNING_COLOR = sf::Color(251, 146, 60);      // Orange
 
     void drawGrid();
     void drawSelection();
