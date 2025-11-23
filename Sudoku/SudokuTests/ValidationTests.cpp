@@ -3,10 +3,7 @@
 #include "../SudokuLib/Difficulty.h"
 #include "../SudokuLib/CellState.h"
 
-/**
- * Test Suite pentru validarile Sudoku
- * Testeaza regulile de baza ale jocului
- */
+
 class SudokuValidationTests : public ::testing::Test {
 protected:
     SudokuGame* game;
@@ -20,7 +17,6 @@ protected:
         delete game;
     }
 
-    // Helper: gaseste o celula goala
     bool findEmptyCell(int& row, int& col) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -34,7 +30,6 @@ protected:
         return false;
     }
 
-    // Helper: gaseste o valoare care exista pe rand
     bool findValueInRow(int row, int& value) {
         for (int col = 0; col < 9; col++) {
             int val = game->getValue(row, col);
@@ -46,7 +41,6 @@ protected:
         return false;
     }
 
-    // Helper: gaseste o valoare care exista pe coloana
     bool findValueInColumn(int col, int& value) {
         for (int row = 0; row < 9; row++) {
             int val = game->getValue(row, col);
@@ -163,9 +157,7 @@ TEST_F(SudokuValidationTests, AllRowsMustHaveUniqueValues) {
     }
 }
 
-// ============================================================================
-// TESTE VALIDARE COLOANA
-// ============================================================================
+
 
 TEST_F(SudokuValidationTests, CannotPlaceDuplicateInColumn) {
     int row, col;
@@ -250,9 +242,6 @@ TEST_F(SudokuValidationTests, AllColumnsMustHaveUniqueValues) {
     }
 }
 
-// ============================================================================
-// TESTE VALIDARE GRID 3x3
-// ============================================================================
 
 TEST_F(SudokuValidationTests, CannotPlaceDuplicateInGrid) {
     int row, col;
@@ -361,9 +350,7 @@ TEST_F(SudokuValidationTests, AllGridsMustHaveUniqueValues) {
     }
 }
 
-// ============================================================================
-// TESTE VALIDARE COMBINATA
-// ============================================================================
+
 
 TEST_F(SudokuValidationTests, ValidMoveSatisfiesAllRules) {
     int row, col;
@@ -456,9 +443,6 @@ TEST_F(SudokuValidationTests, InvalidMoveViolatesAtLeastOneRule) {
     }
 }
 
-// ============================================================================
-// TESTE EDGE CASES VALIDARE
-// ============================================================================
 
 TEST_F(SudokuValidationTests, CornerCellsFollowAllRules) {
     // Testam celulele din colturile tablei
