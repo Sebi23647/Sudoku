@@ -8,7 +8,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(sf::Vector2u(700, 720)), "Sudoku");
     window.setFramerateLimit(60);
 
-    SudokuGame game(Difficulty::MEDIUM);
+    SudokuGame game(Difficulty::EASY);
     SudokuUI ui(&game, window);
 
     if (!ui.loadFont("C:/Windows/Fonts/arial.ttf")) {
@@ -29,6 +29,10 @@ int main() {
             }
             else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 ui.handleKeyPress(keyPressed->code);
+            }
+            // ADAUGĂ ACEST BLOC NOU pentru input text:
+            else if (const auto* textEntered = event->getIf<sf::Event::TextEntered>()) {
+                ui.handleTextInput(textEntered->unicode);
             }
         }
 
