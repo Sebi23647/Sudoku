@@ -3,14 +3,11 @@
 #include "CellState.h"
 #include <sstream>
 #include <iomanip>
-#include <fstream>
-#include <vector>
-#include <algorithm>
 
 SudokuUI::SudokuUI(ISudokuGame* sudokuGame, sf::RenderWindow& win)
     : game(sudokuGame), window(win), selectedRow(-1), selectedCol(-1),
-    gameWon(false), showDifficultyMenu(false), showUsernameInput(true),
-    showLeaderboard(false), username(""), inputBuffer("") {
+    gameWon(false), gameLost(false), showDifficultyMenu(false), showUsernameInput(true),
+    showLeaderboard(false), leaderboardTab(0), username(""), inputBuffer("") {
     if (game) {
         game->attachObserver(this);
     }
@@ -18,31 +15,6 @@ SudokuUI::SudokuUI(ISudokuGame* sudokuGame, sf::RenderWindow& win)
 
 bool SudokuUI::loadFont(const std::string& fontPath) {
     return font.openFromFile(fontPath);
-}
-
-std::string SudokuUI::formatTime(int seconds) const {
-    int mins = seconds / 60;
-    int secs = seconds % 60;
-    std::ostringstream oss;
-    oss << std::setfill('0') << std::setw(2) << mins << ":"
-        << std::setfill('0') << std::setw(2) << secs;
-    return oss.str();
-}
-
-void SudokuUI::saveScoreToFile() {
-    std::ofstream file("leaderboard.txt", std::ios::app);
-    if (file.is_open()) {
-        std::string diffStr;
-        Difficulty diff = game->getCurrentDifficulty();
-        switch (diff) {
-        case Difficulty::EASY: diffStr = "Easy"; break;
-        case Difficulty::MEDIUM: diffStr = "Medium"; break;
-        case Difficulty::HARD: diffStr = "Hard"; break;
-        }
-
-        file << username << "," << diffStr << "," << game->getElapsedTime() << "\n";
-        file.close();
-    }
 }
 
 void SudokuUI::drawGrid() {
@@ -77,24 +49,22 @@ void SudokuUI::drawGrid() {
 
 void SudokuUI::drawSelection() {
     if (selectedRow >= 0 && selectedRow < 9 && selectedCol >= 0 && selectedCol < 9) {
-        
         sf::RectangleShape selectionBg(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2));
         selectionBg.setPosition(sf::Vector2f(
             BOARD_OFFSET_X + selectedCol * CELL_SIZE + 1,
             BOARD_OFFSET_Y + selectedRow * CELL_SIZE + 1
         ));
-        selectionBg.setFillColor(sf::Color(99, 102, 241, 120)); 
+        selectionBg.setFillColor(sf::Color(99, 102, 241, 120));
         window.draw(selectionBg);
 
-        
         sf::RectangleShape selection(sf::Vector2f(CELL_SIZE, CELL_SIZE));
         selection.setPosition(sf::Vector2f(
             BOARD_OFFSET_X + selectedCol * CELL_SIZE,
             BOARD_OFFSET_Y + selectedRow * CELL_SIZE
         ));
         selection.setFillColor(sf::Color::Transparent);
-        selection.setOutlineThickness(-5);  
-        selection.setOutlineColor(sf::Color(99, 102, 241, 255));  
+        selection.setOutlineThickness(-5);
+        selection.setOutlineColor(sf::Color(99, 102, 241, 255));
         window.draw(selection);
     }
 }
@@ -109,16 +79,14 @@ void SudokuUI::drawHighlights() {
                     if (game->getValue(row, col) == selectedValue) {
                         if (row == selectedRow && col == selectedCol) continue;
 
-                       
                         sf::RectangleShape highlight(sf::Vector2f(CELL_SIZE - 2, CELL_SIZE - 2));
                         highlight.setPosition(sf::Vector2f(
                             BOARD_OFFSET_X + col * CELL_SIZE + 1,
                             BOARD_OFFSET_Y + row * CELL_SIZE + 1
                         ));
-                        highlight.setFillColor(sf::Color(251, 146, 60, 120));  
+                        highlight.setFillColor(sf::Color(251, 146, 60, 120));
                         window.draw(highlight);
 
-                        
                         sf::RectangleShape highlightOutline(sf::Vector2f(CELL_SIZE, CELL_SIZE));
                         highlightOutline.setPosition(sf::Vector2f(
                             BOARD_OFFSET_X + col * CELL_SIZE,
@@ -167,7 +135,7 @@ void SudokuUI::drawNumbers() {
 }
 
 void SudokuUI::drawInfo() {
-    sf::RectangleShape headerBg(sf::Vector2f(700, 80));
+    sf::RectangleShape headerBg(sf::Vector2f(750, 70));
     headerBg.setPosition(sf::Vector2f(0, 0));
     headerBg.setFillColor(sf::Color(30, 30, 40));
     window.draw(headerBg);
@@ -177,7 +145,7 @@ void SudokuUI::drawInfo() {
     title.setCharacterSize(42);
     title.setFillColor(sf::Color::White);
     title.setStyle(sf::Text::Bold);
-    title.setPosition(sf::Vector2f(BOARD_OFFSET_X, 18));
+    title.setPosition(sf::Vector2f(BOARD_OFFSET_X, 10));
     window.draw(title);
 
     std::string diffStr;
@@ -199,7 +167,7 @@ void SudokuUI::drawInfo() {
     }
 
     sf::RectangleShape diffBadge(sf::Vector2f(80, 30));
-    diffBadge.setPosition(sf::Vector2f(BOARD_OFFSET_X + 230, 25));
+    diffBadge.setPosition(sf::Vector2f(BOARD_OFFSET_X + 230, 28));
     diffBadge.setFillColor(diffColor);
     window.draw(diffBadge);
 
@@ -211,12 +179,12 @@ void SudokuUI::drawInfo() {
     sf::FloatRect diffBounds = diffText.getLocalBounds();
     diffText.setPosition(sf::Vector2f(
         BOARD_OFFSET_X + 270 - diffBounds.size.x / 2,
-        30
+        33
     ));
     window.draw(diffText);
 
     sf::RectangleShape attemptsBadge(sf::Vector2f(120, 30));
-    attemptsBadge.setPosition(sf::Vector2f(BOARD_OFFSET_X + 330, 25));
+    attemptsBadge.setPosition(sf::Vector2f(BOARD_OFFSET_X + 330, 28));
     attemptsBadge.setFillColor(sf::Color(50, 50, 60));
     window.draw(attemptsBadge);
 
@@ -225,23 +193,23 @@ void SudokuUI::drawInfo() {
     attemptsText.setCharacterSize(16);
     attemptsText.setFillColor(sf::Color::White);
     attemptsText.setStyle(sf::Text::Bold);
-    attemptsText.setPosition(sf::Vector2f(BOARD_OFFSET_X + 345, 30));
+    attemptsText.setPosition(sf::Vector2f(BOARD_OFFSET_X + 345, 33));
     window.draw(attemptsText);
 
     sf::RectangleShape timerBadge(sf::Vector2f(100, 30));
-    timerBadge.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 100, 25));
+    timerBadge.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 100, 28));
     timerBadge.setFillColor(PRIMARY_COLOR);
     window.draw(timerBadge);
 
     sf::Text timer(font);
-    timer.setString(formatTime(game->getElapsedTime()));
+    timer.setString(ScoreManager::formatTime(game->getElapsedTime()));
     timer.setCharacterSize(18);
     timer.setFillColor(sf::Color::White);
     timer.setStyle(sf::Text::Bold);
     sf::FloatRect timerBounds = timer.getLocalBounds();
     timer.setPosition(sf::Vector2f(
         BOARD_OFFSET_X + CELL_SIZE * 9 - 50 - timerBounds.size.x / 2,
-        28
+        30
     ));
     window.draw(timer);
 
@@ -249,12 +217,30 @@ void SudokuUI::drawInfo() {
     controls.setString("1-9: Fill | 0/Del: Clear | Arrows: Move");
     controls.setCharacterSize(13);
     controls.setFillColor(sf::Color(120, 120, 120));
-    controls.setPosition(sf::Vector2f(BOARD_OFFSET_X, BOARD_OFFSET_Y + CELL_SIZE * 9 + 18));
+    controls.setPosition(sf::Vector2f(BOARD_OFFSET_X, BOARD_OFFSET_Y + CELL_SIZE * 9 + 20));
     window.draw(controls);
 
-    
+    float buttonY = BOARD_OFFSET_Y + CELL_SIZE * 9 + 50;
+
+    sf::RectangleShape mainMenuBtn(sf::Vector2f(110, 38));
+    mainMenuBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 350, buttonY));
+    mainMenuBtn.setFillColor(sf::Color(100, 100, 120));
+    window.draw(mainMenuBtn);
+
+    sf::Text mainMenuText(font);
+    mainMenuText.setString("Main Menu");
+    mainMenuText.setCharacterSize(15);
+    mainMenuText.setFillColor(sf::Color::White);
+    mainMenuText.setStyle(sf::Text::Bold);
+    sf::FloatRect mainMenuBounds = mainMenuText.getLocalBounds();
+    mainMenuText.setPosition(sf::Vector2f(
+        BOARD_OFFSET_X + CELL_SIZE * 9 - 295 - mainMenuBounds.size.x / 2,
+        buttonY + (38 - mainMenuBounds.size.y) / 2 - 3
+    ));
+    window.draw(mainMenuText);
+
     sf::RectangleShape resetBtn(sf::Vector2f(110, 38));
-    resetBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 230, BOARD_OFFSET_Y + CELL_SIZE * 9 + 12));
+    resetBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 230, buttonY));
     resetBtn.setFillColor(PRIMARY_COLOR);
     window.draw(resetBtn);
 
@@ -266,12 +252,12 @@ void SudokuUI::drawInfo() {
     sf::FloatRect resetBounds = resetText.getLocalBounds();
     resetText.setPosition(sf::Vector2f(
         BOARD_OFFSET_X + CELL_SIZE * 9 - 175 - resetBounds.size.x / 2,
-        BOARD_OFFSET_Y + CELL_SIZE * 9 + 12 + (38 - resetBounds.size.y) / 2 - 3
+        buttonY + (38 - resetBounds.size.y) / 2 - 3
     ));
     window.draw(resetText);
 
     sf::RectangleShape leaderBtn(sf::Vector2f(110, 38));
-    leaderBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, BOARD_OFFSET_Y + CELL_SIZE * 9 + 12));
+    leaderBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, buttonY));
     leaderBtn.setFillColor(WARNING_COLOR);
     window.draw(leaderBtn);
 
@@ -283,7 +269,7 @@ void SudokuUI::drawInfo() {
     sf::FloatRect leaderBounds = leaderText.getLocalBounds();
     leaderText.setPosition(sf::Vector2f(
         BOARD_OFFSET_X + CELL_SIZE * 9 - 55 - leaderBounds.size.x / 2,
-        BOARD_OFFSET_Y + CELL_SIZE * 9 + 12 + (38 - leaderBounds.size.y) / 2 - 3
+        buttonY + (38 - leaderBounds.size.y) / 2 - 3
     ));
     window.draw(leaderText);
 }
@@ -475,45 +461,62 @@ void SudokuUI::drawLeaderboard() {
     title.setPosition(sf::Vector2f(350 - titleBounds.size.x / 2, 100));
     window.draw(title);
 
-    
+    float tabY = 165;
+    float tabWidth = 120;
+    float tabHeight = 40;
+    float tabSpacing = 10;
+    float tabStartX = 350 - (3 * tabWidth + 2 * tabSpacing) / 2;
+
+    std::string tabNames[] = { "Easy", "Medium", "Hard" };
+    sf::Color tabColors[] = { SUCCESS_COLOR, WARNING_COLOR, DANGER_COLOR };
+
+    for (int i = 0; i < 3; i++) {
+        sf::RectangleShape tab(sf::Vector2f(tabWidth, tabHeight));
+        tab.setPosition(sf::Vector2f(tabStartX + i * (tabWidth + tabSpacing), tabY));
+
+        if (i == leaderboardTab) {
+            tab.setFillColor(tabColors[i]);
+        }
+        else {
+            tab.setFillColor(sf::Color(200, 200, 200));
+        }
+        window.draw(tab);
+
+        sf::Text tabText(font);
+        tabText.setString(tabNames[i]);
+        tabText.setCharacterSize(18);
+        tabText.setFillColor(i == leaderboardTab ? sf::Color::White : sf::Color(80, 80, 80));
+        tabText.setStyle(sf::Text::Bold);
+        sf::FloatRect tabBounds = tabText.getLocalBounds();
+        tabText.setPosition(sf::Vector2f(
+            tabStartX + i * (tabWidth + tabSpacing) + (tabWidth - tabBounds.size.x) / 2,
+            tabY + (tabHeight - tabBounds.size.y) / 2 - 3
+        ));
+        window.draw(tabText);
+    }
+
     sf::Text header(font);
-    header.setString("Rank   Username        Difficulty   Time");
+    header.setString("Rank\tUsername\t\tTime");
     header.setCharacterSize(20);
     header.setFillColor(GRID_COLOR);
     header.setStyle(sf::Text::Bold);
-    header.setPosition(sf::Vector2f(100, 180));
+    header.setPosition(sf::Vector2f(100, 225));
     window.draw(header);
 
-    std::vector<std::tuple<std::string, std::string, int>> scores;
-    std::ifstream file("leaderboard.txt");
-    if (file.is_open()) {
-        std::string line;
-        while (std::getline(file, line)) {
-            std::istringstream ss(line);
-            std::string user, diff, timeStr;
-            if (std::getline(ss, user, ',') &&
-                std::getline(ss, diff, ',') &&
-                std::getline(ss, timeStr)) {
-                int time = std::stoi(timeStr);
-                scores.push_back(std::make_tuple(user, diff, time));
-            }
-        }
-        file.close();
+    std::string filterDiff;
+    switch (leaderboardTab) {
+    case 0: filterDiff = "Easy"; break;
+    case 1: filterDiff = "Medium"; break;
+    case 2: filterDiff = "Hard"; break;
     }
 
-    std::sort(scores.begin(), scores.end(),
-        [](const auto& a, const auto& b) {
-            return std::get<2>(a) < std::get<2>(b);
-        });
+    auto scores = ScoreManager::getScoresForDifficulty(filterDiff);
 
-    float yPos = 230;
+    float yPos = 275;
     int rank = 1;
     for (size_t i = 0; i < std::min(scores.size(), size_t(10)); ++i) {
         std::ostringstream oss;
-        oss << rank << ".     "
-            << std::left << std::setw(15) << std::get<0>(scores[i])
-            << std::setw(10) << std::get<1>(scores[i])
-            << "   " << formatTime(std::get<2>(scores[i]));
+        oss << rank << ".\t" << scores[i].first << "\t\t" << ScoreManager::formatTime(scores[i].second);
 
         sf::Text entry(font);
         entry.setString(oss.str());
@@ -521,22 +524,22 @@ void SudokuUI::drawLeaderboard() {
         entry.setFillColor(GRID_COLOR);
         entry.setPosition(sf::Vector2f(100, yPos));
         window.draw(entry);
-        yPos += 40;
+        yPos += 35;
         rank++;
     }
 
     if (scores.empty()) {
         sf::Text noData(font);
-        noData.setString("No scores yet! Play a game to start.");
+        noData.setString("No scores for this difficulty yet!");
         noData.setCharacterSize(20);
         noData.setFillColor(sf::Color(150, 150, 150));
         sf::FloatRect noBounds = noData.getLocalBounds();
-        noData.setPosition(sf::Vector2f(350 - noBounds.size.x / 2, 350));
+        noData.setPosition(sf::Vector2f(350 - noBounds.size.x / 2, 400));
         window.draw(noData);
     }
 
     sf::RectangleShape closeBtn(sf::Vector2f(120, 45));
-    closeBtn.setPosition(sf::Vector2f(290, 650));
+    closeBtn.setPosition(sf::Vector2f(290, 660));
     closeBtn.setFillColor(sf::Color(200, 70, 70));
     window.draw(closeBtn);
 
@@ -548,15 +551,14 @@ void SudokuUI::drawLeaderboard() {
     sf::FloatRect closeBounds = closeText.getLocalBounds();
     closeText.setPosition(sf::Vector2f(
         290 + (120 - closeBounds.size.x) / 2,
-        650 + (45 - closeBounds.size.y) / 2 - 3
+        660 + (45 - closeBounds.size.y) / 2 - 3
     ));
     window.draw(closeText);
 }
-
 void SudokuUI::drawGameOverlay() {
     if (gameWon) {
-        sf::RectangleShape overlay(sf::Vector2f(500, 250));
-        overlay.setPosition(sf::Vector2f(100, 275));
+        sf::RectangleShape overlay(sf::Vector2f(500, 180));
+        overlay.setPosition(sf::Vector2f(100, 340));
         overlay.setFillColor(sf::Color(0, 0, 0, 220));
         window.draw(overlay);
 
@@ -566,37 +568,28 @@ void SudokuUI::drawGameOverlay() {
         winText.setFillColor(sf::Color(100, 255, 100));
         winText.setStyle(sf::Text::Bold);
         sf::FloatRect bounds = winText.getLocalBounds();
-        winText.setPosition(sf::Vector2f(350 - bounds.size.x / 2, 310));
+        winText.setPosition(sf::Vector2f(350 - bounds.size.x / 2, 360));
         window.draw(winText);
 
         sf::Text timeText(font);
-        timeText.setString("Time: " + formatTime(game->getElapsedTime()));
+        timeText.setString("Time: " + ScoreManager::formatTime(game->getElapsedTime()));
         timeText.setCharacterSize(24);
         timeText.setFillColor(sf::Color::White);
         sf::FloatRect timeBounds = timeText.getLocalBounds();
-        timeText.setPosition(sf::Vector2f(350 - timeBounds.size.x / 2, 390));
+        timeText.setPosition(sf::Vector2f(350 - timeBounds.size.x / 2, 435));
         window.draw(timeText);
 
-        sf::RectangleShape continueBtn(sf::Vector2f(150, 45));
-        continueBtn.setPosition(sf::Vector2f(275, 450));
-        continueBtn.setFillColor(sf::Color(100, 200, 100));
-        window.draw(continueBtn);
-
-        sf::Text continueText(font);
-        continueText.setString("Continue");
-        continueText.setCharacterSize(20);
-        continueText.setFillColor(sf::Color::White);
-        continueText.setStyle(sf::Text::Bold);
-        sf::FloatRect continueBounds = continueText.getLocalBounds();
-        continueText.setPosition(sf::Vector2f(
-            275 + (150 - continueBounds.size.x) / 2,
-            450 + (45 - continueBounds.size.y) / 2 - 3
-        ));
-        window.draw(continueText);
+        sf::Text clickText(font);
+        clickText.setString("Click anywhere to continue");
+        clickText.setCharacterSize(16);
+        clickText.setFillColor(sf::Color(200, 200, 200));
+        sf::FloatRect clickBounds = clickText.getLocalBounds();
+        clickText.setPosition(sf::Vector2f(350 - clickBounds.size.x / 2, 480));
+        window.draw(clickText);
     }
     else if (gameLost) {
-        sf::RectangleShape overlay(sf::Vector2f(500, 250));
-        overlay.setPosition(sf::Vector2f(100, 275));
+        sf::RectangleShape overlay(sf::Vector2f(500, 180));
+        overlay.setPosition(sf::Vector2f(100, 340));
         overlay.setFillColor(sf::Color(0, 0, 0, 220));
         window.draw(overlay);
 
@@ -606,7 +599,7 @@ void SudokuUI::drawGameOverlay() {
         loseText.setFillColor(sf::Color(255, 100, 100));
         loseText.setStyle(sf::Text::Bold);
         sf::FloatRect bounds = loseText.getLocalBounds();
-        loseText.setPosition(sf::Vector2f(350 - bounds.size.x / 2, 310));
+        loseText.setPosition(sf::Vector2f(350 - bounds.size.x / 2, 360));
         window.draw(loseText);
 
         sf::Text infoText(font);
@@ -614,28 +607,18 @@ void SudokuUI::drawGameOverlay() {
         infoText.setCharacterSize(24);
         infoText.setFillColor(sf::Color::White);
         sf::FloatRect infoBounds = infoText.getLocalBounds();
-        infoText.setPosition(sf::Vector2f(350 - infoBounds.size.x / 2, 390));
+        infoText.setPosition(sf::Vector2f(350 - infoBounds.size.x / 2, 435));
         window.draw(infoText);
 
-        sf::RectangleShape tryAgainBtn(sf::Vector2f(150, 45));
-        tryAgainBtn.setPosition(sf::Vector2f(275, 450));
-        tryAgainBtn.setFillColor(sf::Color(200, 100, 100));
-        window.draw(tryAgainBtn);
-
-        sf::Text tryAgainText(font);
-        tryAgainText.setString("Try Again");
-        tryAgainText.setCharacterSize(20);
-        tryAgainText.setFillColor(sf::Color::White);
-        tryAgainText.setStyle(sf::Text::Bold);
-        sf::FloatRect tryBounds = tryAgainText.getLocalBounds();
-        tryAgainText.setPosition(sf::Vector2f(
-            275 + (150 - tryBounds.size.x) / 2,
-            450 + (45 - tryBounds.size.y) / 2 - 3
-        ));
-        window.draw(tryAgainText);
+        sf::Text clickText(font);
+        clickText.setString("Click to start a new game");
+        clickText.setCharacterSize(16);
+        clickText.setFillColor(sf::Color(200, 200, 200));
+        sf::FloatRect clickBounds = clickText.getLocalBounds();
+        clickText.setPosition(sf::Vector2f(350 - clickBounds.size.x / 2, 480));
+        window.draw(clickText);
     }
 }
-
 void SudokuUI::render() {
     window.clear(BACKGROUND_COLOR);
 
@@ -667,7 +650,6 @@ void SudokuUI::render() {
     drawGameOverlay();
 }
 
-
 bool SudokuUI::isMouseOverCell(int mouseX, int mouseY, int& row, int& col) {
     if (mouseX < BOARD_OFFSET_X || mouseX > BOARD_OFFSET_X + CELL_SIZE * 9 ||
         mouseY < BOARD_OFFSET_Y || mouseY > BOARD_OFFSET_Y + CELL_SIZE * 9) {
@@ -684,35 +666,37 @@ void SudokuUI::handleMouseClick(int mouseX, int mouseY) {
     sf::Vector2f mousePos(static_cast<float>(mouseX), static_cast<float>(mouseY));
 
     if (gameLost) {
-        sf::FloatRect tryAgainRect(sf::Vector2f(275, 450), sf::Vector2f(150, 45));
-        if (tryAgainRect.contains(mousePos)) {
-            showUsernameInput = true;
-            showDifficultyMenu = false;
-            gameLost = false;
-            gameWon = false;
-            selectedRow = -1;
-            selectedCol = -1;
-            inputBuffer = "";
-        }
+        showDifficultyMenu = true;
+        gameLost = false;
+        selectedRow = -1;
+        selectedCol = -1;
         return;
     }
 
     if (gameWon) {
-        sf::FloatRect continueRect(sf::Vector2f(275, 450), sf::Vector2f(150, 45));
-        if (continueRect.contains(mousePos)) {
-            showUsernameInput = true;
-            showDifficultyMenu = false;
-            gameWon = false;
-            gameLost = false;
-            selectedRow = -1;
-            selectedCol = -1;
-            inputBuffer = "";
-        }
+        gameWon = false;
         return;
     }
 
     if (showLeaderboard) {
-        sf::FloatRect closeRect(sf::Vector2f(290, 650), sf::Vector2f(120, 45));
+        float tabY = 165;
+        float tabWidth = 120;
+        float tabHeight = 40;
+        float tabSpacing = 10;
+        float tabStartX = 350 - (3 * tabWidth + 2 * tabSpacing) / 2;
+
+        for (int i = 0; i < 3; i++) {
+            sf::FloatRect tabRect(
+                sf::Vector2f(tabStartX + i * (tabWidth + tabSpacing), tabY),
+                sf::Vector2f(tabWidth, tabHeight)
+            );
+            if (tabRect.contains(mousePos)) {
+                leaderboardTab = i;
+                return;
+            }
+        }
+
+        sf::FloatRect closeRect(sf::Vector2f(290, 660), sf::Vector2f(120, 45));
         if (closeRect.contains(mousePos)) {
             showLeaderboard = false;
         }
@@ -762,12 +746,14 @@ void SudokuUI::handleMouseClick(int mouseX, int mouseY) {
         return;
     }
 
-    sf::FloatRect resetRect(
-        sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 230, BOARD_OFFSET_Y + CELL_SIZE * 9 + 12),
+    float buttonY = BOARD_OFFSET_Y + CELL_SIZE * 9 + 50;
+
+    sf::FloatRect mainMenuRect(
+        sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 350, buttonY),
         sf::Vector2f(110, 38)
     );
 
-    if (resetRect.contains(mousePos)) {
+    if (mainMenuRect.contains(mousePos)) {
         showUsernameInput = true;
         showDifficultyMenu = false;
         gameWon = false;
@@ -778,13 +764,28 @@ void SudokuUI::handleMouseClick(int mouseX, int mouseY) {
         return;
     }
 
+    sf::FloatRect resetRect(
+        sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 230, buttonY),
+        sf::Vector2f(110, 38)
+    );
+
+    if (resetRect.contains(mousePos)) {
+        showDifficultyMenu = true;
+        gameWon = false;
+        gameLost = false;
+        selectedRow = -1;
+        selectedCol = -1;
+        return;
+    }
+
     sf::FloatRect leaderRect(
-        sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, BOARD_OFFSET_Y + CELL_SIZE * 9 + 12),
+        sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, buttonY),
         sf::Vector2f(110, 38)
     );
 
     if (leaderRect.contains(mousePos)) {
         showLeaderboard = true;
+        leaderboardTab = 0;
     }
 }
 
@@ -842,7 +843,16 @@ void SudokuUI::onBoardChanged() {
 
 void SudokuUI::onGameComplete() {
     gameWon = true;
-    saveScoreToFile();
+
+    std::string diffStr;
+    Difficulty diff = game->getCurrentDifficulty();
+    switch (diff) {
+    case Difficulty::EASY: diffStr = "Easy"; break;
+    case Difficulty::MEDIUM: diffStr = "Medium"; break;
+    case Difficulty::HARD: diffStr = "Hard"; break;
+    }
+
+    ScoreManager::updateOrAddScore(username, diffStr, game->getElapsedTime());
 }
 
 void SudokuUI::onAttemptsChanged(int remaining) {

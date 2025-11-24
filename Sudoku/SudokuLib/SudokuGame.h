@@ -1,10 +1,11 @@
-#ifndef SUDOKUGAME_H
-#define SUDOKUGAME_H
+#pragma once
 
 #include "ISudokuGame.h"
+#include "IObserver.h"
 #include "Difficulty.h"
 #include "CellState.h"
 #include <list>
+#include <vector>
 #include <chrono>
 
 class SudokuGame : public ISudokuGame {
@@ -16,46 +17,46 @@ private:
     int remainingAttempts;
     std::list<IObserver*> observers;
 
-    // Timer
     std::chrono::steady_clock::time_point startTime;
     bool timerRunning;
     int elapsedSeconds;
 
+    void generatePuzzle();
     void fillBoard();
     bool fillCell(int pos);
+    void saveSolution();
     void removeCells();
     bool isSafe(int row, int col, int num) const;
-    void saveSolution();
     bool isValidPosition(int row, int col) const;
+    bool isValidMove(int row, int col, int value) const;
+
+    int countSolutions(int board[9][9], int count = 0);
+    bool hasUniqueSolution(int testBoard[9][9]);
+    bool solveSudoku(int board[9][9], int pos, int& solutionCount, int limit);
 
     void notifyBoardChanged();
     void notifyGameComplete();
     void notifyAttemptsChanged();
 
+    void startTimer();
+    void stopTimer();
+    void resetTimer();
+
 public:
     SudokuGame();
-    SudokuGame(Difficulty difficulty);
+    explicit SudokuGame(Difficulty difficulty);
 
     void startNewGame() override;
     void startNewGame(Difficulty difficulty) override;
-    void generatePuzzle() override;
     bool setValue(int row, int col, int value) override;
-    bool isValidMove(int row, int col, int value) const override;
     int getValue(int row, int col) const override;
     CellState getCellState(int row, int col) const override;
     bool isComplete() const override;
     int getRemainingAttempts() const override;
     Difficulty getCurrentDifficulty() const override;
     void reset() override;
+    int getElapsedTime() const override;
 
     void attachObserver(IObserver* observer) override;
     void detachObserver(IObserver* observer) override;
-
-
-    void startTimer();
-    void stopTimer();
-    void resetTimer();
-    int getElapsedTime() const;
 };
-
-#endif

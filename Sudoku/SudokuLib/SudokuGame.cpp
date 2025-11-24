@@ -40,9 +40,7 @@ void SudokuGame::generatePuzzle() {
     std::memset(initialCells, false, sizeof(initialCells));
 
     fillBoard();
-
     saveSolution();
-
     removeCells();
 }
 
@@ -65,6 +63,69 @@ bool SudokuGame::fillCell(int pos) {
     return false;
 }
 
+bool SudokuGame::solveSudoku(int board[9][9], int pos, int& solutionCount, int limit) {
+    if (solutionCount > limit) return true;
+
+    if (pos == 81) {
+        solutionCount++;
+        return solutionCount > limit;
+    }
+
+    int row = pos / 9;
+    int col = pos % 9;
+
+    if (board[row][col] != 0) {
+        return solveSudoku(board, pos + 1, solutionCount, limit);
+    }
+
+    for (int num = 1; num <= 9; num++) {
+        bool safe = true;
+
+        for (int x = 0; x < 9; x++) {
+            if (board[row][x] == num || board[x][col] == num) {
+                safe = false;
+                break;
+            }
+        }
+
+        if (safe) {
+            int startRow = row - row % 3;
+            int startCol = col - col % 3;
+            for (int i = 0; i < 3 && safe; i++) {
+                for (int j = 0; j < 3 && safe; j++) {
+                    if (board[i + startRow][j + startCol] == num) {
+                        safe = false;
+                    }
+                }
+            }
+        }
+
+        if (safe) {
+            board[row][col] = num;
+            if (solveSudoku(board, pos + 1, solutionCount, limit)) {
+                board[row][col] = 0;
+                return true;
+            }
+            board[row][col] = 0;
+        }
+    }
+
+    return false;
+}
+
+int SudokuGame::countSolutions(int board[9][9], int count) {
+    int solutionCount = 0;
+    int tempBoard[9][9];
+    std::memcpy(tempBoard, board, sizeof(int) * 81);
+
+    solveSudoku(tempBoard, 0, solutionCount, 1);
+    return solutionCount;
+}
+
+bool SudokuGame::hasUniqueSolution(int testBoard[9][9]) {
+    return countSolutions(testBoard) == 1;
+}
+
 void SudokuGame::removeCells() {
     int cellsToRemove;
     switch (currentDifficulty) {
@@ -81,13 +142,35 @@ void SudokuGame::removeCells() {
         cellsToRemove = 40;
     }
 
-    while (cellsToRemove > 0) {
-        int row = std::rand() % 9;
-        int col = std::rand() % 9;
+    std::vector<std::pair<int, int>> cells;
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            cells.push_back({ i, j });
+        }
+    }
 
-        if (board[row][col] != 0) {
-            board[row][col] = 0;
-            cellsToRemove--;
+    std::shuffle(cells.begin(), cells.end(), std::default_random_engine(std::rand()));
+
+    int removed = 0;
+    for (const auto& cell : cells) {
+        if (removed >= cellsToRemove) break;
+
+        int row = cell.first;
+        int col = cell.second;
+
+        if (board[row][col] == 0) continue;
+
+        int backup = board[row][col];
+        board[row][col] = 0;
+
+        int testBoard[9][9];
+        std::memcpy(testBoard, board, sizeof(board));
+
+        if (hasUniqueSolution(testBoard)) {
+            removed++;
+        }
+        else {
+            board[row][col] = backup;
         }
     }
 
@@ -169,11 +252,14 @@ bool SudokuGame::isValidMove(int row, int col, int value) const {
     int temp = board[row][col];
 
     const_cast<int&>(board[row][col]) = 0;
-    bool safe = isSafe(row, col, value);
-
+    bool followsRules = isSafe(row, col, value);
     const_cast<int&>(board[row][col]) = temp;
 
-    return safe;
+    if (!followsRules) {
+        return false;
+    }
+
+    return value == solutionBoard[row][col];
 }
 
 int SudokuGame::getValue(int row, int col) const {
