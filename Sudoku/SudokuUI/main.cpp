@@ -5,10 +5,10 @@
 #include <iostream>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(700, 720)), "Sudoku");
+    sf::RenderWindow window(sf::VideoMode(sf::Vector2u(700, 750)), "Sudoku");
     window.setFramerateLimit(60);
 
-    SudokuGame game(Difficulty::EASY);
+    SudokuGame game(Difficulty::MEDIUM);
     SudokuUI ui(&game, window);
 
     if (!ui.loadFont("C:/Windows/Fonts/arial.ttf")) {

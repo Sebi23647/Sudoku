@@ -2,6 +2,7 @@
 
 #include "ISudokuGame.h"
 #include "IObserver.h"
+#include "ScoreManager.h"
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <string>
@@ -50,9 +51,6 @@ private:
     void drawGameOverlay();
 
     bool isMouseOverCell(int mouseX, int mouseY, int& row, int& col);
-    std::string formatTime(int seconds) const;
-    void saveScoreToFile();
-    void updateOrAddScore(const std::string& user, const std::string& diff, int time);
 
 public:
     explicit SudokuUI(ISudokuGame* sudokuGame, sf::RenderWindow& win);

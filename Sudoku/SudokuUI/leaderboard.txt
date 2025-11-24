@@ -1,4 +1,3 @@
 isa,Easy,241
-lorand,Easy,249
-test,Easy,197
 lorand,Easy,170
+test,Easy,197

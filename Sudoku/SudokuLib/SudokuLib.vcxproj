@@ -131,9 +131,11 @@
     <ClInclude Include="Difficulty.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="ISudokuGame.h" />
+    <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SudokuGame.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SudokuGame.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
