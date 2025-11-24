@@ -30,7 +30,6 @@ int main() {
             else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 ui.handleKeyPress(keyPressed->code);
             }
-            // ADAUGĂ ACEST BLOC NOU pentru input text:
             else if (const auto* textEntered = event->getIf<sf::Event::TextEntered>()) {
                 ui.handleTextInput(textEntered->unicode);
             }
