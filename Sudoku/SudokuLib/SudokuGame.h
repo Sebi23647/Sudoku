@@ -59,4 +59,6 @@ public:
 
     void attachObserver(IObserver* observer) override;
     void detachObserver(IObserver* observer) override;
+
+    int getSolutionValue(int row, int col) const;
 };

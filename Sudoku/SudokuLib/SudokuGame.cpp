@@ -405,3 +405,9 @@ int SudokuGame::getElapsedTime() const {
     }
     return elapsedSeconds;
 }
+int SudokuGame::getSolutionValue(int row, int col) const {
+    if (isValidPosition(row, col)) {
+        return solutionBoard[row][col];
+    }
+    return 0;
+}
