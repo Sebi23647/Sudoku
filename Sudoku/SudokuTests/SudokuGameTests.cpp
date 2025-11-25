@@ -3,8 +3,6 @@
 #include "../SudokuLib/Difficulty.h"
 #include "../SudokuLib/CellState.h"
 
-/* Test pentru functionalitatea de baza a SudokuGame*/
-
 class SudokuGameBasicTests : public ::testing::Test {
 protected:
     SudokuGame* game;
@@ -19,7 +17,6 @@ protected:
 };
 
 
-// TESTE INITIALIZARE
 
 TEST_F(SudokuGameBasicTests, ConstructorInitializesWithDefaultDifficulty) {
     EXPECT_EQ(game->getCurrentDifficulty(), Difficulty::MEDIUM);
@@ -40,7 +37,6 @@ TEST_F(SudokuGameBasicTests, InitialAttemptsAreThree) {
 TEST_F(SudokuGameBasicTests, StartNewGameGeneratesPuzzle) {
     game->startNewGame();
 
-    // Verificam ca exista cel putin o celula completata (fixed)
     bool hasFixedCell = false;
     for (int i = 0; i < 9 && !hasFixedCell; i++) {
         for (int j = 0; j < 9; j++) {
@@ -58,12 +54,9 @@ TEST_F(SudokuGameBasicTests, StartNewGameWithDifficulty) {
     EXPECT_EQ(game->getCurrentDifficulty(), Difficulty::HARD);
 }
 
-// TESTE GETVALUE
-
 TEST_F(SudokuGameBasicTests, GetValueReturnsZeroForEmptyCell) {
     game->startNewGame();
 
-    // Cautam o celula goala
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
@@ -76,8 +69,6 @@ TEST_F(SudokuGameBasicTests, GetValueReturnsZeroForEmptyCell) {
 
 TEST_F(SudokuGameBasicTests, GetValueReturnsCorrectValue) {
     game->startNewGame();
-
-    // Cautam o celula fixed
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::FIXED) {
@@ -98,74 +89,68 @@ TEST_F(SudokuGameBasicTests, GetValueInvalidPosition) {
     EXPECT_EQ(game->getValue(10, 10), -1);
 }
 
-// TESTE setValue - VALORI VALIDE
-
-
 TEST_F(SudokuGameBasicTests, SetValueOnEmptyCell) {
     game->startNewGame();
 
-    // Cautam prima celula goala
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                // Gasim o valoare valida pentru aceasta celula
-                for (int value = 1; value <= 9; value++) {
-                    // Testam temporar daca valoarea este sigura
-                    bool canSet = true;
+                int correctValue = game->getSolutionValue(i, j);
 
-                    // Verificam randul
-                    for (int col = 0; col < 9; col++) {
-                        if (game->getValue(i, col) == value) {
-                            canSet = false;
-                            break;
-                        }
+                bool isSafe = true;
+
+                for (int col = 0; col < 9; col++) {
+                    if (game->getValue(i, col) == correctValue) {
+                        isSafe = false;
+                        break;
                     }
+                }
 
-                    // Verificam coloana
+                if (isSafe) {
                     for (int row = 0; row < 9; row++) {
-                        if (game->getValue(row, j) == value) {
-                            canSet = false;
+                        if (game->getValue(row, j) == correctValue) {
+                            isSafe = false;
                             break;
                         }
                     }
+                }
 
-                    // Verificam grid-ul 3x3
+                if (isSafe) {
                     int startRow = i - i % 3;
                     int startCol = j - j % 3;
                     for (int r = 0; r < 3; r++) {
                         for (int c = 0; c < 3; c++) {
-                            if (game->getValue(startRow + r, startCol + c) == value) {
-                                canSet = false;
+                            if (game->getValue(startRow + r, startCol + c) == correctValue) {
+                                isSafe = false;
                                 break;
                             }
                         }
-                        if (!canSet) break;
+                        if (!isSafe) break;
                     }
-
-                    if (canSet) {
-                        EXPECT_TRUE(game->setValue(i, j, value));
-                        EXPECT_EQ(game->getValue(i, j), value);
-                        EXPECT_EQ(game->getCellState(i, j), CellState::FILLED);
-                        return;
-                    }
+                }
+                if (isSafe) {
+                    EXPECT_TRUE(game->setValue(i, j, correctValue));
+                    EXPECT_EQ(game->getValue(i, j), correctValue);
+                    EXPECT_EQ(game->getCellState(i, j), CellState::FILLED);
+                    return;
                 }
             }
         }
     }
+
+    GTEST_SKIP() << "No safe empty cell found";
 }
 
 TEST_F(SudokuGameBasicTests, SetValueClearCell) {
     game->startNewGame();
 
-    // Cautam o celula goala si punem o valoare
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                // Gasim o valoare valida
+
                 for (int value = 1; value <= 9; value++) {
                     bool safe = true;
 
-                    // Quick validation
                     for (int x = 0; x < 9; x++) {
                         if (game->getValue(i, x) == value || game->getValue(x, j) == value) {
                             safe = false;
@@ -176,7 +161,6 @@ TEST_F(SudokuGameBasicTests, SetValueClearCell) {
                     if (safe) {
                         game->setValue(i, j, value);
 
-                        // Acum stergem valoarea
                         EXPECT_TRUE(game->setValue(i, j, 0));
                         EXPECT_EQ(game->getValue(i, j), 0);
                         EXPECT_EQ(game->getCellState(i, j), CellState::EMPTY);
@@ -188,7 +172,6 @@ TEST_F(SudokuGameBasicTests, SetValueClearCell) {
     }
 }
 
-// TESTE setValue - VALORI INVALIDE
 
 TEST_F(SudokuGameBasicTests, SetValueInvalidPosition) {
     EXPECT_FALSE(game->setValue(-1, 0, 5));
@@ -200,7 +183,6 @@ TEST_F(SudokuGameBasicTests, SetValueInvalidPosition) {
 TEST_F(SudokuGameBasicTests, SetValueOutOfRange) {
     game->startNewGame();
 
-    // Cautam o celula goala
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
@@ -216,16 +198,14 @@ TEST_F(SudokuGameBasicTests, SetValueOutOfRange) {
 TEST_F(SudokuGameBasicTests, SetValueOnFixedCell) {
     game->startNewGame();
 
-    // Cautam o celula fixed
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::FIXED) {
                 int originalValue = game->getValue(i, j);
 
-                // Incercam sa modificam celula fixed
                 EXPECT_FALSE(game->setValue(i, j, 5));
 
-                // Valoarea ramane neschimbata
+
                 EXPECT_EQ(game->getValue(i, j), originalValue);
                 return;
             }
@@ -236,20 +216,16 @@ TEST_F(SudokuGameBasicTests, SetValueOnFixedCell) {
 TEST_F(SudokuGameBasicTests, SetValueInvalidMove) {
     game->startNewGame();
 
-    // Cautam o celula goala
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                // Cautam o valoare care exista deja pe randul curent
                 for (int col = 0; col < 9; col++) {
                     int existingValue = game->getValue(i, col);
                     if (existingValue != 0) {
                         int attemptsBefore = game->getRemainingAttempts();
 
-                        // Incercam sa punem aceeasi valoare (invalid)
                         EXPECT_FALSE(game->setValue(i, j, existingValue));
 
-                        // Verificam ca attempts a scazut
                         EXPECT_EQ(game->getRemainingAttempts(), attemptsBefore - 1);
                         return;
                     }
@@ -258,8 +234,6 @@ TEST_F(SudokuGameBasicTests, SetValueInvalidMove) {
         }
     }
 }
-
-// TESTE getCellState
 
 TEST_F(SudokuGameBasicTests, GetCellStateFixed) {
     game->startNewGame();
@@ -300,11 +274,9 @@ TEST_F(SudokuGameBasicTests, GetCellStateEmpty) {
 TEST_F(SudokuGameBasicTests, GetCellStateFilled) {
     game->startNewGame();
 
-    // Cautam o celula goala si o completam
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                // Gasim o valoare valida
                 for (int value = 1; value <= 9; value++) {
                     bool safe = true;
                     for (int x = 0; x < 9; x++) {
@@ -332,13 +304,9 @@ TEST_F(SudokuGameBasicTests, GetCellStateInvalidPosition) {
     EXPECT_EQ(game->getCellState(0, 9), CellState::EMPTY);
 }
 
-// TESTE RESET
-
-
 TEST_F(SudokuGameBasicTests, ResetClearsFilledCells) {
     game->startNewGame();
 
-    // Completam cateva celule goale
     int filledCount = 0;
     for (int i = 0; i < 9 && filledCount < 3; i++) {
         for (int j = 0; j < 9 && filledCount < 3; j++) {
@@ -352,15 +320,11 @@ TEST_F(SudokuGameBasicTests, ResetClearsFilledCells) {
             }
         }
     }
-
-    // Resetam jocul
     game->reset();
 
-    // Verificam ca celulele FILLED au fost sterse
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             CellState state = game->getCellState(i, j);
-            // Nu ar trebui sa existe celule FILLED dupa reset
             EXPECT_NE(state, CellState::FILLED);
         }
     }
@@ -369,7 +333,6 @@ TEST_F(SudokuGameBasicTests, ResetClearsFilledCells) {
 TEST_F(SudokuGameBasicTests, ResetKeepsFixedCells) {
     game->startNewGame();
 
-    // Salvam valorile celulelor fixed
     int fixedValues[9][9];
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
@@ -383,7 +346,6 @@ TEST_F(SudokuGameBasicTests, ResetKeepsFixedCells) {
     }
     game->reset();
 
-    // Verificam ca celulele fixed au ramas la fel
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (fixedValues[i][j] != -1) {
@@ -397,15 +359,13 @@ TEST_F(SudokuGameBasicTests, ResetKeepsFixedCells) {
 TEST_F(SudokuGameBasicTests, ResetRestoresAttempts) {
     game->startNewGame();
 
-    // Facem cateva mutari invalide sa scadem attempts
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                // Cautam o valoare invalida
                 for (int col = 0; col < 9; col++) {
                     int value = game->getValue(i, col);
                     if (value != 0) {
-                        game->setValue(i, j, value); // Invalid move
+                        game->setValue(i, j, value);
                         break;
                     }
                 }
@@ -417,11 +377,8 @@ TEST_F(SudokuGameBasicTests, ResetRestoresAttempts) {
 
     game->reset();
 
-    // Verificam ca attempts este 3
     EXPECT_EQ(game->getRemainingAttempts(), 3);
 }
-
-// TESTE isComplete
 
 TEST_F(SudokuGameBasicTests, IsCompleteReturnsFalseForIncompleteBoard) {
     game->startNewGame();
@@ -431,7 +388,6 @@ TEST_F(SudokuGameBasicTests, IsCompleteReturnsFalseForIncompleteBoard) {
 TEST_F(SudokuGameBasicTests, IsCompleteReturnsFalseForInvalidBoard) {
     game->startNewGame();
 
-    // Completam tabla cu valori invalide (toate cu 1)
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
@@ -443,18 +399,13 @@ TEST_F(SudokuGameBasicTests, IsCompleteReturnsFalseForInvalidBoard) {
     EXPECT_FALSE(game->isComplete());
 }
 
-// TESTE ATTEMPTS
-
-
 TEST_F(SudokuGameBasicTests, AttemptsDecreaseOnInvalidMove) {
     game->startNewGame();
     int initialAttempts = game->getRemainingAttempts();
 
-    // Facem o mutare invalida
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                // Cautam o valoare care exista deja pe rand
                 for (int col = 0; col < 9; col++) {
                     int value = game->getValue(i, col);
                     if (value != 0) {
@@ -472,22 +423,52 @@ TEST_F(SudokuGameBasicTests, AttemptsNotDecreasedOnValidMove) {
     game->startNewGame();
     int initialAttempts = game->getRemainingAttempts();
 
-    // Facem o mutare valida
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::EMPTY) {
-                for (int value = 1; value <= 9; value++) {
-                    if (game->setValue(i, j, value)) {
-                        EXPECT_EQ(game->getRemainingAttempts(), initialAttempts);
-                        return;
+                int correctValue = game->getSolutionValue(i, j);
+
+                bool isSafe = true;
+                for (int col = 0; col < 9; col++) {
+                    if (game->getValue(i, col) == correctValue) {
+                        isSafe = false;
+                        break;
                     }
+                }
+
+                if (isSafe) {
+                    for (int row = 0; row < 9; row++) {
+                        if (game->getValue(row, j) == correctValue) {
+                            isSafe = false;
+                            break;
+                        }
+                    }
+                }
+
+                if (isSafe) {
+                    int startRow = i - i % 3;
+                    int startCol = j - j % 3;
+                    for (int r = 0; r < 3; r++) {
+                        for (int c = 0; c < 3; c++) {
+                            if (game->getValue(startRow + r, startCol + c) == correctValue) {
+                                isSafe = false;
+                                break;
+                            }
+                        }
+                        if (!isSafe) break;
+                    }
+                }
+
+                if (isSafe && game->setValue(i, j, correctValue)) {
+                    EXPECT_EQ(game->getRemainingAttempts(), initialAttempts);
+                    return;
                 }
             }
         }
     }
-}
 
-// TESTE DIFFICULTY
+    GTEST_SKIP() << "No safe empty cell found for valid move test";
+}
 
 TEST_F(SudokuGameBasicTests, DifficultyRemainsAfterOperations) {
     game->startNewGame(Difficulty::HARD);
@@ -506,10 +487,7 @@ TEST_F(SudokuGameBasicTests, DifficultyRemainsAfterOperations) {
     EXPECT_EQ(game->getCurrentDifficulty(), Difficulty::HARD);
 }
 
-// TESTE PUZZLE GENERATION
-
 TEST_F(SudokuGameBasicTests, GeneratedPuzzleHasCorrectNumberOfFixedCells) {
-    // Test pentru EASY - ar trebui sa aiba mai multe celule fixed
     SudokuGame easyGame(Difficulty::EASY);
     easyGame.startNewGame();
 
@@ -522,7 +500,6 @@ TEST_F(SudokuGameBasicTests, GeneratedPuzzleHasCorrectNumberOfFixedCells) {
         }
     }
 
-    // Test pentru HARD - ar trebui sa aiba mai putine celule fixed
     SudokuGame hardGame(Difficulty::HARD);
     hardGame.startNewGame();
 
@@ -535,24 +512,20 @@ TEST_F(SudokuGameBasicTests, GeneratedPuzzleHasCorrectNumberOfFixedCells) {
         }
     }
 
-    // EASY ar trebui sa aiba mai multe celule fixed decat HARD
     EXPECT_GT(easyFixed, hardFixed);
 }
 
 TEST_F(SudokuGameBasicTests, GeneratedPuzzleHasValidFixedCells) {
     game->startNewGame();
 
-    // Verificam ca toate celulele fixed respecta regulile Sudoku
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (game->getCellState(i, j) == CellState::FIXED) {
                 int value = game->getValue(i, j);
 
-                // Verificam ca valoarea este in range
                 EXPECT_GE(value, 1);
                 EXPECT_LE(value, 9);
 
-                // Verificam unicitatea pe rand
                 int countInRow = 0;
                 for (int col = 0; col < 9; col++) {
                     if (game->getValue(i, col) == value) {
@@ -561,7 +534,6 @@ TEST_F(SudokuGameBasicTests, GeneratedPuzzleHasValidFixedCells) {
                 }
                 EXPECT_EQ(countInRow, 1);
 
-                // Verificam unicitatea pe coloana
                 int countInCol = 0;
                 for (int row = 0; row < 9; row++) {
                     if (game->getValue(row, j) == value) {
@@ -570,7 +542,6 @@ TEST_F(SudokuGameBasicTests, GeneratedPuzzleHasValidFixedCells) {
                 }
                 EXPECT_EQ(countInCol, 1);
 
-                // Verificam unicitatea in grid 3x3
                 int startRow = i - i % 3;
                 int startCol = j - j % 3;
                 int countInGrid = 0;
