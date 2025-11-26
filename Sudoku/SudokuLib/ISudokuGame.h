@@ -1,6 +1,4 @@
-#ifndef ISUDOKUGAME_H
-#define ISUDOKUGAME_H
-
+#pragma once
 #include "Difficulty.h"
 #include "CellState.h"
 #include "IObserver.h"
@@ -26,5 +24,3 @@ public:
     virtual void attachObserver(IObserver* observer) = 0;
     virtual void detachObserver(IObserver* observer) = 0;
 };
-
-#endif
