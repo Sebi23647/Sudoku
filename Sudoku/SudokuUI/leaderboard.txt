@@ -4,4 +4,6 @@ Sori,Easy,157
 isa,Easy,241
 lorand,Easy,170
 lorand,Medium,354
+t,Medium,225
+teodoraaa,Easy,66
 test,Easy,197

@@ -19,11 +19,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DifficultyScreen.h" />
+    <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="IScreen.h" />
+    <ClInclude Include="LeaderboardScreen.h" />
+    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="SudokuUI.h" />
+    <ClInclude Include="UsernameScreen.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DifficultyScreen.cpp" />
+    <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="LeaderboardScreen.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="SudokuUI.cpp" />
+    <ClCompile Include="UsernameScreen.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
