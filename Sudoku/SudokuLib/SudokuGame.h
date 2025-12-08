@@ -4,43 +4,26 @@
 #include "IObserver.h"
 #include "Difficulty.h"
 #include "CellState.h"
+#include "SudokuBoard.h"
+#include "SudokuGenerator.h"
+#include "GameTimer.h"
 #include <list>
-#include <vector>
-#include <chrono>
 
 class SudokuGame : public ISudokuGame {
 private:
-    int board[9][9];
-    int solutionBoard[9][9];
-    bool initialCells[9][9];
+    SudokuBoard board;
+    SudokuGenerator generator;
     Difficulty currentDifficulty;
     int remainingAttempts;
     std::list<IObserver*> observers;
-
-    std::chrono::steady_clock::time_point startTime;
-    bool timerRunning;
-    int elapsedSeconds;
-
-    void generatePuzzle();
-    void fillBoard();
-    bool fillCell(int pos);
-    void saveSolution();
-    void removeCells();
-    bool isSafe(int row, int col, int num) const;
-    bool isValidPosition(int row, int col) const;
-    bool isValidMove(int row, int col, int value) const;
-
-    int countSolutions(int board[9][9], int count = 0);
-    bool hasUniqueSolution(int testBoard[9][9]);
-    bool solveSudoku(int board[9][9], int pos, int& solutionCount, int limit);
+    GameTimer timer;
 
     void notifyBoardChanged();
     void notifyGameComplete();
     void notifyAttemptsChanged();
 
-    void startTimer();
-    void stopTimer();
-    void resetTimer();
+    bool isSafe(int row, int col, int num) const;
+    bool isValidPosition(int row, int col) const;
 
 public:
     SudokuGame();
@@ -48,7 +31,9 @@ public:
 
     void startNewGame() override;
     void startNewGame(Difficulty difficulty) override;
+    void generatePuzzle() override;
     bool setValue(int row, int col, int value) override;
+    bool isValidMove(int row, int col, int value) const override;
     int getValue(int row, int col) const override;
     CellState getCellState(int row, int col) const override;
     bool isComplete() const override;

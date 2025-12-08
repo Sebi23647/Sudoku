@@ -1,30 +1,25 @@
 #include "SudokuGame.h"
 #include <algorithm>
 #include <random>
-#include <cstring>
 #include <ctime>
 
-SudokuGame::SudokuGame() : currentDifficulty(Difficulty::MEDIUM), remainingAttempts(3),
-timerRunning(false), elapsedSeconds(0) {
-    std::memset(board, 0, sizeof(board));
-    std::memset(solutionBoard, 0, sizeof(solutionBoard));
-    std::memset(initialCells, false, sizeof(initialCells));
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
+SudokuGame::SudokuGame()
+    : currentDifficulty(Difficulty::MEDIUM),
+      remainingAttempts(3) {
+    timer.Reset();
 }
 
-SudokuGame::SudokuGame(Difficulty difficulty) : currentDifficulty(difficulty), remainingAttempts(3),
-timerRunning(false), elapsedSeconds(0) {
-    std::memset(board, 0, sizeof(board));
-    std::memset(solutionBoard, 0, sizeof(solutionBoard));
-    std::memset(initialCells, false, sizeof(initialCells));
-    std::srand(static_cast<unsigned>(std::time(nullptr)));
+SudokuGame::SudokuGame(Difficulty difficulty)
+    : currentDifficulty(difficulty),
+      remainingAttempts(3) {
+    timer.Reset();
 }
 
 void SudokuGame::startNewGame() {
     remainingAttempts = 3;
-    resetTimer();
+    timer.Reset();
     generatePuzzle();
-    startTimer();
+    timer.Start();
     notifyBoardChanged();
     notifyAttemptsChanged();
 }
@@ -35,170 +30,19 @@ void SudokuGame::startNewGame(Difficulty difficulty) {
 }
 
 void SudokuGame::generatePuzzle() {
-    std::memset(board, 0, sizeof(board));
-    std::memset(solutionBoard, 0, sizeof(solutionBoard));
-    std::memset(initialCells, false, sizeof(initialCells));
-
-    fillBoard();
-    saveSolution();
-    removeCells();
-}
-
-bool SudokuGame::fillCell(int pos) {
-    if (pos == 81) return true;
-
-    int row = pos / 9;
-    int col = pos % 9;
-
-    std::vector<int> nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-    std::shuffle(nums.begin(), nums.end(), std::default_random_engine(std::rand()));
-
-    for (int num : nums) {
-        if (isSafe(row, col, num)) {
-            board[row][col] = num;
-            if (fillCell(pos + 1)) return true;
-            board[row][col] = 0;
-        }
-    }
-    return false;
-}
-
-bool SudokuGame::solveSudoku(int board[9][9], int pos, int& solutionCount, int limit) {
-    if (solutionCount > limit) return true;
-
-    if (pos == 81) {
-        solutionCount++;
-        return solutionCount > limit;
-    }
-
-    int row = pos / 9;
-    int col = pos % 9;
-
-    if (board[row][col] != 0) {
-        return solveSudoku(board, pos + 1, solutionCount, limit);
-    }
-
-    for (int num = 1; num <= 9; num++) {
-        bool safe = true;
-
-        for (int x = 0; x < 9; x++) {
-            if (board[row][x] == num || board[x][col] == num) {
-                safe = false;
-                break;
-            }
-        }
-
-        if (safe) {
-            int startRow = row - row % 3;
-            int startCol = col - col % 3;
-            for (int i = 0; i < 3 && safe; i++) {
-                for (int j = 0; j < 3 && safe; j++) {
-                    if (board[i + startRow][j + startCol] == num) {
-                        safe = false;
-                    }
-                }
-            }
-        }
-
-        if (safe) {
-            board[row][col] = num;
-            if (solveSudoku(board, pos + 1, solutionCount, limit)) {
-                board[row][col] = 0;
-                return true;
-            }
-            board[row][col] = 0;
-        }
-    }
-
-    return false;
-}
-
-int SudokuGame::countSolutions(int board[9][9], int count) {
-    int solutionCount = 0;
-    int tempBoard[9][9];
-    std::memcpy(tempBoard, board, sizeof(int) * 81);
-
-    solveSudoku(tempBoard, 0, solutionCount, 1);
-    return solutionCount;
-}
-
-bool SudokuGame::hasUniqueSolution(int testBoard[9][9]) {
-    return countSolutions(testBoard) == 1;
-}
-
-void SudokuGame::removeCells() {
-    int cellsToRemove;
-    switch (currentDifficulty) {
-    case Difficulty::EASY:
-        cellsToRemove = 30;
-        break;
-    case Difficulty::MEDIUM:
-        cellsToRemove = 40;
-        break;
-    case Difficulty::HARD:
-        cellsToRemove = 50;
-        break;
-    default:
-        cellsToRemove = 40;
-    }
-
-    std::vector<std::pair<int, int>> cells;
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            cells.push_back({ i, j });
-        }
-    }
-
-    std::shuffle(cells.begin(), cells.end(), std::default_random_engine(std::rand()));
-
-    int removed = 0;
-    for (const auto& cell : cells) {
-        if (removed >= cellsToRemove) break;
-
-        int row = cell.first;
-        int col = cell.second;
-
-        if (board[row][col] == 0) continue;
-
-        int backup = board[row][col];
-        board[row][col] = 0;
-
-        int testBoard[9][9];
-        std::memcpy(testBoard, board, sizeof(board));
-
-        if (hasUniqueSolution(testBoard)) {
-            removed++;
-        }
-        else {
-            board[row][col] = backup;
-        }
-    }
-
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (board[i][j] != 0) {
-                initialCells[i][j] = true;
-            }
-        }
-    }
+    generator.Generate(board, currentDifficulty);
 }
 
 bool SudokuGame::isSafe(int row, int col, int num) const {
-    for (int x = 0; x < 9; x++) {
-        if (board[row][x] == num || board[x][col] == num) {
+    for (int x = 0; x < 9; ++x)
+        if (board.Get(row, x) == num || board.Get(x, col) == num)
             return false;
-        }
-    }
 
-    int startRow = row - row % 3;
-    int startCol = col - col % 3;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (board[i + startRow][j + startCol] == num) {
+    int sr = row - row % 3, sc = col - col % 3;
+    for (int i = 0; i < 3; ++i)
+        for (int j = 0; j < 3; ++j)
+            if (board.Get(i + sr, j + sc) == num)
                 return false;
-            }
-        }
-    }
 
     return true;
 }
@@ -208,206 +52,114 @@ bool SudokuGame::isValidPosition(int row, int col) const {
 }
 
 bool SudokuGame::setValue(int row, int col, int value) {
-    if (!isValidPosition(row, col)) {
-        return false;
-    }
-
-    if (value < 0 || value > 9) {
-        return false;
-    }
-
-    if (initialCells[row][col]) {
-        return false;
-    }
+    if (!isValidPosition(row, col)) return false;
+    if (value < 0 || value > 9) return false;
+    if (board.IsInitial(row, col)) return false;
 
     if (value == 0) {
-        board[row][col] = 0;
+        board.Set(row, col, 0);
         notifyBoardChanged();
         return true;
     }
 
     if (isValidMove(row, col, value)) {
-        board[row][col] = value;
+        board.Set(row, col, value);
         notifyBoardChanged();
-
         if (isComplete()) {
-            stopTimer();
+            timer.Stop();
             notifyGameComplete();
         }
         return true;
-    }
-    else {
+    } else {
         remainingAttempts--;
         notifyAttemptsChanged();
-
         if (remainingAttempts <= 0) {
-            stopTimer();
+            timer.Stop();
         }
-
         return false;
     }
 }
 
 bool SudokuGame::isValidMove(int row, int col, int value) const {
-    int temp = board[row][col];
-
-    const_cast<int&>(board[row][col]) = 0;
-    bool followsRules = isSafe(row, col, value);
-    const_cast<int&>(board[row][col]) = temp;
-
-    if (!followsRules) {
-        return false;
-    }
-
-    return value == solutionBoard[row][col];
+    const int temp = board.Get(row, col);
+    const_cast<SudokuBoard&>(board).Set(row, col, 0);
+    const bool followsRules = isSafe(row, col, value);
+    const_cast<SudokuBoard&>(board).Set(row, col, temp);
+    if (!followsRules) return false;
+    return value == board.GetSolution(row, col);
 }
 
 int SudokuGame::getValue(int row, int col) const {
-    if (!isValidPosition(row, col)) {
-        return -1;
-    }
-    return board[row][col];
+    if (!isValidPosition(row, col)) return -1;
+    return board.Get(row, col);
 }
 
 CellState SudokuGame::getCellState(int row, int col) const {
-    if (!isValidPosition(row, col)) {
-        return CellState::EMPTY;
-    }
-
-    if (initialCells[row][col]) {
-        return CellState::FIXED;
-    }
-
-    if (board[row][col] != 0) {
-        return CellState::FILLED;
-    }
-
-    return CellState::EMPTY;
+    if (!isValidPosition(row, col)) return CellState::EMPTY;
+    return board.GetCellState(row, col);
 }
 
 bool SudokuGame::isComplete() const {
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (board[i][j] == 0) {
+    for (int r = 0; r < 9; ++r)
+        for (int c = 0; c < 9; ++c)
+            if (board.Get(r, c) == 0) return false;
+
+    for (int r = 0; r < 9; ++r)
+        for (int c = 0; c < 9; ++c) {
+            const int temp = board.Get(r, c);
+            const_cast<SudokuBoard&>(board).Set(r, c, 0);
+            if (!isSafe(r, c, temp)) {
+                const_cast<SudokuBoard&>(board).Set(r, c, temp);
                 return false;
             }
+            const_cast<SudokuBoard&>(board).Set(r, c, temp);
         }
-    }
-
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            int temp = board[i][j];
-            const_cast<int&>(board[i][j]) = 0;
-
-            if (!isSafe(i, j, temp)) {
-                const_cast<int&>(board[i][j]) = temp;
-                return false;
-            }
-
-            const_cast<int&>(board[i][j]) = temp;
-        }
-    }
 
     return true;
 }
 
-int SudokuGame::getRemainingAttempts() const {
-    return remainingAttempts;
-}
-
-Difficulty SudokuGame::getCurrentDifficulty() const {
-    return currentDifficulty;
-}
+int SudokuGame::getRemainingAttempts() const { return remainingAttempts; }
+Difficulty SudokuGame::getCurrentDifficulty() const { return currentDifficulty; }
 
 void SudokuGame::reset() {
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            if (!initialCells[i][j]) {
-                board[i][j] = 0;
-            }
-        }
-    }
+    for (int r = 0; r < 9; ++r)
+        for (int c = 0; c < 9; ++c)
+            if (!board.IsInitial(r, c))
+                const_cast<SudokuBoard&>(board).Set(r, c, 0);
 
     remainingAttempts = 3;
-    resetTimer();
-    startTimer();
+    timer.Reset();
+    timer.Start();
     notifyBoardChanged();
     notifyAttemptsChanged();
 }
 
+int SudokuGame::getElapsedTime() const {
+    return timer.GetElapsedSeconds();
+}
+
 void SudokuGame::attachObserver(IObserver* observer) {
-    if (observer) {
-        observers.push_back(observer);
-    }
+    if (observer) observers.push_back(observer);
 }
 
 void SudokuGame::detachObserver(IObserver* observer) {
-    if (observer) {
-        observers.remove(observer);
-    }
+    if (!observer) return;
+    observers.remove(observer);
 }
 
 void SudokuGame::notifyBoardChanged() {
-    for (auto observer : observers) {
-        if (observer) {
-            observer->onBoardChanged();
-        }
-    }
+    for (auto* obs : observers) if (obs) obs->onBoardChanged();
 }
 
 void SudokuGame::notifyGameComplete() {
-    for (auto observer : observers) {
-        if (observer) {
-            observer->onGameComplete();
-        }
-    }
+    for (auto* obs : observers) if (obs) obs->onGameComplete();
 }
 
 void SudokuGame::notifyAttemptsChanged() {
-    for (auto observer : observers) {
-        if (observer) {
-            observer->onAttemptsChanged(remainingAttempts);
-        }
-    }
+    for (auto* obs : observers) if (obs) obs->onAttemptsChanged(remainingAttempts);
 }
 
-void SudokuGame::fillBoard() {
-    fillCell(0);
-}
-
-void SudokuGame::saveSolution() {
-    std::memcpy(solutionBoard, board, sizeof(board));
-}
-
-void SudokuGame::startTimer() {
-    startTime = std::chrono::steady_clock::now();
-    timerRunning = true;
-}
-
-void SudokuGame::stopTimer() {
-    if (timerRunning) {
-        auto now = std::chrono::steady_clock::now();
-        elapsedSeconds += std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
-        timerRunning = false;
-    }
-}
-
-void SudokuGame::resetTimer() {
-    elapsedSeconds = 0;
-    timerRunning = false;
-}
-
-int SudokuGame::getElapsedTime() const {
-    if (timerRunning) {
-        auto now = std::chrono::steady_clock::now();
-        int current = std::chrono::duration_cast<std::chrono::seconds>(now - startTime).count();
-        return elapsedSeconds + current;
-    }
-    return elapsedSeconds;
-}
 int SudokuGame::getSolutionValue(int row, int col) const {
-    if (isValidPosition(row, col)) {
-        return solutionBoard[row][col];
-    }
+    if (isValidPosition(row, col)) return board.GetSolution(row, col);
     return 0;
 }

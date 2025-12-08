@@ -5,7 +5,7 @@
 #include "LeaderboardScreen.h"
 
 #include <thread>
-#include "../SudokuLib/SudokuGame.h"
+#include "../SudokuLib/GameFactory.h"
 
 ScreenManager::ScreenManager(sf::Font& font)
     : currentScreen(nullptr), currentType(ScreenType::Username),
@@ -36,7 +36,7 @@ void ScreenManager::setScreen(ScreenType type, sf::RenderWindow& window) {
 }
 
 void ScreenManager::createGame(Difficulty difficulty, sf::RenderWindow& window) {
-    gamePtr.reset(new SudokuGame(difficulty));
+    gamePtr = CreateSudokuGame(difficulty);
 
     setScreen(ScreenType::Game, window);
     std::thread([this]() {

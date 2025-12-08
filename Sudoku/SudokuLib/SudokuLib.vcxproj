@@ -129,14 +129,22 @@
   <ItemGroup>
     <ClInclude Include="CellState.h" />
     <ClInclude Include="Difficulty.h" />
+    <ClInclude Include="GameFactory.h" />
+    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="ISudokuGame.h" />
     <ClInclude Include="ScoreManager.h" />
+    <ClInclude Include="SudokuBoard.h" />
     <ClInclude Include="SudokuGame.h" />
+    <ClInclude Include="SudokuGenerator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameFactory.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="SudokuBoard.cpp" />
     <ClCompile Include="SudokuGame.cpp" />
+    <ClCompile Include="SudokuGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
