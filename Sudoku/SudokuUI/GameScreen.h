@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <string>
+#include "../SudokuLib/Hint.h"
 
 class ScreenManager;
 class ISudokuGame;
@@ -19,6 +20,8 @@ private:
     int selectedCol;
     bool gameWon;
     bool gameLost;
+
+    std::optional<Hint> currentHint;
 
     static constexpr float CELL_SIZE = 60.0f;
     static constexpr float BOARD_OFFSET_X = 50.0f;
@@ -35,6 +38,7 @@ private:
     sf::Color SUCCESS_COLOR = sf::Color(34, 197, 94);
     sf::Color WARNING_COLOR = sf::Color(251, 146, 60);
     sf::Color DANGER_COLOR = sf::Color(239, 68, 68);
+    sf::Color HINT_COLOR = sf::Color(16, 185, 129); // teal green
 
     void drawGrid();
     void drawNumbers();
@@ -43,6 +47,8 @@ private:
     void drawInfo();
     void drawGameOverlay();
     bool isMouseOverCell(int mouseX, int mouseY, int& row, int& col);
+
+    void drawHintOverlay();
 
 public:
     explicit GameScreen(ScreenManager& mgr, sf::RenderWindow& win);

@@ -1,6 +1,8 @@
-#include "GameTimer.h"
 
-GameTimer::GameTimer() : running(false), accumulatedSeconds(0) {}
+#include "GameTimer.h"
+#include <chrono>
+
+GameTimer::GameTimer() : running(false), accumulatedSeconds(0), startTime(std::chrono::steady_clock::now()) {}
 
 void GameTimer::Start() {
     if (!running) {

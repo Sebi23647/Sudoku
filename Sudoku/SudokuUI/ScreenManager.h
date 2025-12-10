@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "../SudokuLib/ISudokuGame.h"
 #include "../SudokuLib/Difficulty.h"
+#include "../SudokuLib/IHintProvider.h"
 #include <string>
 
 enum class ScreenType {
@@ -19,6 +20,7 @@ private:
     ScreenType currentType;
 
     std::unique_ptr<ISudokuGame> gamePtr;
+    std::unique_ptr<IHintProvider> hintMgr;
     sf::Font& appFont;
 
     std::string username;
@@ -46,6 +48,7 @@ public:
 
     sf::Font& getFont() { return appFont; }
     ISudokuGame* getGame() { return gamePtr ? gamePtr.get() : nullptr; }
+    IHintProvider* getHintManager() { return hintMgr ? hintMgr.get() : nullptr; }
 
     void setUsername(const std::string& name) { username = name; }
     const std::string& getUsername() const { return username; }

@@ -6,10 +6,11 @@
 
 #include <thread>
 #include "../SudokuLib/GameFactory.h"
+#include "../SudokuLib/HintFactory.h"
 
 ScreenManager::ScreenManager(sf::Font& font)
     : currentScreen(nullptr), currentType(ScreenType::Username),
-      gamePtr(nullptr), appFont(font), hasPendingScreen(false), hasPendingCreate(false)
+      gamePtr(nullptr), hintMgr(nullptr), appFont(font), hasPendingScreen(false), hasPendingCreate(false)
 {
 }
 
@@ -37,6 +38,7 @@ void ScreenManager::setScreen(ScreenType type, sf::RenderWindow& window) {
 
 void ScreenManager::createGame(Difficulty difficulty, sf::RenderWindow& window) {
     gamePtr = CreateSudokuGame(difficulty);
+    hintMgr = CreateHintManager(difficulty);
 
     setScreen(ScreenType::Game, window);
     std::thread([this]() {

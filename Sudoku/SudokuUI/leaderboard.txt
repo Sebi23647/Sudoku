@@ -1,9 +1,12 @@
 Andreea,Easy,176
 Andreea,Hard,684
 Sori,Easy,157
+dd,Easy,88
 isa,Easy,241
 lorand,Easy,170
 lorand,Medium,354
+ss,Easy,19
+sss,Easy,85
 t,Medium,225
 teodoraaa,Easy,66
 test,Easy,197

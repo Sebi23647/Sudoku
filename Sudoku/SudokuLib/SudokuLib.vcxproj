@@ -127,12 +127,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CandidateListStrategy.h" />
     <ClInclude Include="CellState.h" />
     <ClInclude Include="Difficulty.h" />
     <ClInclude Include="GameFactory.h" />
     <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="HiddenSingleStrategy.h" />
+    <ClInclude Include="Hint.h" />
+    <ClInclude Include="HintContext.h" />
+    <ClInclude Include="HintFactory.h" />
+    <ClInclude Include="HintManager.h" />
+    <ClInclude Include="HintUtils.h" />
+    <ClInclude Include="IHintProvider.h" />
+    <ClInclude Include="IHintStrategy.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="ISudokuGame.h" />
+    <ClInclude Include="LocalReasoningStrategy.h" />
+    <ClInclude Include="NakedSingleStrategy.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="SafeCellStrategy.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SudokuBoard.h" />
     <ClInclude Include="SudokuGame.h" />
@@ -141,6 +154,8 @@
   <ItemGroup>
     <ClCompile Include="GameFactory.cpp" />
     <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="HintFactory.cpp" />
+    <ClCompile Include="HintManager.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SudokuBoard.cpp" />
     <ClCompile Include="SudokuGame.cpp" />

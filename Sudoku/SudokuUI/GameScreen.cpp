@@ -23,6 +23,7 @@ void GameScreen::render(sf::RenderWindow&) {
     drawSelection();
     drawInfo();
     drawGameOverlay();
+    drawHintOverlay();
 
     window.display();
 }
@@ -222,7 +223,7 @@ void GameScreen::drawInfo() {
     window.draw(timer);
 
     sf::Text controls(font);
-    controls.setString("1-9: Fill | 0/Del: Clear | Arrows: Move");
+    controls.setString("1-9: Fill | 0/Del: Clear | Arrows: Move | H: Hint");
     controls.setCharacterSize(13);
     controls.setFillColor(sf::Color(120, 120, 120));
     controls.setPosition(sf::Vector2f(BOARD_OFFSET_X, BOARD_OFFSET_Y + CELL_SIZE * 9 + 20));
@@ -263,6 +264,23 @@ void GameScreen::drawInfo() {
         buttonY + (38 - resetBounds.size.y) / 2 - 3
     ));
     window.draw(resetText);
+
+    sf::RectangleShape hintBtn(sf::Vector2f(110, 38));
+    hintBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, buttonY));
+    hintBtn.setFillColor(HINT_COLOR);
+    window.draw(hintBtn);
+
+    sf::Text hintText(font);
+    hintText.setString("Hint");
+    hintText.setCharacterSize(15);
+    hintText.setFillColor(sf::Color::White);
+    hintText.setStyle(sf::Text::Bold);
+    sf::FloatRect hintBounds = hintText.getLocalBounds();
+    hintText.setPosition(sf::Vector2f(
+        BOARD_OFFSET_X + CELL_SIZE * 9 - 55 - hintBounds.size.x / 2,
+        buttonY + (38 - hintBounds.size.y) / 2 - 3
+    ));
+    window.draw(hintText);
 }
 
 void GameScreen::drawGameOverlay() {
@@ -332,6 +350,74 @@ void GameScreen::drawGameOverlay() {
     }
 }
 
+void GameScreen::drawHintOverlay() {
+    if (!currentHint.has_value()) return;
+    const Hint& h = *currentHint;
+
+    // Highlight hinted cell
+    if (h.row >= 0 && h.col >= 0) {
+        sf::RectangleShape sel(sf::Vector2f(CELL_SIZE - 2.f, CELL_SIZE - 2.f));
+        sel.setPosition(sf::Vector2f(
+            BOARD_OFFSET_X + h.col * CELL_SIZE + 1.f,
+            BOARD_OFFSET_Y + h.row * CELL_SIZE + 1.f
+        ));
+        sel.setFillColor(sf::Color(HINT_COLOR.r, HINT_COLOR.g, HINT_COLOR.b, 120));
+        window.draw(sel);
+
+        sf::RectangleShape outline(sf::Vector2f(CELL_SIZE, CELL_SIZE));
+        outline.setPosition(sf::Vector2f(
+            BOARD_OFFSET_X + h.col * CELL_SIZE,
+            BOARD_OFFSET_Y + h.row * CELL_SIZE
+        ));
+        outline.setFillColor(sf::Color::Transparent);
+        outline.setOutlineThickness(-3.f);
+        outline.setOutlineColor(HINT_COLOR);
+        window.draw(outline);
+    }
+
+    // Message box
+    sf::RectangleShape box(sf::Vector2f(500.f, 70.f));
+    box.setPosition(sf::Vector2f(BOARD_OFFSET_X, BOARD_OFFSET_Y - 70.f));
+    box.setFillColor(sf::Color(20, 20, 30, 230));
+    window.draw(box);
+
+    sf::Text msg(font);
+    msg.setString(h.message);
+    msg.setCharacterSize(16);
+    msg.setFillColor(sf::Color::White);
+    msg.setPosition(sf::Vector2f(BOARD_OFFSET_X + 10.f, BOARD_OFFSET_Y - 60.f));
+    window.draw(msg);
+
+    if (!h.candidates.empty()) {
+        std::string candStr = "Candidates: ";
+        for (size_t i = 0; i < h.candidates.size(); ++i) {
+            candStr += std::to_string(h.candidates[i]);
+            if (i + 1 < h.candidates.size()) candStr += ", ";
+        }
+        sf::Text cand(font);
+        cand.setString(candStr);
+        cand.setCharacterSize(14);
+        cand.setFillColor(sf::Color(180, 180, 200));
+        cand.setPosition(sf::Vector2f(BOARD_OFFSET_X + 10.f, BOARD_OFFSET_Y - 38.f));
+        window.draw(cand);
+    }
+
+    if (h.value > 0) {
+        sf::RectangleShape applyBtn(sf::Vector2f(90.f, 30.f));
+        applyBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + 500.f - 100.f, BOARD_OFFSET_Y - 60.f));
+        applyBtn.setFillColor(HINT_COLOR);
+        window.draw(applyBtn);
+
+        sf::Text applyText(font);
+        applyText.setString("Apply");
+        applyText.setCharacterSize(14);
+        applyText.setFillColor(sf::Color::White);
+        sf::FloatRect t = applyText.getLocalBounds();
+        applyText.setPosition(sf::Vector2f(BOARD_OFFSET_X + 500.f - 100.f + (90.f - t.size.x)/2.f, BOARD_OFFSET_Y - 60.f + (30.f - t.size.y)/2.f - 3.f));
+        window.draw(applyText);
+    }
+}
+
 bool GameScreen::isMouseOverCell(int mx, int my, int& r, int& c) {
     if (mx < BOARD_OFFSET_X || my < BOARD_OFFSET_Y) return false;
     mx -= BOARD_OFFSET_X;
@@ -370,6 +456,35 @@ void GameScreen::handleMouseClick(int x, int y) {
         return;
     }
 
+    sf::FloatRect hintRect(
+        sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, buttonY),
+        sf::Vector2f(110, 38)
+    );
+
+    if (hintRect.contains(mousePos)) {
+        currentHint.reset();
+        if (manager.getHintManager() && game) {
+            currentHint = manager.getHintManager()->next(*game);
+        }
+        return;
+    }
+
+    // Apply button in overlay if present and direct value
+    if (currentHint.has_value() && currentHint->value > 0) {
+        sf::FloatRect applyRect(
+            sf::Vector2f(BOARD_OFFSET_X + 500.f - 100.f, BOARD_OFFSET_Y - 60.f),
+            sf::Vector2f(90.f, 30.f)
+        );
+        if (applyRect.contains(mousePos)) {
+            const Hint& h = *currentHint;
+            if (game && game->getCellState(h.row, h.col) == CellState::EMPTY) {
+                game->setValue(h.row, h.col, h.value);
+            }
+            currentHint.reset();
+            return;
+        }
+    }
+
     int r, c;
     if (isMouseOverCell(x, y, r, c)) {
         selectedRow = r;
@@ -379,8 +494,17 @@ void GameScreen::handleMouseClick(int x, int y) {
 
 void GameScreen::handleKeyPress(sf::Keyboard::Key key) {
     if (!game) return;
-    if (selectedRow < 0 || selectedCol < 0) return;
     if (gameWon || gameLost) return;
+
+    if (key == sf::Keyboard::Key::H) {
+        currentHint.reset();
+        if (manager.getHintManager()) {
+            currentHint = manager.getHintManager()->next(*game);
+        }
+        return;
+    }
+
+    if (selectedRow < 0 || selectedCol < 0) return;
 
     if (key == sf::Keyboard::Key::Backspace || key == sf::Keyboard::Key::Delete) {
         game->setValue(selectedRow, selectedCol, 0);
