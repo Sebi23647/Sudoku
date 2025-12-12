@@ -1,0 +1,34 @@
+\doxysection{Safe\+Cell\+Strategy.\+h}
+\hypertarget{_safe_cell_strategy_8h_source}{}\label{_safe_cell_strategy_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}HintContext.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_safe_cell_strategy}{SafeCellStrategy}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_hint_strategy}{IHintStrategy}}\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{comment}{//\ Fallback:\ first\ return\ candidates\ (soft),\ next\ call\ can\ decide\ to\ reveal\ value\ via\ solution}}
+\DoxyCodeLine{00008\ \ \ \ \ std::optional<Hint>\ \mbox{\hyperlink{class_safe_cell_strategy_a6ef513d23bdc3bc794fa711bb246d1ec}{getHint}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hint_context}{HintContext}}\&\ ctx)\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ candidates\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ c);}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (candidates.size()\ ==\ 1)\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ r;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ c;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::SafeCell;\ h.\mbox{\hyperlink{struct_hint_a67104e0d228d14a007edc50cf9016909}{candidates}}\ =\ candidates;}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}}\ =\ candidates[0];\ \textcolor{comment}{//\ reveal\ definite\ value}}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Celula\ sigura\ (unic\ candidat):\ valoare\ sugerata\ "{}}\ +\ std::to\_string(h.\mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}})\ +\ \textcolor{stringliteral}{"{}\ la\ ("{}}\ +\ std::to\_string(r)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(c)\ +\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (candidates.size()\ ==\ 2)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ r;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ c;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::SafeCell;\ h.\mbox{\hyperlink{struct_hint_a67104e0d228d14a007edc50cf9016909}{candidates}}\ =\ candidates;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Celula\ cu\ 2\ candidati\ la\ ("{}}\ +\ std::to\_string(r)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(c)\ +\ \textcolor{stringliteral}{"{}):\ "{}}\ +\ std::to\_string(candidates[0])\ +\ \textcolor{stringliteral}{"{},\ "{}}\ +\ std::to\_string(candidates[1]);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00028\ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \};}
+
+\end{DoxyCode}

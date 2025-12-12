@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ISudokuGame.h"
 #include "IObserver.h"
 #include "Difficulty.h"

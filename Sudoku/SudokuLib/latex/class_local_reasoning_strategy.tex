@@ -1,0 +1,45 @@
+\doxysection{Local\+Reasoning\+Strategy Class Reference}
+\hypertarget{class_local_reasoning_strategy}{}\label{class_local_reasoning_strategy}\index{LocalReasoningStrategy@{LocalReasoningStrategy}}
+Inheritance diagram for Local\+Reasoning\+Strategy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_local_reasoning_strategy}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ \mbox{\hyperlink{class_local_reasoning_strategy_a181bab080e109112170fc78f9dd0bf79}{get\+Hint}} (const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&ctx) const override
+\begin{DoxyCompactList}\small\item\em Compute a hint using the provided precomputed hint context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{class_local_reasoning_strategy_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_local_reasoning_strategy_a181bab080e109112170fc78f9dd0bf79}\index{LocalReasoningStrategy@{LocalReasoningStrategy}!getHint@{getHint}}
+\index{getHint@{getHint}!LocalReasoningStrategy@{LocalReasoningStrategy}}
+\doxysubsubsection{\texorpdfstring{getHint()}{getHint()}}
+{\footnotesize\ttfamily \label{class_local_reasoning_strategy_a181bab080e109112170fc78f9dd0bf79} 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ Local\+Reasoning\+Strategy\+::get\+Hint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&}]{ctx}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Compute a hint using the provided precomputed hint context. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The \doxylink{struct_hint_context}{Hint\+Context} containing a read-\/only game snapshot and precomputed candidates. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Optional \doxylink{struct_hint}{Hint}; std\+::nullopt if the strategy has no suggestion. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_hint_strategy_ace8a950e5fc20e174161708d49a454af}{IHint\+Strategy}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Local\+Reasoning\+Strategy.\+h\end{DoxyCompactItemize}

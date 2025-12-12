@@ -1,0 +1,27 @@
+\doxysection{Sudoku\+Generator.\+h}
+\hypertarget{_sudoku_generator_8h_source}{}\label{_sudoku_generator_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Difficulty.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}SudokuBoard.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_sudoku_generator}{SudokuGenerator}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ Generate(\mbox{\hyperlink{class_sudoku_board}{SudokuBoard}}\&\ board,\ Difficulty\ difficulty);}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{bool}\ FillCell(\mbox{\hyperlink{class_sudoku_board}{SudokuBoard}}\&\ board,\ \textcolor{keywordtype}{int}\ pos);}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsSafe(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_sudoku_board}{SudokuBoard}}\&\ board,\ \textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ num)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ SaveSolution(\mbox{\hyperlink{class_sudoku_board}{SudokuBoard}}\&\ board);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ RemoveCells(\mbox{\hyperlink{class_sudoku_board}{SudokuBoard}}\&\ board,\ Difficulty\ difficulty);}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ SolveSudoku(\textcolor{keywordtype}{int}\ grid[9][9],\ \textcolor{keywordtype}{int}\ pos,\ \textcolor{keywordtype}{int}\&\ solutionCount,\ \textcolor{keywordtype}{int}\ limit);}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ CountSolutions(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ src[9][9]);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ HasUniqueSolution(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ test[9][9]);}
+\DoxyCodeLine{00022\ \};}
+
+\end{DoxyCode}

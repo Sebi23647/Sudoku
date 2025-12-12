@@ -1,15 +1,3 @@
-//#pragma once
-//#include <optional>
-//#include "ISudokuGame.h"
-//#include "Hint.h"
-//
-//class IHintProvider {
-//public:
-//    virtual ~IHintProvider() = default;
-//    virtual std::optional<Hint> next(const ISudokuGame& game) const = 0;
-//};
-
-
 #pragma once
 #include <optional>
 #include "Hint.h"

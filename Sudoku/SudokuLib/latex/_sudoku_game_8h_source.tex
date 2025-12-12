@@ -1,0 +1,75 @@
+\doxysection{Sudoku\+Game.\+h}
+\hypertarget{_sudoku_game_8h_source}{}\label{_sudoku_game_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ISudokuGame.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}IObserver.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Difficulty.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}CellState.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}SudokuBoard.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}SudokuGenerator.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}GameTimer.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <list>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_sudoku_game_a49b7f510d06164f56d8aec34df5cb121}{SudokuGame}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_sudoku_game}{ISudokuGame}}\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{class_sudoku_board}{SudokuBoard}}\ \mbox{\hyperlink{class_sudoku_game_a41e3246d4ed967fe6e34151d5c460e7e}{board}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{class_sudoku_generator}{SudokuGenerator}}\ \mbox{\hyperlink{class_sudoku_game_a3134471015db7213eafd7b4045ca5ab2}{generator}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \ \ \ \ Difficulty\ \mbox{\hyperlink{class_sudoku_game_a7d5381dc95b779dcce76f982acf549e5}{currentDifficulty}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_game_a0b7afd55ac405d89294b30d1821d62d2}{remainingAttempts}};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \ \ \ \ std::list<IObserver*>\ \mbox{\hyperlink{class_sudoku_game_a36a1a11b96a6ee448180c15671062c79}{observers}};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{class_game_timer}{GameTimer}}\ \mbox{\hyperlink{class_sudoku_game_a9cf80e37f134c19046246a5f391b2dab}{timer}};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_ab3dcb7d67779b01e6f6f6a4990c6e93c}{notifyBoardChanged}}();}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_a83aabc3058300d40ae50debf2dcdc334}{notifyGameComplete}}();}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_a2084698f8388c65e11f49dbd861aa5b3}{notifyAttemptsChanged}}();}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_game_aa232ec1fef4df62b06f39a3dc2b37097}{isSafe}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ num)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_game_a1b45e492e888825b47fe8f5dee8bae32}{isValidPosition}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00091\ \ \ \ \ \mbox{\hyperlink{class_sudoku_game_a49b7f510d06164f56d8aec34df5cb121}{SudokuGame}}();}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{class_sudoku_game_a49b7f510d06164f56d8aec34df5cb121}{SudokuGame}}(Difficulty\ difficulty);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_a71726e863cc18bf50b624dd381fbc087}{startNewGame}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_a71726e863cc18bf50b624dd381fbc087}{startNewGame}}(Difficulty\ difficulty)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_ad007fea9b6d4ac06a30a566ed834f790}{generatePuzzle}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_game_a5bd7f46b786d017b382f8b0c2b476126}{setValue}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ value)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_game_a90d2fc7b379c048a07763af44e075eca}{isValidMove}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ value)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_game_a2465d824f65887449ef56a0d7e03fb64}{getValue}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00133\ \ \ \ \ CellState\ \mbox{\hyperlink{class_sudoku_game_a16f19de34baa6d27c5d1cb96c591425f}{getCellState}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_game_a509a2a18e08d3b467460547fac81f648}{isComplete}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_game_a024d08c5f60fdc3370d6671902988123}{getRemainingAttempts}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00148\ \ \ \ \ Difficulty\ \mbox{\hyperlink{class_sudoku_game_a606fcbab58987e11407de0c09d7cb3db}{getCurrentDifficulty}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_a0a4ca291c4dd6d0fdad4bbc73594b8ca}{reset}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_game_abfe69676bf029ea246f1fbcc29927b89}{getElapsedTime}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_a82176c7fe8a0930ed09bf81db1639093}{attachObserver}}(\mbox{\hyperlink{class_i_observer}{IObserver}}*\ observer)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_game_afbee912ca904e6300f74124c93eac212}{detachObserver}}(\mbox{\hyperlink{class_i_observer}{IObserver}}*\ observer)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_game_ac2ba215caf8f25c053d4e11063483f4c}{getSolutionValue}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00180\ \};}
+
+\end{DoxyCode}

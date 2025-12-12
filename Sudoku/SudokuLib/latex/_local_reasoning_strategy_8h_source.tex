@@ -1,0 +1,61 @@
+\doxysection{Local\+Reasoning\+Strategy.\+h}
+\hypertarget{_local_reasoning_strategy_8h_source}{}\label{_local_reasoning_strategy_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}HintContext.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Hint.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ LocalReasoning:\ simplified\ local\ reasoning\ as\ an\ example\ (non-\/exhaustive).}}
+\DoxyCodeLine{00009\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_local_reasoning_strategy}{LocalReasoningStrategy}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_hint_strategy}{IHintStrategy}}\ \{}
+\DoxyCodeLine{00010\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ std::optional<Hint>\ \mbox{\hyperlink{class_local_reasoning_strategy_a181bab080e109112170fc78f9dd0bf79}{getHint}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hint_context}{HintContext}}\&\ ctx)\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Find\ a\ cell\ with\ 2-\/3\ candidates\ where\ at\ least\ one\ candidate\ is\ restricted\ in\ its\ row/col/box}}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cand\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ c);}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (cand.size()\ >=\ 2\ \&\&\ cand.size()\ <=\ 3)\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ any\ candidate\ appears\ in\ very\ few\ places\ in\ the\ unit\ (simple\ heuristic)}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ v\ :\ cand)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ rowCount\ =\ 0,\ colCount\ =\ 0,\ boxCount\ =\ 0;}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ cc\ =\ 0;\ cc\ <\ 9;\ ++cc)\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ cc)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cands\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ cc);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(cands.begin(),\ cands.end(),\ v)\ !=\ cands.end())\ ++rowCount;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ rr\ =\ 0;\ rr\ <\ 9;\ ++rr)\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(rr,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cands\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(rr,\ c);}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(cands.begin(),\ cands.end(),\ v)\ !=\ cands.end())\ ++colCount;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ sr\ =\ r\ -\/\ r\ \%\ 3,\ sc\ =\ c\ -\/\ c\ \%\ 3;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 3;\ ++i)}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 3;\ ++j)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ rr\ =\ sr\ +\ i,\ cc\ =\ sc\ +\ j;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(rr,\ cc)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cands\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(rr,\ cc);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(cands.begin(),\ cands.end(),\ v)\ !=\ cands.end())\ ++boxCount;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((rowCount\ ==\ 1)\ ||\ (colCount\ ==\ 1)\ ||\ (boxCount\ ==\ 1))\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ r;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ c;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::LocalReasoning;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a67104e0d228d14a007edc50cf9016909}{candidates}}\ =\ cand;}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Rationament\ local:\ celula\ ("{}}\ +\ std::to\_string(r)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(c)\ +\ \textcolor{stringliteral}{"{})\ are\ candidati\ restransi;\ verifica\ cifra\ "{}}\ +\ std::to\_string(v);}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \};}
+
+\end{DoxyCode}

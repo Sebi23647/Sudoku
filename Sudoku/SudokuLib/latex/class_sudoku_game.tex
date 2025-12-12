@@ -1,0 +1,429 @@
+\doxysection{Sudoku\+Game Class Reference}
+\hypertarget{class_sudoku_game}{}\label{class_sudoku_game}\index{SudokuGame@{SudokuGame}}
+
+
+Concrete implementation of \doxylink{class_i_sudoku_game}{ISudoku\+Game} that manages Sudoku gameplay.  
+
+
+
+
+{\ttfamily \#include $<$Sudoku\+Game.\+h$>$}
+
+Inheritance diagram for Sudoku\+Game\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_sudoku_game}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_sudoku_game_a49b7f510d06164f56d8aec34df5cb121}\label{class_sudoku_game_a49b7f510d06164f56d8aec34df5cb121} 
+{\bfseries Sudoku\+Game} ()
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{class_sudoku_game}{Sudoku\+Game} using the default difficulty (MEDIUM). \end{DoxyCompactList}\item 
+\mbox{\hyperlink{class_sudoku_game_a9e90212f3a3be46f6838854b41bbb2d2}{Sudoku\+Game}} (Difficulty difficulty)
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{class_sudoku_game}{Sudoku\+Game} with the specified difficulty. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_game_a71726e863cc18bf50b624dd381fbc087}{start\+New\+Game}} () override
+\begin{DoxyCompactList}\small\item\em Start a new game using the current difficulty setting.    \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_game_ad35f9bef481612443dc882afae325f72}{start\+New\+Game}} (Difficulty difficulty) override
+\begin{DoxyCompactList}\small\item\em Start a new game with the specified difficulty.    \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_game_ad007fea9b6d4ac06a30a566ed834f790}{generate\+Puzzle}} () override
+\begin{DoxyCompactList}\small\item\em Generate a new puzzle for the current difficulty without performing other start-\/up steps.    \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_sudoku_game_a5bd7f46b786d017b382f8b0c2b476126}{set\+Value}} (int row, int col, int value) override
+\begin{DoxyCompactList}\small\item\em Attempt to set a value on the board at the given position.    \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_sudoku_game_a90d2fc7b379c048a07763af44e075eca}{is\+Valid\+Move}} (int row, int col, int value) const override
+\item 
+int \mbox{\hyperlink{class_sudoku_game_a2465d824f65887449ef56a0d7e03fb64}{get\+Value}} (int row, int col) const override
+\item 
+Cell\+State \mbox{\hyperlink{class_sudoku_game_a16f19de34baa6d27c5d1cb96c591425f}{get\+Cell\+State}} (int row, int col) const override
+\item 
+bool \mbox{\hyperlink{class_sudoku_game_a509a2a18e08d3b467460547fac81f648}{is\+Complete}} () const override
+\begin{DoxyCompactList}\small\item\em Check whether the current board is complete and valid.    \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_sudoku_game_a024d08c5f60fdc3370d6671902988123}{get\+Remaining\+Attempts}} () const override
+\begin{DoxyCompactList}\small\item\em Get the number of remaining incorrect attempt allowances.    \end{DoxyCompactList}\item 
+Difficulty \mbox{\hyperlink{class_sudoku_game_a606fcbab58987e11407de0c09d7cb3db}{get\+Current\+Difficulty}} () const override
+\begin{DoxyCompactList}\small\item\em Get the currently selected difficulty of the game.    \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_game_a0a4ca291c4dd6d0fdad4bbc73594b8ca}{reset}} () override
+\begin{DoxyCompactList}\small\item\em Reset the current puzzle to its initial state.    \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_sudoku_game_abfe69676bf029ea246f1fbcc29927b89}{get\+Elapsed\+Time}} () const override
+\begin{DoxyCompactList}\small\item\em Get the elapsed play time in seconds.    \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_game_a82176c7fe8a0930ed09bf81db1639093}{attach\+Observer}} (\mbox{\hyperlink{class_i_observer}{IObserver}} \texorpdfstring{$\ast$}{*}observer) override
+\begin{DoxyCompactList}\small\item\em Attach an observer to receive game events.    \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_game_afbee912ca904e6300f74124c93eac212}{detach\+Observer}} (\mbox{\hyperlink{class_i_observer}{IObserver}} \texorpdfstring{$\ast$}{*}observer) override
+\begin{DoxyCompactList}\small\item\em Detach a previously attached observer.    \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_sudoku_game_ac2ba215caf8f25c053d4e11063483f4c}{get\+Solution\+Value}} (int row, int col) const
+\begin{DoxyCompactList}\small\item\em Get the solution value for a given cell from the stored solution. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_sudoku_game_ab3dcb7d67779b01e6f6f6a4990c6e93c}\label{class_sudoku_game_ab3dcb7d67779b01e6f6f6a4990c6e93c} 
+void {\bfseries notify\+Board\+Changed} ()
+\begin{DoxyCompactList}\small\item\em Notify observers that the board has changed. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a83aabc3058300d40ae50debf2dcdc334}\label{class_sudoku_game_a83aabc3058300d40ae50debf2dcdc334} 
+void {\bfseries notify\+Game\+Complete} ()
+\begin{DoxyCompactList}\small\item\em Notify observers that the game has been completed successfully. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a2084698f8388c65e11f49dbd861aa5b3}\label{class_sudoku_game_a2084698f8388c65e11f49dbd861aa5b3} 
+void {\bfseries notify\+Attempts\+Changed} ()
+\begin{DoxyCompactList}\small\item\em Notify observers that the number of remaining attempts changed. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_sudoku_game_aa232ec1fef4df62b06f39a3dc2b37097}{is\+Safe}} (int row, int col, int num) const
+\begin{DoxyCompactList}\small\item\em Check whether placing num at (row, col) violates Sudoku rules. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_sudoku_game_a1b45e492e888825b47fe8f5dee8bae32}{is\+Valid\+Position}} (int row, int col) const
+\begin{DoxyCompactList}\small\item\em Validate that the given (row, col) indices fall inside the board. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_sudoku_game_a41e3246d4ed967fe6e34151d5c460e7e}\label{class_sudoku_game_a41e3246d4ed967fe6e34151d5c460e7e} 
+\mbox{\hyperlink{class_sudoku_board}{Sudoku\+Board}} {\bfseries board}
+\begin{DoxyCompactList}\small\item\em The Sudoku board storing current values and metadata. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a3134471015db7213eafd7b4045ca5ab2}\label{class_sudoku_game_a3134471015db7213eafd7b4045ca5ab2} 
+\mbox{\hyperlink{class_sudoku_generator}{Sudoku\+Generator}} {\bfseries generator}
+\begin{DoxyCompactList}\small\item\em Generator used to produce puzzles according to difficulty. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a7d5381dc95b779dcce76f982acf549e5}\label{class_sudoku_game_a7d5381dc95b779dcce76f982acf549e5} 
+Difficulty {\bfseries current\+Difficulty}
+\begin{DoxyCompactList}\small\item\em Current difficulty used for puzzle generation. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a0b7afd55ac405d89294b30d1821d62d2}\label{class_sudoku_game_a0b7afd55ac405d89294b30d1821d62d2} 
+int {\bfseries remaining\+Attempts}
+\begin{DoxyCompactList}\small\item\em Number of remaining allowed incorrect attempts. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a36a1a11b96a6ee448180c15671062c79}\label{class_sudoku_game_a36a1a11b96a6ee448180c15671062c79} 
+std\+::list$<$ \mbox{\hyperlink{class_i_observer}{IObserver}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries observers}
+\begin{DoxyCompactList}\small\item\em Observers registered to receive game updates (UI, etc.). \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_game_a9cf80e37f134c19046246a5f391b2dab}\label{class_sudoku_game_a9cf80e37f134c19046246a5f391b2dab} 
+\mbox{\hyperlink{class_game_timer}{Game\+Timer}} {\bfseries timer}
+\begin{DoxyCompactList}\small\item\em Timer tracking the elapsed play time for the current game. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Concrete implementation of \doxylink{class_i_sudoku_game}{ISudoku\+Game} that manages Sudoku gameplay. 
+
+\doxylink{class_sudoku_game}{Sudoku\+Game} holds the board state, a generator for creating puzzles, a timer, and a list of observers that are notified about game events. It enforces game rules and attempt limits. 
+
+\label{doc-constructors}
+\Hypertarget{class_sudoku_game_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_sudoku_game_a9e90212f3a3be46f6838854b41bbb2d2}\index{SudokuGame@{SudokuGame}!SudokuGame@{SudokuGame}}
+\index{SudokuGame@{SudokuGame}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{SudokuGame()}{SudokuGame()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a9e90212f3a3be46f6838854b41bbb2d2} 
+Sudoku\+Game\+::\+Sudoku\+Game (\begin{DoxyParamCaption}\item[{Difficulty}]{difficulty}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Construct a \doxylink{class_sudoku_game}{Sudoku\+Game} with the specified difficulty. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em difficulty} & Difficulty level to use for generated puzzles. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{class_sudoku_game_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_sudoku_game_a82176c7fe8a0930ed09bf81db1639093}\index{SudokuGame@{SudokuGame}!attachObserver@{attachObserver}}
+\index{attachObserver@{attachObserver}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{attachObserver()}{attachObserver()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a82176c7fe8a0930ed09bf81db1639093} 
+void Sudoku\+Game\+::attach\+Observer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_observer}{IObserver}} \texorpdfstring{$\ast$}{*}}]{observer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Attach an observer to receive game events.    
+
+
+\begin{DoxyParams}{Parameters}
+{\em observer} & Pointer to an object implementing \doxylink{class_i_observer}{IObserver}. Null pointers are ignored.    \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a9531f3313a30fac41e561fa29d4bb330}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_afbee912ca904e6300f74124c93eac212}\index{SudokuGame@{SudokuGame}!detachObserver@{detachObserver}}
+\index{detachObserver@{detachObserver}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{detachObserver()}{detachObserver()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_afbee912ca904e6300f74124c93eac212} 
+void Sudoku\+Game\+::detach\+Observer (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_observer}{IObserver}} \texorpdfstring{$\ast$}{*}}]{observer}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Detach a previously attached observer.    
+
+
+\begin{DoxyParams}{Parameters}
+{\em observer} & Observer pointer to remove. Null pointers are ignored.    \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_afacca8aa476f790947d2074a4b2acb39}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_ad007fea9b6d4ac06a30a566ed834f790}\index{SudokuGame@{SudokuGame}!generatePuzzle@{generatePuzzle}}
+\index{generatePuzzle@{generatePuzzle}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{generatePuzzle()}{generatePuzzle()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_ad007fea9b6d4ac06a30a566ed834f790} 
+void Sudoku\+Game\+::generate\+Puzzle (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Generate a new puzzle for the current difficulty without performing other start-\/up steps.    
+
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_aefd1654448f7806da5e07cfbff971190}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a16f19de34baa6d27c5d1cb96c591425f}\index{SudokuGame@{SudokuGame}!getCellState@{getCellState}}
+\index{getCellState@{getCellState}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{getCellState()}{getCellState()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a16f19de34baa6d27c5d1cb96c591425f} 
+Cell\+State Sudoku\+Game\+::get\+Cell\+State (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+
+
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a606fcbab58987e11407de0c09d7cb3db}\index{SudokuGame@{SudokuGame}!getCurrentDifficulty@{getCurrentDifficulty}}
+\index{getCurrentDifficulty@{getCurrentDifficulty}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{getCurrentDifficulty()}{getCurrentDifficulty()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a606fcbab58987e11407de0c09d7cb3db} 
+Difficulty Sudoku\+Game\+::get\+Current\+Difficulty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the currently selected difficulty of the game.    
+
+\begin{DoxyReturn}{Returns}
+Difficulty enum value currently used when generating puzzles.    
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_ab3b0f2618a4de4cfcaef06810b68267c}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_abfe69676bf029ea246f1fbcc29927b89}\index{SudokuGame@{SudokuGame}!getElapsedTime@{getElapsedTime}}
+\index{getElapsedTime@{getElapsedTime}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{getElapsedTime()}{getElapsedTime()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_abfe69676bf029ea246f1fbcc29927b89} 
+int Sudoku\+Game\+::get\+Elapsed\+Time (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the elapsed play time in seconds.    
+
+\begin{DoxyReturn}{Returns}
+Number of seconds passed since the timer started.    
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a59a9dabc7e93c05e1bb83c7bb1a1a978}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a024d08c5f60fdc3370d6671902988123}\index{SudokuGame@{SudokuGame}!getRemainingAttempts@{getRemainingAttempts}}
+\index{getRemainingAttempts@{getRemainingAttempts}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{getRemainingAttempts()}{getRemainingAttempts()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a024d08c5f60fdc3370d6671902988123} 
+int Sudoku\+Game\+::get\+Remaining\+Attempts (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Get the number of remaining incorrect attempt allowances.    
+
+\begin{DoxyReturn}{Returns}
+Remaining attempts before the game is considered lost or locked.    
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a7dfc391053badc935eefbabf3c36c991}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_ac2ba215caf8f25c053d4e11063483f4c}\index{SudokuGame@{SudokuGame}!getSolutionValue@{getSolutionValue}}
+\index{getSolutionValue@{getSolutionValue}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{getSolutionValue()}{getSolutionValue()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_ac2ba215caf8f25c053d4e11063483f4c} 
+int Sudoku\+Game\+::get\+Solution\+Value (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{}\end{DoxyParamCaption}) const}
+
+
+
+Get the solution value for a given cell from the stored solution. 
+
+Useful for hinting and test assertions. Returns 0 for invalid indices.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index (0-\/8). \\
+\hline
+{\em col} & Column index (0-\/8). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Correct value for the cell (1-\/9) or 0 if position invalid. 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_game_a2465d824f65887449ef56a0d7e03fb64}\index{SudokuGame@{SudokuGame}!getValue@{getValue}}
+\index{getValue@{getValue}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{getValue()}{getValue()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a2465d824f65887449ef56a0d7e03fb64} 
+int Sudoku\+Game\+::get\+Value (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+
+
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a6bb5fc0ac25644aebf2591ea439518de}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a509a2a18e08d3b467460547fac81f648}\index{SudokuGame@{SudokuGame}!isComplete@{isComplete}}
+\index{isComplete@{isComplete}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{isComplete()}{isComplete()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a509a2a18e08d3b467460547fac81f648} 
+bool Sudoku\+Game\+::is\+Complete (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Check whether the current board is complete and valid.    
+
+\begin{DoxyReturn}{Returns}
+true if the puzzle is solved correctly, false otherwise.    
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a6f4bca91cba5ec9d67694dbe1beee6db}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_aa232ec1fef4df62b06f39a3dc2b37097}\index{SudokuGame@{SudokuGame}!isSafe@{isSafe}}
+\index{isSafe@{isSafe}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{isSafe()}{isSafe()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_aa232ec1fef4df62b06f39a3dc2b37097} 
+bool Sudoku\+Game\+::is\+Safe (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{, }\item[{int}]{num}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Check whether placing num at (row, col) violates Sudoku rules. 
+
+This checks row, column and 3x3 block constraints ignoring the cell itself.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index (0-\/8). \\
+\hline
+{\em col} & Column index (0-\/8). \\
+\hline
+{\em num} & Candidate number (1-\/9). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the placement would not violate rules, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_game_a90d2fc7b379c048a07763af44e075eca}\index{SudokuGame@{SudokuGame}!isValidMove@{isValidMove}}
+\index{isValidMove@{isValidMove}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{isValidMove()}{isValidMove()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a90d2fc7b379c048a07763af44e075eca} 
+bool Sudoku\+Game\+::is\+Valid\+Move (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{, }\item[{int}]{value}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+
+
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_aef556a8407514b23170fde730c113b35}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a1b45e492e888825b47fe8f5dee8bae32}\index{SudokuGame@{SudokuGame}!isValidPosition@{isValidPosition}}
+\index{isValidPosition@{isValidPosition}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{isValidPosition()}{isValidPosition()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a1b45e492e888825b47fe8f5dee8bae32} 
+bool Sudoku\+Game\+::is\+Valid\+Position (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Validate that the given (row, col) indices fall inside the board. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index to validate. \\
+\hline
+{\em col} & Column index to validate. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if indices are within \mbox{[}0,8\mbox{]}, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_game_a0a4ca291c4dd6d0fdad4bbc73594b8ca}\index{SudokuGame@{SudokuGame}!reset@{reset}}
+\index{reset@{reset}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a0a4ca291c4dd6d0fdad4bbc73594b8ca} 
+void Sudoku\+Game\+::reset (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reset the current puzzle to its initial state.    
+
+Clears any filled (non-\/fixed) cells, resets attempts and may restart the timer.    
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a7336505ed3776b805d22719cfa4638df}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a5bd7f46b786d017b382f8b0c2b476126}\index{SudokuGame@{SudokuGame}!setValue@{setValue}}
+\index{setValue@{setValue}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{setValue()}{setValue()}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a5bd7f46b786d017b382f8b0c2b476126} 
+bool Sudoku\+Game\+::set\+Value (\begin{DoxyParamCaption}\item[{int}]{row}{, }\item[{int}]{col}{, }\item[{int}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Attempt to set a value on the board at the given position.    
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & Row index (0-\/8). \\
+\hline
+{\em col} & Column index (0-\/8). \\
+\hline
+{\em value} & Value to set (0 to clear, 1-\/9 to set a digit). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the value was accepted and applied, false otherwise.    
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a5365ac2fd5274dbacc8ec803aac969a5}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_a71726e863cc18bf50b624dd381fbc087}\index{SudokuGame@{SudokuGame}!startNewGame@{startNewGame}}
+\index{startNewGame@{startNewGame}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{startNewGame()}{startNewGame()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_sudoku_game_a71726e863cc18bf50b624dd381fbc087} 
+void Sudoku\+Game\+::start\+New\+Game (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Start a new game using the current difficulty setting.    
+
+This resets attempts, timer and generates a new puzzle.    
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a6faaa1d69df3dfa0a347d00898d38a5a}{ISudoku\+Game}}.
+
+\Hypertarget{class_sudoku_game_ad35f9bef481612443dc882afae325f72}\index{SudokuGame@{SudokuGame}!startNewGame@{startNewGame}}
+\index{startNewGame@{startNewGame}!SudokuGame@{SudokuGame}}
+\doxysubsubsection{\texorpdfstring{startNewGame()}{startNewGame()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_sudoku_game_ad35f9bef481612443dc882afae325f72} 
+void Sudoku\+Game\+::start\+New\+Game (\begin{DoxyParamCaption}\item[{Difficulty}]{difficulty}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Start a new game with the specified difficulty.    
+
+
+\begin{DoxyParams}{Parameters}
+{\em difficulty} & The desired difficulty level for the new game.    \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_sudoku_game_a94dacf7470cac59bec80d40f5f58c516}{ISudoku\+Game}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Sudoku\+Game.\+h\item 
+Sudoku\+Game.\+cpp\end{DoxyCompactItemize}

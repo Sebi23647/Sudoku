@@ -1,0 +1,166 @@
+\doxysection{Hint\+Context Struct Reference}
+\hypertarget{struct_hint_context}{}\label{struct_hint_context}\index{HintContext@{HintContext}}
+
+
+Snapshot and precomputed candidate context for hint strategies.  
+
+
+
+
+{\ttfamily \#include $<$Hint\+Context.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_hint_context_a0f1f22ea4f7a16268fed76239709e5de}{Hint\+Context}} (const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \&g, bool reveal=false)
+\begin{DoxyCompactList}\small\item\em Construct a \doxylink{struct_hint_context}{Hint\+Context} for the provided game and options. \end{DoxyCompactList}\item 
+const std\+::vector$<$ int $>$ \& \mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidates\+At}} (int r, int c) const
+\begin{DoxyCompactList}\small\item\em Get the precomputed candidates for the cell at (r,c). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}\label{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024} 
+const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \& {\bfseries game}
+\begin{DoxyCompactList}\small\item\em Reference to the game being analyzed (read-\/only). \end{DoxyCompactList}\item 
+std\+::vector$<$ std\+::vector$<$ int $>$ $>$ \mbox{\hyperlink{struct_hint_context_a0249d6751d064293ad43ca05084c7c31}{candidates}}
+\begin{DoxyCompactList}\small\item\em Precomputed candidate lists for each cell. \end{DoxyCompactList}\item 
+\Hypertarget{struct_hint_context_a8b28846fb823ccafbad3cba47486996b}\label{struct_hint_context_a8b28846fb823ccafbad3cba47486996b} 
+bool {\bfseries reveal\+Solution} = false
+\begin{DoxyCompactList}\small\item\em When true strategies are allowed to consult the stored solution for stronger hints. Use with care; typically false for normal hints. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{struct_hint_context_a469d073ae4c88fee61b33aec8fc67028}{is\+Cell\+Empty}} (int r, int c) const
+\begin{DoxyCompactList}\small\item\em Helper to check whether a cell is currently empty. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{struct_hint_context_af6be975184c38fc82fa759c20c6ce7c1}{is\+Safe\+Candidate}} (int r, int c, int n) const
+\begin{DoxyCompactList}\small\item\em Check whether n is a safe candidate for cell (r,c) given current board. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{struct_hint_context_aa3830d18e437f909f480027047f882e2}{compute\+All\+Candidates}} ()
+\begin{DoxyCompactList}\small\item\em Compute candidate lists for all cells and store them in candidates. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Snapshot and precomputed candidate context for hint strategies. 
+
+\doxylink{struct_hint_context}{Hint\+Context} computes candidate lists for every empty cell once and provides read-\/only access to the \doxylink{class_i_sudoku_game}{ISudoku\+Game} required by strategies. 
+
+\label{doc-constructors}
+\Hypertarget{struct_hint_context_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_hint_context_a0f1f22ea4f7a16268fed76239709e5de}\index{HintContext@{HintContext}!HintContext@{HintContext}}
+\index{HintContext@{HintContext}!HintContext@{HintContext}}
+\doxysubsubsection{\texorpdfstring{HintContext()}{HintContext()}}
+{\footnotesize\ttfamily \label{struct_hint_context_a0f1f22ea4f7a16268fed76239709e5de} 
+Hint\+Context\+::\+Hint\+Context (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \&}]{g}{, }\item[{bool}]{reveal}{ = {\ttfamily false}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a \doxylink{struct_hint_context}{Hint\+Context} for the provided game and options. 
+
+The constructor precomputes candidate lists for all cells.
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & Reference to the \doxylink{class_i_sudoku_game}{ISudoku\+Game} instance to analyze. \\
+\hline
+{\em reveal} & If true strategies may read the stored solution where available. \\
+\hline
+\end{DoxyParams}
+
+
+\label{doc-func-members}
+\Hypertarget{struct_hint_context_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}\index{HintContext@{HintContext}!candidatesAt@{candidatesAt}}
+\index{candidatesAt@{candidatesAt}!HintContext@{HintContext}}
+\doxysubsubsection{\texorpdfstring{candidatesAt()}{candidatesAt()}}
+{\footnotesize\ttfamily \label{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244} 
+const std\+::vector$<$ int $>$ \& Hint\+Context\+::candidates\+At (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get the precomputed candidates for the cell at (r,c). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const reference to the vector$<$int$>$ of candidates (possibly empty). 
+\end{DoxyReturn}
+\Hypertarget{struct_hint_context_aa3830d18e437f909f480027047f882e2}\index{HintContext@{HintContext}!computeAllCandidates@{computeAllCandidates}}
+\index{computeAllCandidates@{computeAllCandidates}!HintContext@{HintContext}}
+\doxysubsubsection{\texorpdfstring{computeAllCandidates()}{computeAllCandidates()}}
+{\footnotesize\ttfamily \label{struct_hint_context_aa3830d18e437f909f480027047f882e2} 
+void Hint\+Context\+::compute\+All\+Candidates (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Compute candidate lists for all cells and store them in candidates. 
+
+This examines each empty cell and populates its candidates vector with digits 1-\/9 that pass \doxylink{struct_hint_context_af6be975184c38fc82fa759c20c6ce7c1}{is\+Safe\+Candidate()}. Non-\/empty cells receive an empty list. \Hypertarget{struct_hint_context_a469d073ae4c88fee61b33aec8fc67028}\index{HintContext@{HintContext}!isCellEmpty@{isCellEmpty}}
+\index{isCellEmpty@{isCellEmpty}!HintContext@{HintContext}}
+\doxysubsubsection{\texorpdfstring{isCellEmpty()}{isCellEmpty()}}
+{\footnotesize\ttfamily \label{struct_hint_context_a469d073ae4c88fee61b33aec8fc67028} 
+bool Hint\+Context\+::is\+Cell\+Empty (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Helper to check whether a cell is currently empty. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index. \\
+\hline
+{\em c} & Column index. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the cell state is Cell\+State\+::\+EMPTY. 
+\end{DoxyReturn}
+\Hypertarget{struct_hint_context_af6be975184c38fc82fa759c20c6ce7c1}\index{HintContext@{HintContext}!isSafeCandidate@{isSafeCandidate}}
+\index{isSafeCandidate@{isSafeCandidate}!HintContext@{HintContext}}
+\doxysubsubsection{\texorpdfstring{isSafeCandidate()}{isSafeCandidate()}}
+{\footnotesize\ttfamily \label{struct_hint_context_af6be975184c38fc82fa759c20c6ce7c1} 
+bool Hint\+Context\+::is\+Safe\+Candidate (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{, }\item[{int}]{n}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Check whether n is a safe candidate for cell (r,c) given current board. 
+
+This performs row/column/3x3 block checks using game.\+get\+Value().
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index. \\
+\hline
+{\em c} & Column index. \\
+\hline
+{\em n} & Candidate digit to test (1-\/9). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if n is not present in the row/column/block, false otherwise. 
+\end{DoxyReturn}
+
+
+\label{doc-variable-members}
+\Hypertarget{struct_hint_context_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_hint_context_a0249d6751d064293ad43ca05084c7c31}\index{HintContext@{HintContext}!candidates@{candidates}}
+\index{candidates@{candidates}!HintContext@{HintContext}}
+\doxysubsubsection{\texorpdfstring{candidates}{candidates}}
+{\footnotesize\ttfamily \label{struct_hint_context_a0249d6751d064293ad43ca05084c7c31} 
+std\+::vector$<$std\+::vector$<$int$>$ $>$ Hint\+Context\+::candidates}
+
+
+
+Precomputed candidate lists for each cell. 
+
+This is a vector of length 81 where index = row\texorpdfstring{$\ast$}{*}9 + col. Empty cells contain a vector of possible candidates (1-\/9). Non-\/empty cells have an empty candidate vector. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Hint\+Context.\+h\end{DoxyCompactItemize}

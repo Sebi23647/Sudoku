@@ -1,0 +1,258 @@
+\doxysection{Sudoku\+Board Class Reference}
+\hypertarget{class_sudoku_board}{}\label{class_sudoku_board}\index{SudokuBoard@{SudokuBoard}}
+
+
+Represents the Sudoku board state including mutable cells, initial cells and the solution.  
+
+
+
+
+{\ttfamily \#include $<$Sudoku\+Board.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_sudoku_board_ab5e2bb52bb5eb7be8c788366df0d9af6}{Sudoku\+Board}} ()
+\begin{DoxyCompactList}\small\item\em Construct an empty \doxylink{class_sudoku_board}{Sudoku\+Board}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_board_a08e4db7befee31123fa4e911887d8116}{Clear}} ()
+\begin{DoxyCompactList}\small\item\em Clear the current board values and initial marks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_sudoku_board_abbc15e366822112649936d0acc5439ae}{Get}} (int r, int c) const
+\begin{DoxyCompactList}\small\item\em Get the value at row r and column c. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_board_a1b63c292e32dd14db4a05cd2d731a571}{Set}} (int r, int c, int v)
+\begin{DoxyCompactList}\small\item\em Set the value at row r and column c. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{class_sudoku_board_a019c79162a6985e2c6679b86bb4be230}{Is\+Initial}} (int r, int c) const
+\begin{DoxyCompactList}\small\item\em Query whether the cell at (r,c) is part of the initial puzzle (fixed). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_board_a2826d2dec6c15890a2241ef1cf7ce9dc}{Mark\+Initial}} (int r, int c, bool value)
+\begin{DoxyCompactList}\small\item\em Mark or unmark the given cell as initial (fixed). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_board_a85bcdb09163ebb36823319f0f56ce447}{Mark\+All\+Initial}} (bool value)
+\begin{DoxyCompactList}\small\item\em Mark or unmark all cells as initial. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_board_af826c0ae185ebf45a2f0670dd49bb75e}{Copy\+To}} (int out\mbox{[}9\mbox{]}\mbox{[}9\mbox{]}) const
+\begin{DoxyCompactList}\small\item\em Copy the current board values into an output 9x9 array. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_sudoku_board_a3f836a48ff113c97b3b3856139cb6889}{Set\+Solution}} (const int src\mbox{[}9\mbox{]}\mbox{[}9\mbox{]})
+\begin{DoxyCompactList}\small\item\em Set the stored solution from a source 9x9 array. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_sudoku_board_a2db217f0c6fb2f0bb5d49c29c8bfefa3}{Get\+Solution}} (int r, int c) const
+\begin{DoxyCompactList}\small\item\em Get the stored solution value at (r,c). \end{DoxyCompactList}\item 
+Cell\+State \mbox{\hyperlink{class_sudoku_board_a882a48c2c36f83c32f1733deebe91886}{Get\+Cell\+State}} (int r, int c) const
+\begin{DoxyCompactList}\small\item\em Get the Cell\+State for the cell at (r,c). \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_sudoku_board_ae9bbcbb92230bec4e53e0d164fa82f08}\label{class_sudoku_board_ae9bbcbb92230bec4e53e0d164fa82f08} 
+int {\bfseries board} \mbox{[}9\mbox{]}\mbox{[}9\mbox{]}
+\begin{DoxyCompactList}\small\item\em Current board values (0 means empty). \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_board_a0ec4db84ff999760e4390d8df61505ee}\label{class_sudoku_board_a0ec4db84ff999760e4390d8df61505ee} 
+bool {\bfseries initial\+Cells} \mbox{[}9\mbox{]}\mbox{[}9\mbox{]}
+\begin{DoxyCompactList}\small\item\em Flags for cells that belong to the initial puzzle and are fixed. \end{DoxyCompactList}\item 
+\Hypertarget{class_sudoku_board_a549947840807e2917980f75736f61793}\label{class_sudoku_board_a549947840807e2917980f75736f61793} 
+int {\bfseries solution} \mbox{[}9\mbox{]}\mbox{[}9\mbox{]}
+\begin{DoxyCompactList}\small\item\em Stored complete solution for the puzzle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents the Sudoku board state including mutable cells, initial cells and the solution. 
+
+\doxylink{class_sudoku_board}{Sudoku\+Board} provides accessor and mutator functions for a 9x9 Sudoku grid, tracks which cells are part of the initial puzzle (fixed) and stores the full solution separately. 
+
+\label{doc-constructors}
+\Hypertarget{class_sudoku_board_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_sudoku_board_ab5e2bb52bb5eb7be8c788366df0d9af6}\index{SudokuBoard@{SudokuBoard}!SudokuBoard@{SudokuBoard}}
+\index{SudokuBoard@{SudokuBoard}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{SudokuBoard()}{SudokuBoard()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_ab5e2bb52bb5eb7be8c788366df0d9af6} 
+Sudoku\+Board\+::\+Sudoku\+Board (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Construct an empty \doxylink{class_sudoku_board}{Sudoku\+Board}. 
+
+Initializes the board to zeros and marks no initial cells. 
+
+\label{doc-func-members}
+\Hypertarget{class_sudoku_board_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_sudoku_board_a08e4db7befee31123fa4e911887d8116}\index{SudokuBoard@{SudokuBoard}!Clear@{Clear}}
+\index{Clear@{Clear}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{Clear()}{Clear()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a08e4db7befee31123fa4e911887d8116} 
+void Sudoku\+Board\+::\+Clear (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Clear the current board values and initial marks. 
+
+Sets all cells to 0 and clears initial flags. Does not modify the stored solution. \Hypertarget{class_sudoku_board_af826c0ae185ebf45a2f0670dd49bb75e}\index{SudokuBoard@{SudokuBoard}!CopyTo@{CopyTo}}
+\index{CopyTo@{CopyTo}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{CopyTo()}{CopyTo()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_af826c0ae185ebf45a2f0670dd49bb75e} 
+void Sudoku\+Board\+::\+Copy\+To (\begin{DoxyParamCaption}\item[{int}]{out}{\mbox{[}9\mbox{]}\mbox{[}9\mbox{]}}\end{DoxyParamCaption}) const}
+
+
+
+Copy the current board values into an output 9x9 array. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em out} & Preallocated array int\mbox{[}9\mbox{]}\mbox{[}9\mbox{]} to receive the values. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_sudoku_board_abbc15e366822112649936d0acc5439ae}\index{SudokuBoard@{SudokuBoard}!Get@{Get}}
+\index{Get@{Get}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{Get()}{Get()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_abbc15e366822112649936d0acc5439ae} 
+int Sudoku\+Board\+::\+Get (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{}\end{DoxyParamCaption}) const}
+
+
+
+Get the value at row r and column c. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Stored value (0 if empty). 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_board_a882a48c2c36f83c32f1733deebe91886}\index{SudokuBoard@{SudokuBoard}!GetCellState@{GetCellState}}
+\index{GetCellState@{GetCellState}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{GetCellState()}{GetCellState()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a882a48c2c36f83c32f1733deebe91886} 
+Cell\+State Sudoku\+Board\+::\+Get\+Cell\+State (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{}\end{DoxyParamCaption}) const}
+
+
+
+Get the Cell\+State for the cell at (r,c). 
+
+Returns FIXED for initial cells, EMPTY for zero-\/value cells and FILLED otherwise.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cell\+State enum value describing the cell. 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_board_a2db217f0c6fb2f0bb5d49c29c8bfefa3}\index{SudokuBoard@{SudokuBoard}!GetSolution@{GetSolution}}
+\index{GetSolution@{GetSolution}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{GetSolution()}{GetSolution()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a2db217f0c6fb2f0bb5d49c29c8bfefa3} 
+int Sudoku\+Board\+::\+Get\+Solution (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{}\end{DoxyParamCaption}) const}
+
+
+
+Get the stored solution value at (r,c). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Solution value (1-\/9) or 0 if not set. 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_board_a019c79162a6985e2c6679b86bb4be230}\index{SudokuBoard@{SudokuBoard}!IsInitial@{IsInitial}}
+\index{IsInitial@{IsInitial}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{IsInitial()}{IsInitial()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a019c79162a6985e2c6679b86bb4be230} 
+bool Sudoku\+Board\+::\+Is\+Initial (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{}\end{DoxyParamCaption}) const}
+
+
+
+Query whether the cell at (r,c) is part of the initial puzzle (fixed). 
+
+Fixed cells should not be modified by the player.
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the cell is initial/fixed, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{class_sudoku_board_a85bcdb09163ebb36823319f0f56ce447}\index{SudokuBoard@{SudokuBoard}!MarkAllInitial@{MarkAllInitial}}
+\index{MarkAllInitial@{MarkAllInitial}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{MarkAllInitial()}{MarkAllInitial()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a85bcdb09163ebb36823319f0f56ce447} 
+void Sudoku\+Board\+::\+Mark\+All\+Initial (\begin{DoxyParamCaption}\item[{bool}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Mark or unmark all cells as initial. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & true to mark all cells initial, false to clear all initial marks. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_sudoku_board_a2826d2dec6c15890a2241ef1cf7ce9dc}\index{SudokuBoard@{SudokuBoard}!MarkInitial@{MarkInitial}}
+\index{MarkInitial@{MarkInitial}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{MarkInitial()}{MarkInitial()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a2826d2dec6c15890a2241ef1cf7ce9dc} 
+void Sudoku\+Board\+::\+Mark\+Initial (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{, }\item[{bool}]{value}{}\end{DoxyParamCaption})}
+
+
+
+Mark or unmark the given cell as initial (fixed). 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+{\em value} & true to mark as initial, false to unmark. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_sudoku_board_a1b63c292e32dd14db4a05cd2d731a571}\index{SudokuBoard@{SudokuBoard}!Set@{Set}}
+\index{Set@{Set}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{Set()}{Set()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a1b63c292e32dd14db4a05cd2d731a571} 
+void Sudoku\+Board\+::\+Set (\begin{DoxyParamCaption}\item[{int}]{r}{, }\item[{int}]{c}{, }\item[{int}]{v}{}\end{DoxyParamCaption})}
+
+
+
+Set the value at row r and column c. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em r} & Row index (0-\/8). \\
+\hline
+{\em c} & Column index (0-\/8). \\
+\hline
+{\em v} & Value to set (0 to clear, 1-\/9 for digits). \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_sudoku_board_a3f836a48ff113c97b3b3856139cb6889}\index{SudokuBoard@{SudokuBoard}!SetSolution@{SetSolution}}
+\index{SetSolution@{SetSolution}!SudokuBoard@{SudokuBoard}}
+\doxysubsubsection{\texorpdfstring{SetSolution()}{SetSolution()}}
+{\footnotesize\ttfamily \label{class_sudoku_board_a3f836a48ff113c97b3b3856139cb6889} 
+void Sudoku\+Board\+::\+Set\+Solution (\begin{DoxyParamCaption}\item[{const int}]{src}{\mbox{[}9\mbox{]}\mbox{[}9\mbox{]}}\end{DoxyParamCaption})}
+
+
+
+Set the stored solution from a source 9x9 array. 
+
+The solution is stored separately and can be queried by Get\+Solution.
+
+
+\begin{DoxyParams}{Parameters}
+{\em src} & Source array containing the solved puzzle values. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Sudoku\+Board.\+h\item 
+Sudoku\+Board.\+cpp\end{DoxyCompactItemize}

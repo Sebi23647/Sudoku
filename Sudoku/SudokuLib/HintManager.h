@@ -1,30 +1,3 @@
-//#pragma once
-//#include <memory>
-//#include <vector>
-//#include <optional>
-//#include "IHintStrategy.h"
-//#include "IHintProvider.h"
-//
-//class HintManager : public IHintProvider {
-//public:
-//    void setStrategies(std::vector<std::unique_ptr<IHintStrategy>> strategies) {
-//        this->strategies = std::move(strategies);
-//    }
-//
-//    std::optional<Hint> next(const ISudokuGame& game) const override {
-//        for (const auto& s : strategies) {
-//            if (!s) continue;
-//            auto h = s->getHint(game);
-//            if (h.has_value()) return h;
-//        }
-//        return std::nullopt;
-//    }
-//
-//private:
-//    std::vector<std::unique_ptr<IHintStrategy>> strategies;
-//};
-
-
 #pragma once
 #include <memory>
 #include <vector>

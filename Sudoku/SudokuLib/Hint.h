@@ -1,26 +1,3 @@
-//#pragma once
-//#include <vector>
-//#include <string>
-//#include <optional>
-//
-//enum class HintType {
-//    NakedSingle,
-//    HiddenSingle,
-//    CandidateList,
-//    SafeCell,
-//    LocalReasoning
-//};
-//
-//struct Hint {
-//    int row = -1;
-//    int col = -1;
-//    int value = 0; // 0 if no direct value suggested (soft hint)
-//    HintType type = HintType::CandidateList;
-//    std::vector<int> candidates; // optional list of candidates for soft hints
-//    std::string message; // human-readable explanation
-//};
-
-
 #pragma once
 #include <vector>
 #include <string>
@@ -65,7 +42,7 @@ struct Hint {
      * Value is 0 when the hint does not reveal a single definite value
      * (e.g. candidate list hints).
      */
-    int value = 0; // 0 if no direct value suggested (soft hint)
+    int value = 0;
 
     /** @brief Kind of hint provided (see HintType). */
     HintType type = HintType::CandidateList;
@@ -76,10 +53,10 @@ struct Hint {
      * For CandidateList and SafeCell hints this contains the candidate digits
      * (values between 1 and 9).
      */
-    std::vector<int> candidates; // optional list of candidates for soft hints (numbers)
+    std::vector<int> candidates;
 
     /**
      * @brief A short, human-readable explanation or message to display.
      */
-    std::string message; // human-readable explanation
+    std::string message; 
 };

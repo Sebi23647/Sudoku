@@ -22,13 +22,13 @@ struct HintContext {
      * contain a vector of possible candidates (1-9). Non-empty cells have an
      * empty candidate vector.
      */
-    std::vector<std::vector<int>> candidates; // 81 entries, each a vector<int>
+    std::vector<std::vector<int>> candidates;
 
     /**
      * @brief When true strategies are allowed to consult the stored solution
      * for stronger hints. Use with care; typically false for normal hints.
      */
-    bool revealSolution = false; // whether strategies are allowed to read the stored solution
+    bool revealSolution = false;
 
     /**
      * @brief Construct a HintContext for the provided game and options.
@@ -77,7 +77,6 @@ private:
      * @return true if n is not present in the row/column/block, false otherwise.
      */
     inline bool isSafeCandidate(int r, int c, int n) const {
-        // use game.getValue for row/col/box checks; read-only
         for (int x = 0; x < 9; ++x) {
             if (game.getValue(r, x) == n) return false;
             if (game.getValue(x, c) == n) return false;

@@ -1,0 +1,26 @@
+var files_dup =
+[
+    [ "CandidateListStrategy.h", "_candidate_list_strategy_8h_source.html", null ],
+    [ "CellState.h", "_cell_state_8h_source.html", null ],
+    [ "Difficulty.h", "_difficulty_8h_source.html", null ],
+    [ "GameFactory.h", "_game_factory_8h_source.html", null ],
+    [ "GameTimer.h", "_game_timer_8h_source.html", null ],
+    [ "HiddenSingleStrategy.h", "_hidden_single_strategy_8h_source.html", null ],
+    [ "Hint.h", "_hint_8h_source.html", null ],
+    [ "HintContext.h", "_hint_context_8h_source.html", null ],
+    [ "HintFactory.h", "_hint_factory_8h_source.html", null ],
+    [ "HintManager.h", "_hint_manager_8h_source.html", null ],
+    [ "HintUtils.h", "_hint_utils_8h_source.html", null ],
+    [ "IHintProvider.h", "_i_hint_provider_8h_source.html", null ],
+    [ "IHintStrategy.h", "_i_hint_strategy_8h_source.html", null ],
+    [ "IObserver.h", "_i_observer_8h_source.html", null ],
+    [ "ISudokuGame.h", "_i_sudoku_game_8h_source.html", null ],
+    [ "LocalReasoningStrategy.h", "_local_reasoning_strategy_8h_source.html", null ],
+    [ "NakedSingleStrategy.h", "_naked_single_strategy_8h_source.html", null ],
+    [ "Random.h", "_random_8h_source.html", null ],
+    [ "SafeCellStrategy.h", "_safe_cell_strategy_8h_source.html", null ],
+    [ "ScoreManager.h", "_score_manager_8h_source.html", null ],
+    [ "SudokuBoard.h", "_sudoku_board_8h_source.html", null ],
+    [ "SudokuGame.h", "_sudoku_game_8h_source.html", null ],
+    [ "SudokuGenerator.h", "_sudoku_generator_8h_source.html", null ]
+];

@@ -1,0 +1,35 @@
+\doxysection{Hint\+Utils.\+h}
+\hypertarget{_hint_utils_8h_source}{}\label{_hint_utils_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ISudokuGame.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}CellState.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ isSafeCandidate(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_i_sudoku_game}{ISudokuGame}}\&\ game,\ \textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keywordtype}{int}\ n)\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{comment}{//\ Check\ row\ \&\ column}}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ 9;\ ++x)\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (game.\mbox{\hyperlink{class_i_sudoku_game_a6bb5fc0ac25644aebf2591ea439518de}{getValue}}(r,\ x)\ ==\ n)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (game.\mbox{\hyperlink{class_i_sudoku_game_a6bb5fc0ac25644aebf2591ea439518de}{getValue}}(x,\ c)\ ==\ n)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00011\ \ \ \ \ \}}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ Check\ box}}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{int}\ sr\ =\ r\ -\/\ r\ \%\ 3;}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{int}\ sc\ =\ c\ -\/\ c\ \%\ 3;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 3;\ ++i)\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 3;\ ++j)\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (game.\mbox{\hyperlink{class_i_sudoku_game_a6bb5fc0ac25644aebf2591ea439518de}{getValue}}(sr\ +\ i,\ sc\ +\ j)\ ==\ n)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{inline}\ std::vector<int>\ computeCandidates(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_i_sudoku_game}{ISudokuGame}}\&\ game,\ \textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c)\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ std::vector<int>\ result;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{if}\ (game.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ !=\ CellState::EMPTY)\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isSafeCandidate(game,\ r,\ c,\ n))\ result.push\_back(n);}
+\DoxyCodeLine{00028\ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00030\ \}}
+
+\end{DoxyCode}

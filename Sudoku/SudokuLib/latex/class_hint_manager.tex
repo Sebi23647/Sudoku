@@ -1,0 +1,92 @@
+\doxysection{Hint\+Manager Class Reference}
+\hypertarget{class_hint_manager}{}\label{class_hint_manager}\index{HintManager@{HintManager}}
+
+
+\doxylink{class_hint_manager}{Hint\+Manager} aggregates strategies and selects a hint to return.  
+
+
+
+
+{\ttfamily \#include $<$Hint\+Manager.\+h$>$}
+
+Inheritance diagram for Hint\+Manager\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_hint_manager}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry}{Strategy\+Entry}}
+\begin{DoxyCompactList}\small\item\em Entry describing a strategy, its selection weight and a name. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_hint_manager_a97823ae8f506c34eb13d67cf951883e3}{set\+Strategy\+Entries}} (std\+::vector$<$ \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry}{Strategy\+Entry}} $>$ entries)
+\begin{DoxyCompactList}\small\item\em Set the strategy entries that this manager will use. \end{DoxyCompactList}\item 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ \mbox{\hyperlink{class_hint_manager_a00b88f6b25ddbba6a60fddf4aad085a9}{next}} (const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \&game) const override
+\begin{DoxyCompactList}\small\item\em Request the next hint for the provided game state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_hint_manager_af3d122d3d28195041d62d168e321eb79}\label{class_hint_manager_af3d122d3d28195041d62d168e321eb79} 
+std\+::vector$<$ \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry}{Strategy\+Entry}} $>$ {\bfseries strategies}
+\begin{DoxyCompactList}\small\item\em Stored strategy entries (ownership held by \doxylink{class_hint_manager}{Hint\+Manager}). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_hint_manager}{Hint\+Manager} aggregates strategies and selects a hint to return. 
+
+\doxylink{class_hint_manager}{Hint\+Manager} builds a \doxylink{struct_hint_context}{Hint\+Context} (precomputes candidates), queries all configured strategies, and selects one of the returned hints using a weighted random selection based on \doxylink{struct_hint_manager_1_1_strategy_entry_a06b8d4887376cc8e7b39cd08fb831fe5}{Strategy\+Entry\+::weight}. 
+
+\label{doc-func-members}
+\Hypertarget{class_hint_manager_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_hint_manager_a00b88f6b25ddbba6a60fddf4aad085a9}\index{HintManager@{HintManager}!next@{next}}
+\index{next@{next}!HintManager@{HintManager}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily \label{class_hint_manager_a00b88f6b25ddbba6a60fddf4aad085a9} 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ Hint\+Manager\+::next (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \&}]{game}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Request the next hint for the provided game state. 
+
+The implementation builds a \doxylink{struct_hint_context}{Hint\+Context}, invokes each strategy and collects all produced hints. Then a weighted random selection chooses which hint to return. If no strategy returns a hint, std\+::nullopt is returned.
+
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Read-\/only reference to the \doxylink{class_i_sudoku_game}{ISudoku\+Game} instance. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Optional \doxylink{struct_hint}{Hint} when available, std\+::nullopt otherwise. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_hint_provider_ad3b845c24b238bffba1c79209f24c4e4}{IHint\+Provider}}.
+
+\Hypertarget{class_hint_manager_a97823ae8f506c34eb13d67cf951883e3}\index{HintManager@{HintManager}!setStrategyEntries@{setStrategyEntries}}
+\index{setStrategyEntries@{setStrategyEntries}!HintManager@{HintManager}}
+\doxysubsubsection{\texorpdfstring{setStrategyEntries()}{setStrategyEntries()}}
+{\footnotesize\ttfamily \label{class_hint_manager_a97823ae8f506c34eb13d67cf951883e3} 
+void Hint\+Manager\+::set\+Strategy\+Entries (\begin{DoxyParamCaption}\item[{std\+::vector$<$ \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry}{Strategy\+Entry}} $>$}]{entries}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Set the strategy entries that this manager will use. 
+
+The manager takes ownership of the strategy instances via the entries.
+
+
+\begin{DoxyParams}{Parameters}
+{\em entries} & Vector of \doxylink{struct_hint_manager_1_1_strategy_entry}{Strategy\+Entry} structures. The entries are moved into the manager. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Hint\+Manager.\+h\item 
+Hint\+Manager.\+cpp\end{DoxyCompactItemize}

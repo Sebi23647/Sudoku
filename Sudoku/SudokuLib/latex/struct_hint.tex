@@ -1,0 +1,65 @@
+\doxysection{Hint Struct Reference}
+\hypertarget{struct_hint}{}\label{struct_hint}\index{Hint@{Hint}}
+
+
+Representation of a hint returned by hint providers/strategies.  
+
+
+
+
+{\ttfamily \#include $<$Hint.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}\label{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa} 
+int {\bfseries row} = -\/1
+\begin{DoxyCompactList}\small\item\em Row index of the hinted cell (0-\/8). -\/1 if unspecified. \end{DoxyCompactList}\item 
+\Hypertarget{struct_hint_a09b8c1425d716ebe00500eccbb901c61}\label{struct_hint_a09b8c1425d716ebe00500eccbb901c61} 
+int {\bfseries col} = -\/1
+\begin{DoxyCompactList}\small\item\em Column index of the hinted cell (0-\/8). -\/1 if unspecified. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}} = 0
+\begin{DoxyCompactList}\small\item\em Suggested value for the cell (1-\/9). \end{DoxyCompactList}\item 
+\Hypertarget{struct_hint_a94d67ed3ab0202841c134c8bcace2772}\label{struct_hint_a94d67ed3ab0202841c134c8bcace2772} 
+Hint\+Type {\bfseries type} = Hint\+Type\+::\+Candidate\+List
+\begin{DoxyCompactList}\small\item\em Kind of hint provided (see Hint\+Type). \end{DoxyCompactList}\item 
+std\+::vector$<$ int $>$ \mbox{\hyperlink{struct_hint_a67104e0d228d14a007edc50cf9016909}{candidates}}
+\begin{DoxyCompactList}\small\item\em Optional vector of candidate digits for soft hints. \end{DoxyCompactList}\item 
+\Hypertarget{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}\label{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737} 
+std\+::string {\bfseries message}
+\begin{DoxyCompactList}\small\item\em A short, human-\/readable explanation or message to display. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Representation of a hint returned by hint providers/strategies. 
+
+A \doxylink{struct_hint}{Hint} describes a target cell (row/col), an optional suggested value, the hint type, an optional list of candidate digits and a human-\/readable message suitable for UI display. 
+
+\label{doc-variable-members}
+\Hypertarget{struct_hint_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_hint_a67104e0d228d14a007edc50cf9016909}\index{Hint@{Hint}!candidates@{candidates}}
+\index{candidates@{candidates}!Hint@{Hint}}
+\doxysubsubsection{\texorpdfstring{candidates}{candidates}}
+{\footnotesize\ttfamily \label{struct_hint_a67104e0d228d14a007edc50cf9016909} 
+std\+::vector$<$int$>$ Hint\+::candidates}
+
+
+
+Optional vector of candidate digits for soft hints. 
+
+For Candidate\+List and Safe\+Cell hints this contains the candidate digits (values between 1 and 9). \Hypertarget{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}\index{Hint@{Hint}!value@{value}}
+\index{value@{value}!Hint@{Hint}}
+\doxysubsubsection{\texorpdfstring{value}{value}}
+{\footnotesize\ttfamily \label{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718} 
+int Hint\+::value = 0}
+
+
+
+Suggested value for the cell (1-\/9). 
+
+Value is 0 when the hint does not reveal a single definite value (e.\+g. candidate list hints). 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Hint.\+h\end{DoxyCompactItemize}

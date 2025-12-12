@@ -1,0 +1,39 @@
+\doxysection{Sudoku\+Board.\+h}
+\hypertarget{_sudoku_board_8h_source}{}\label{_sudoku_board_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}CellState.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_sudoku_board_ab5e2bb52bb5eb7be8c788366df0d9af6}{SudokuBoard}}\ \{}
+\DoxyCodeLine{00011\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_sudoku_board_ab5e2bb52bb5eb7be8c788366df0d9af6}{SudokuBoard}}();}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_board_a08e4db7befee31123fa4e911887d8116}{Clear}}();}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_board_abbc15e366822112649936d0acc5439ae}{Get}}(\textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_board_a1b63c292e32dd14db4a05cd2d731a571}{Set}}(\textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keywordtype}{int}\ v);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_board_a019c79162a6985e2c6679b86bb4be230}{IsInitial}}(\textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_board_a2826d2dec6c15890a2241ef1cf7ce9dc}{MarkInitial}}(\textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keywordtype}{bool}\ value);}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_board_a85bcdb09163ebb36823319f0f56ce447}{MarkAllInitial}}(\textcolor{keywordtype}{bool}\ value);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_board_af826c0ae185ebf45a2f0670dd49bb75e}{CopyTo}}(\textcolor{keywordtype}{int}\ out[9][9])\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_sudoku_board_a3f836a48ff113c97b3b3856139cb6889}{SetSolution}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ src[9][9]);}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_board_a2db217f0c6fb2f0bb5d49c29c8bfefa3}{GetSolution}}(\textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00105\ \ \ \ \ CellState\ \mbox{\hyperlink{class_sudoku_board_a882a48c2c36f83c32f1733deebe91886}{GetCellState}}(\textcolor{keywordtype}{int}\ r,\ \textcolor{keywordtype}{int}\ c)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_board_ae9bbcbb92230bec4e53e0d164fa82f08}{board}}[9][9];}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_sudoku_board_a0ec4db84ff999760e4390d8df61505ee}{initialCells}}[9][9];}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_sudoku_board_a549947840807e2917980f75736f61793}{solution}}[9][9];}
+\DoxyCodeLine{00122\ \};}
+
+\end{DoxyCode}

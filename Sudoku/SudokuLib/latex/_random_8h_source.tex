@@ -1,0 +1,21 @@
+\doxysection{Random.\+h}
+\hypertarget{_random_8h_source}{}\label{_random_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Mic\ helper:\ un\ engine\ global\ (seed-\/uit\ o\ singur?\ data).}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ Folose?te\ Random::getEngine()\ pentru\ toate\ opertaiile\ de\ shuffle/rng.}}
+\DoxyCodeLine{00008\ \textcolor{keyword}{namespace\ }Random\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{inline}\ std::mt19937\&\ getEngine()\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::mt19937\ engine\{\ \textcolor{keyword}{static\_cast<}std::mt19937::result\_type\textcolor{keyword}{>}(}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ std::random\_device\{\}()\ \string^\ (\textcolor{keyword}{static\_cast<}std::mt19937::result\_type\textcolor{keyword}{>}(}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::chrono::high\_resolution\_clock::now().time\_since\_epoch().count()))}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ )\ \};}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ engine;}
+\DoxyCodeLine{00015\ \ \ \ \ \}}
+\DoxyCodeLine{00016\ \}}
+
+\end{DoxyCode}
