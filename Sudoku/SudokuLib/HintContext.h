@@ -25,7 +25,6 @@ private:
     }
 
     inline bool isSafeCandidate(int r, int c, int n) const {
-        // use game.getValue for row/col/box checks; read-only
         for (int x = 0; x < 9; ++x) {
             if (game.getValue(r, x) == n) return false;
             if (game.getValue(x, c) == n) return false;
