@@ -1,5 +1,3 @@
-
-
 #include "HintManager.h"
 #include "NakedSingleStrategy.h"
 #include "HiddenSingleStrategy.h"
@@ -7,7 +5,6 @@
 #include "SafeCellStrategy.h"
 #include "LocalReasoningStrategy.h"
 
-// Builds a hint provider configured with strategies per Difficulty. We use StrategyEntry with weights.
 std::unique_ptr<IHintProvider> CreateHintManager(Difficulty difficulty) {
     auto mgr = std::make_unique<HintManager>();
     std::vector<HintManager::StrategyEntry> entries;

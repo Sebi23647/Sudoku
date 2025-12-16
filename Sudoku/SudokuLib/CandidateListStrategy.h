@@ -11,7 +11,7 @@ public:
                     const auto& candidates = ctx.candidatesAt(r, c);
                     if (!candidates.empty() && candidates.size() <= 3) {
                         Hint h; h.row = r; h.col = c; h.type = HintType::CandidateList; h.candidates = candidates;
-                        h.message = "Candidati pe (" + std::to_string(r) + "," + std::to_string(c) + "): ";
+                        h.message = "Candidates on (" + std::to_string(r) + "," + std::to_string(c) + "): ";
                         for (size_t i = 0; i < candidates.size(); ++i) {
                             h.message += std::to_string(candidates[i]);
                             if (i + 1 < candidates.size()) h.message += ", ";

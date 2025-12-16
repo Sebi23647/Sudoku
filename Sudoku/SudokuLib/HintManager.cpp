@@ -13,10 +13,7 @@ static std::mt19937& getRng() {
 }
 
 std::optional<Hint> HintManager::next(const ISudokuGame& game) const {
-    // Build context (precompute candidates)
     HintContext ctx(game, /*revealSolution=*/false);
-
-    // Collect all hints from strategies along with their weights
     struct Candidate {
         Hint hint;
         int weight;
@@ -33,23 +30,18 @@ std::optional<Hint> HintManager::next(const ISudokuGame& game) const {
             }
         }
         catch (...) {
-            // Strategy threw; we skip it to avoid breaking hint flow.
             continue;
         }
     }
 
     if (candidates.empty()) return std::nullopt;
-
-    // Compute total weight
     long long total = 0;
     for (const auto& c : candidates) total += std::max(0, c.weight);
     if (total <= 0) {
-        // fallback: uniform selection
         std::uniform_int_distribution<size_t> dist(0, candidates.size() - 1);
         return candidates[dist(getRng())].hint;
     }
 
-    // Weighted random selection
     std::uniform_int_distribution<long long> dist(1, total);
     long long pick = dist(getRng());
     for (const auto& c : candidates) {
@@ -57,6 +49,5 @@ std::optional<Hint> HintManager::next(const ISudokuGame& game) const {
         if (pick <= 0) return c.hint;
     }
 
-    // Fallback in case of rounding issues
     return candidates.front().hint;
 }

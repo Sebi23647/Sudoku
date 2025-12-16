@@ -15,7 +15,7 @@ public:
                         h.value = cand[0];
                         h.type = HintType::NakedSingle;
                         h.candidates = cand;
-                        h.message = "Naked Single: singurul candidat valid pe (" + std::to_string(r) + "," + std::to_string(c) + ") este " + std::to_string(h.value);
+                        h.message = "Naked Single: Only viable candidate on (" + std::to_string(r) + "," + std::to_string(c) + ") is " + std::to_string(h.value);
                         return h;
                     }
                 }

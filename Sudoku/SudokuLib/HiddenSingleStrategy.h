@@ -21,7 +21,7 @@ public:
                 }
                 if (count == 1) {
                     Hint h; h.row = r; h.col = lastC; h.value = n; h.type = HintType::HiddenSingle;
-                    h.message = "Hidden Single (row): cifra " + std::to_string(n) + " poate fi plasata doar la (" + std::to_string(r) + "," + std::to_string(lastC) + ")";
+                    h.message = "Hidden Single (row): Number " + std::to_string(n) + " can only be placed at (" + std::to_string(r) + "," + std::to_string(lastC) + ")";
                     return h;
                 }
             }
@@ -41,7 +41,7 @@ public:
                 }
                 if (count == 1) {
                     Hint h; h.row = lastR; h.col = c; h.value = n; h.type = HintType::HiddenSingle;
-                    h.message = "Hidden Single (col): cifra " + std::to_string(n) + " poate fi plasata doar la (" + std::to_string(lastR) + "," + std::to_string(c) + ")";
+                    h.message = "Hidden Single (col): Number " + std::to_string(n) + " can only be placed at (" + std::to_string(lastR) + "," + std::to_string(c) + ")";
                     return h;
                 }
             }
@@ -66,7 +66,7 @@ public:
                     }
                     if (count == 1) {
                         Hint h; h.row = lastR; h.col = lastC; h.value = n; h.type = HintType::HiddenSingle;
-                        h.message = "Hidden Single (box): cifra " + std::to_string(n) + " poate fi plasata doar la (" + std::to_string(lastR) + "," + std::to_string(lastC) + ")";
+                        h.message = "Hidden Single (box): Number " + std::to_string(n) + " can only be placed at (" + std::to_string(lastR) + "," + std::to_string(lastC) + ")";
                         return h;
                     }
                 }
