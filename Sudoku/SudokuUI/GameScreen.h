@@ -22,12 +22,21 @@ private:
     bool gameLost;
 
     std::optional<Hint> currentHint;
+    sf::Clock hintClock;
+    sf::FloatRect hintApplyRect{};
+    sf::FloatRect hintCloseRect{};
+    bool hintHasApplyButton = false;
+    bool hintHasCloseButton = false;
+
+    int hintLimit = 0;
+    int hintsUsed = 0;
 
     static constexpr float CELL_SIZE = 60.0f;
     static constexpr float BOARD_OFFSET_X = 50.0f;
     static constexpr float BOARD_OFFSET_Y = 80.0f;
     static constexpr float GRID_THICKNESS = 2.0f;
     static constexpr float THICK_LINE = 4.0f;
+    static constexpr float HINT_DISPLAY_SECONDS = 15.0f;
 
     sf::Color BACKGROUND_COLOR = sf::Color(250, 250, 250);
     sf::Color GRID_COLOR = sf::Color(40, 40, 40);
@@ -49,6 +58,11 @@ private:
     bool isMouseOverCell(int mouseX, int mouseY, int& row, int& col);
 
     void drawHintOverlay();
+
+    void configureHintLimit();
+    bool canRequestHint() const;
+    void showHintLimitReachedMessage();
+    void showNoHintAvailableMessage();
 
 public:
     explicit GameScreen(ScreenManager& mgr, sf::RenderWindow& win);

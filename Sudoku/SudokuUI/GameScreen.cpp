@@ -5,17 +5,60 @@
 #include "ScoreManager.h"
 #include <iostream>
 #include <cstdint>
+#include <sstream>
+#include <algorithm>
+
+namespace {
+std::string WrapText(const std::string& text, const sf::Font& font, unsigned int size, float maxWidth) {
+    if (text.empty()) return "";
+    std::istringstream words(text);
+    std::string word;
+    std::string line;
+    std::string result;
+    sf::Text measure(font);
+    measure.setCharacterSize(size);
+    while (words >> word) {
+        std::string attempt = line.empty() ? word : line + " " + word;
+        measure.setString(attempt);
+        if (measure.getLocalBounds().size.x > maxWidth && !line.empty()) {
+            if (!result.empty()) result += '\n';
+            result += line;
+            line = word;
+        } else {
+            line = attempt;
+        }
+    }
+    if (!line.empty()) {
+        if (!result.empty()) result += '\n';
+        result += line;
+    }
+    return result;
+}
+
+float TextHeight(const sf::Text& text) {
+    auto bounds = text.getLocalBounds();
+    return bounds.size.y;
+}
+}
 
 GameScreen::GameScreen(ScreenManager& mgr, sf::RenderWindow& win)
     : manager(mgr), game(mgr.getGame()), window(win), font(mgr.getFont()),
     selectedRow(-1), selectedCol(-1),
     gameWon(false), gameLost(false)
 {
+    configureHintLimit();
+    hintClock.restart();
     if (game) game->attachObserver(this);
 }
 
 void GameScreen::render(sf::RenderWindow&) {
     window.clear(BACKGROUND_COLOR);
+
+    if (currentHint && hintClock.getElapsedTime().asSeconds() > HINT_DISPLAY_SECONDS) {
+        currentHint.reset();
+        hintHasApplyButton = false;
+        hintHasCloseButton = false;
+    }
 
     drawGrid();
     drawHighlights();
@@ -281,6 +324,18 @@ void GameScreen::drawInfo() {
         buttonY + (38 - hintBounds.size.y) / 2 - 3
     ));
     window.draw(hintText);
+
+    sf::Text hintCounter(font);
+    hintCounter.setCharacterSize(12);
+    hintCounter.setFillColor(sf::Color(120, 120, 120));
+    if (hintLimit > 0) {
+        int remaining = std::max(0, hintLimit - hintsUsed);
+        hintCounter.setString("Hints: " + std::to_string(remaining) + "/" + std::to_string(hintLimit));
+    } else {
+        hintCounter.setString("Hints: ?");
+    }
+    hintCounter.setPosition(sf::Vector2f(BOARD_OFFSET_X + CELL_SIZE * 9 - 110, buttonY + 42));
+    window.draw(hintCounter);
 }
 
 void GameScreen::drawGameOverlay() {
@@ -351,10 +406,72 @@ void GameScreen::drawGameOverlay() {
 }
 
 void GameScreen::drawHintOverlay() {
-    if (!currentHint.has_value()) return;
+    if (!currentHint.has_value()) {
+        hintHasApplyButton = false;
+        hintHasCloseButton = false;
+        return;
+    }
     const Hint& h = *currentHint;
 
-    // Highlight hinted cell
+    const float BOX_WIDTH = 560.f;
+    const float PADDING = 10.f;
+    const float CLOSE_WIDTH = 30.f;
+    const float CLOSE_HEIGHT = 30.f;
+    const float APPLY_WIDTH = 90.f;
+    const float APPLY_HEIGHT = 30.f;
+    const bool hasApply = h.value > 0;
+    const bool hasClose = true;
+
+    float textStartX = BOARD_OFFSET_X + PADDING;
+    if (hasClose) textStartX += CLOSE_WIDTH + PADDING;
+    float rightReserved = hasApply ? (APPLY_WIDTH + PADDING) : 0.f;
+    float messageAreaWidth = BOX_WIDTH - (textStartX - BOARD_OFFSET_X) - rightReserved - PADDING;
+
+    std::string wrappedMsg = WrapText(h.message, font, 16, messageAreaWidth);
+    sf::Text msg(font);
+    msg.setCharacterSize(16);
+    msg.setFillColor(sf::Color::White);
+    msg.setString(wrappedMsg);
+
+    float boxHeight = 0.f;
+    float messageHeight = TextHeight(msg);
+
+    std::string candidateTextStr;
+    if (!h.candidates.empty()) {
+        std::string tmp = "Candidates: ";
+        for (size_t i = 0; i < h.candidates.size(); ++i) {
+            tmp += std::to_string(h.candidates[i]);
+            if (i + 1 < h.candidates.size()) tmp += ", ";
+        }
+        float candidateAreaWidth = BOX_WIDTH - (textStartX - BOARD_OFFSET_X) - PADDING;
+        candidateTextStr = WrapText(tmp, font, 14, candidateAreaWidth);
+    }
+
+    sf::Text cand(font);
+    cand.setCharacterSize(14);
+    cand.setFillColor(sf::Color(180, 180, 200));
+    cand.setString(candidateTextStr);
+    float candidateHeight = candidateTextStr.empty() ? 0.f : TextHeight(cand) + 6.f;
+
+    boxHeight = 2 * PADDING + std::max(messageHeight, hasApply ? APPLY_HEIGHT : 0.f);
+    boxHeight += candidateHeight;
+    if (boxHeight < 70.f) boxHeight = 70.f;
+
+    float boxY = BOARD_OFFSET_Y - boxHeight;
+    sf::RectangleShape box(sf::Vector2f(BOX_WIDTH, boxHeight));
+    box.setPosition(sf::Vector2f(BOARD_OFFSET_X, boxY));
+    box.setFillColor(sf::Color(20, 20, 30, 230));
+    window.draw(box);
+
+    msg.setPosition(sf::Vector2f(textStartX, boxY + PADDING));
+    window.draw(msg);
+
+    if (!candidateTextStr.empty()) {
+        float candY = msg.getPosition().y + messageHeight + 6.f;
+        cand.setPosition(sf::Vector2f(textStartX, candY));
+        window.draw(cand);
+    }
+
     if (h.row >= 0 && h.col >= 0) {
         sf::RectangleShape sel(sf::Vector2f(CELL_SIZE - 2.f, CELL_SIZE - 2.f));
         sel.setPosition(sf::Vector2f(
@@ -375,36 +492,34 @@ void GameScreen::drawHintOverlay() {
         window.draw(outline);
     }
 
-    // Message box
-    sf::RectangleShape box(sf::Vector2f(500.f, 70.f));
-    box.setPosition(sf::Vector2f(BOARD_OFFSET_X, BOARD_OFFSET_Y - 70.f));
-    box.setFillColor(sf::Color(20, 20, 30, 230));
-    window.draw(box);
+    if (hasClose) {
+        float closeX = BOARD_OFFSET_X + PADDING;
+        float closeY = boxY + PADDING;
+        sf::RectangleShape closeBtn(sf::Vector2f(CLOSE_WIDTH, CLOSE_HEIGHT));
+        closeBtn.setPosition(sf::Vector2f(closeX, closeY));
+        closeBtn.setFillColor(sf::Color(200, 60, 60));
+        window.draw(closeBtn);
 
-    sf::Text msg(font);
-    msg.setString(h.message);
-    msg.setCharacterSize(16);
-    msg.setFillColor(sf::Color::White);
-    msg.setPosition(sf::Vector2f(BOARD_OFFSET_X + 10.f, BOARD_OFFSET_Y - 60.f));
-    window.draw(msg);
+        sf::Text closeText(font);
+        closeText.setString("X");
+        closeText.setCharacterSize(16);
+        closeText.setFillColor(sf::Color::White);
+        sf::FloatRect cb = closeText.getLocalBounds();
+        closeText.setPosition(sf::Vector2f(closeX + (CLOSE_WIDTH - cb.size.x) / 2.f, closeY + (CLOSE_HEIGHT - cb.size.y) / 2.f - 3.f));
+        window.draw(closeText);
 
-    if (!h.candidates.empty()) {
-        std::string candStr = "Candidates: ";
-        for (size_t i = 0; i < h.candidates.size(); ++i) {
-            candStr += std::to_string(h.candidates[i]);
-            if (i + 1 < h.candidates.size()) candStr += ", ";
-        }
-        sf::Text cand(font);
-        cand.setString(candStr);
-        cand.setCharacterSize(14);
-        cand.setFillColor(sf::Color(180, 180, 200));
-        cand.setPosition(sf::Vector2f(BOARD_OFFSET_X + 10.f, BOARD_OFFSET_Y - 38.f));
-        window.draw(cand);
+        hintHasCloseButton = true;
+        hintCloseRect = sf::FloatRect(sf::Vector2f(closeX, closeY), sf::Vector2f(CLOSE_WIDTH, CLOSE_HEIGHT));
+    } else {
+        hintHasCloseButton = false;
+        hintCloseRect = sf::FloatRect();
     }
 
-    if (h.value > 0) {
-        sf::RectangleShape applyBtn(sf::Vector2f(90.f, 30.f));
-        applyBtn.setPosition(sf::Vector2f(BOARD_OFFSET_X + 500.f - 100.f, BOARD_OFFSET_Y - 60.f));
+    if (hasApply) {
+        float applyX = BOARD_OFFSET_X + BOX_WIDTH - APPLY_WIDTH - PADDING;
+        float applyY = boxY + PADDING;
+        sf::RectangleShape applyBtn(sf::Vector2f(APPLY_WIDTH, APPLY_HEIGHT));
+        applyBtn.setPosition(sf::Vector2f(applyX, applyY));
         applyBtn.setFillColor(HINT_COLOR);
         window.draw(applyBtn);
 
@@ -413,8 +528,14 @@ void GameScreen::drawHintOverlay() {
         applyText.setCharacterSize(14);
         applyText.setFillColor(sf::Color::White);
         sf::FloatRect t = applyText.getLocalBounds();
-        applyText.setPosition(sf::Vector2f(BOARD_OFFSET_X + 500.f - 100.f + (90.f - t.size.x)/2.f, BOARD_OFFSET_Y - 60.f + (30.f - t.size.y)/2.f - 3.f));
+        applyText.setPosition(sf::Vector2f(applyX + (APPLY_WIDTH - t.size.x) / 2.f, applyY + (APPLY_HEIGHT - t.size.y) / 2.f - 3.f));
         window.draw(applyText);
+
+        hintHasApplyButton = true;
+        hintApplyRect = sf::FloatRect(sf::Vector2f(applyX, applyY), sf::Vector2f(APPLY_WIDTH, APPLY_HEIGHT));
+    } else {
+        hintHasApplyButton = false;
+        hintApplyRect = sf::FloatRect();
     }
 }
 
@@ -462,27 +583,46 @@ void GameScreen::handleMouseClick(int x, int y) {
     );
 
     if (hintRect.contains(mousePos)) {
+        if (!canRequestHint()) {
+            showHintLimitReachedMessage();
+            return;
+        }
         currentHint.reset();
+        hintHasApplyButton = false;
+        hintHasCloseButton = false;
         if (manager.getHintManager() && game) {
             currentHint = manager.getHintManager()->next(*game);
+            if (currentHint) {
+                ++hintsUsed;
+                hintClock.restart();
+            }
+        }
+        if (!currentHint) {
+            showNoHintAvailableMessage();
         }
         return;
     }
 
+    // Close button
+    if (hintHasCloseButton && hintCloseRect.contains(mousePos)) {
+        currentHint.reset();
+        hintHasApplyButton = false;
+        hintHasCloseButton = false;
+        return;
+    }
+
     // Apply button in overlay if present and direct value
-    if (currentHint.has_value() && currentHint->value > 0) {
-        sf::FloatRect applyRect(
-            sf::Vector2f(BOARD_OFFSET_X + 500.f - 100.f, BOARD_OFFSET_Y - 60.f),
-            sf::Vector2f(90.f, 30.f)
-        );
-        if (applyRect.contains(mousePos)) {
+    if (hintHasApplyButton && hintApplyRect.contains(mousePos)) {
+        if (currentHint && currentHint->value > 0) {
             const Hint& h = *currentHint;
             if (game && game->getCellState(h.row, h.col) == CellState::EMPTY) {
                 game->setValue(h.row, h.col, h.value);
             }
-            currentHint.reset();
-            return;
         }
+        currentHint.reset();
+        hintHasApplyButton = false;
+        hintHasCloseButton = false;
+        return;
     }
 
     int r, c;
@@ -497,9 +637,22 @@ void GameScreen::handleKeyPress(sf::Keyboard::Key key) {
     if (gameWon || gameLost) return;
 
     if (key == sf::Keyboard::Key::H) {
+        if (!canRequestHint()) {
+            showHintLimitReachedMessage();
+            return;
+        }
         currentHint.reset();
+        hintHasApplyButton = false;
+        hintHasCloseButton = false;
         if (manager.getHintManager()) {
             currentHint = manager.getHintManager()->next(*game);
+            if (currentHint) {
+                ++hintsUsed;
+                hintClock.restart();
+            }
+        }
+        if (!currentHint) {
+            showNoHintAvailableMessage();
         }
         return;
     }
@@ -558,3 +711,52 @@ void GameScreen::onGameComplete() {
 }
 
 void GameScreen::onAttemptsChanged(int remaining) { if (remaining <= 0) gameLost = true; }
+void GameScreen::showHintLimitReachedMessage() {
+    Hint msg{};
+    msg.row = -1;
+    msg.col = -1;
+    msg.value = 0;
+    msg.message = "Hint limit reached for this difficulty.";
+    currentHint = msg;
+    hintClock.restart();
+    hintHasApplyButton = false;
+    hintHasCloseButton = true;
+}
+
+void GameScreen::showNoHintAvailableMessage() {
+    Hint msg{};
+    msg.row = -1;
+    msg.col = -1;
+    msg.value = 0;
+    msg.message = "No hint available right now.";
+    currentHint = msg;
+    hintClock.restart();
+    hintHasApplyButton = false;
+    hintHasCloseButton = true;
+}
+
+bool GameScreen::canRequestHint() const {
+    return hintLimit == 0 || hintsUsed < hintLimit;
+}
+
+void GameScreen::configureHintLimit() {
+    hintsUsed = 0;
+    if (!game) {
+        hintLimit = 0;
+        return;
+    }
+    switch (game->getCurrentDifficulty()) {
+    case Difficulty::EASY:
+        hintLimit = 8;
+        break;
+    case Difficulty::MEDIUM:
+        hintLimit = 5;
+        break;
+    case Difficulty::HARD:
+        hintLimit = 4;
+        break;
+    default:
+        hintLimit = 5;
+        break;
+    }
+}

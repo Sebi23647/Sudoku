@@ -55,13 +55,9 @@ struct Hint {
      * (values between 1 and 9).
      */
     std::vector<int> candidates; // optional list of candidates for soft hints (numbers)
-<<<<<<< HEAD
-    std::string message; 
-=======
 
     /**
      * @brief A short, human-readable explanation or message to display.
      */
     std::string message; // human-readable explanation
->>>>>>> 25f83564c8bc6146aca6dd220f26766c2a2b302e
 };
