@@ -1,0 +1,45 @@
+\doxysection{Hidden\+Single\+Strategy Class Reference}
+\hypertarget{class_hidden_single_strategy}{}\label{class_hidden_single_strategy}\index{HiddenSingleStrategy@{HiddenSingleStrategy}}
+Inheritance diagram for Hidden\+Single\+Strategy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_hidden_single_strategy}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ \mbox{\hyperlink{class_hidden_single_strategy_a791be71309f23a074545fb62d3526a23}{get\+Hint}} (const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&ctx) const override
+\begin{DoxyCompactList}\small\item\em Compute a hint using the provided precomputed hint context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{class_hidden_single_strategy_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_hidden_single_strategy_a791be71309f23a074545fb62d3526a23}\index{HiddenSingleStrategy@{HiddenSingleStrategy}!getHint@{getHint}}
+\index{getHint@{getHint}!HiddenSingleStrategy@{HiddenSingleStrategy}}
+\doxysubsubsection{\texorpdfstring{getHint()}{getHint()}}
+{\footnotesize\ttfamily \label{class_hidden_single_strategy_a791be71309f23a074545fb62d3526a23} 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ Hidden\+Single\+Strategy\+::get\+Hint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&}]{ctx}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Compute a hint using the provided precomputed hint context. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The \doxylink{struct_hint_context}{Hint\+Context} containing a read-\/only game snapshot and precomputed candidates. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Optional \doxylink{struct_hint}{Hint}; std\+::nullopt if the strategy has no suggestion. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_hint_strategy_ace8a950e5fc20e174161708d49a454af}{IHint\+Strategy}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Hidden\+Single\+Strategy.\+h\end{DoxyCompactItemize}

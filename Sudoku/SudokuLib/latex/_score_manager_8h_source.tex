@@ -1,0 +1,19 @@
+\doxysection{Score\+Manager.\+h}
+\hypertarget{_score_manager_8h_source}{}\label{_score_manager_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_score_manager}{ScoreManager}}\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ updateOrAddScore(\textcolor{keyword}{const}\ std::string\&\ username,\ \textcolor{keyword}{const}\ std::string\&\ difficulty,\ \textcolor{keywordtype}{int}\ timeInSeconds);}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{static}\ std::vector<std::pair<std::string,\ int>>\ getScoresForDifficulty(\textcolor{keyword}{const}\ std::string\&\ difficulty);}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ formatTime(\textcolor{keywordtype}{int}\ seconds);}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ std::string\ LEADERBOARD\_FILE;}
+\DoxyCodeLine{00014\ \};}
+
+\end{DoxyCode}

@@ -1,0 +1,42 @@
+\doxysection{ISudoku\+Game.\+h}
+\hypertarget{_i_sudoku_game_8h_source}{}\label{_i_sudoku_game_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Difficulty.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}CellState.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}IObserver.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_sudoku_game}{ISudokuGame}}\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_i_sudoku_game}{\string~ISudokuGame}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_sudoku_game_a6faaa1d69df3dfa0a347d00898d38a5a}{startNewGame}}()\ =\ 0;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_sudoku_game_a94dacf7470cac59bec80d40f5f58c516}{startNewGame}}(Difficulty\ difficulty)\ =\ 0;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_sudoku_game_aefd1654448f7806da5e07cfbff971190}{generatePuzzle}}()\ =\ 0;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_sudoku_game_a5365ac2fd5274dbacc8ec803aac969a5}{setValue}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ value)\ =\ 0;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_sudoku_game_aef556a8407514b23170fde730c113b35}{isValidMove}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col,\ \textcolor{keywordtype}{int}\ value)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_i_sudoku_game_a6bb5fc0ac25644aebf2591ea439518de}{getValue}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{virtual}\ CellState\ \mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_sudoku_game_a6f4bca91cba5ec9d67694dbe1beee6db}{isComplete}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_i_sudoku_game_a7dfc391053badc935eefbabf3c36c991}{getRemainingAttempts}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{virtual}\ Difficulty\ \mbox{\hyperlink{class_i_sudoku_game_ab3b0f2618a4de4cfcaef06810b68267c}{getCurrentDifficulty}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_sudoku_game_a7336505ed3776b805d22719cfa4638df}{reset}}()\ =\ 0;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_i_sudoku_game_a59a9dabc7e93c05e1bb83c7bb1a1a978}{getElapsedTime}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_sudoku_game_a9531f3313a30fac41e561fa29d4bb330}{attachObserver}}(\mbox{\hyperlink{class_i_observer}{IObserver}}*\ observer)\ =\ 0;}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_sudoku_game_afacca8aa476f790947d2074a4b2acb39}{detachObserver}}(\mbox{\hyperlink{class_i_observer}{IObserver}}*\ observer)\ =\ 0;}
+\DoxyCodeLine{00124\ \};}
+
+\end{DoxyCode}

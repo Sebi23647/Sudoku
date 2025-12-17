@@ -1,0 +1,63 @@
+\doxysection{Hint\+Manager.\+h}
+\hypertarget{_hint_manager_8h_source}{}\label{_hint_manager_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\#include\ <memory>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\#include\ <vector>}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\#include\ <optional>}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\#include\ "{}IHintProvider.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//class\ HintManager\ :\ public\ IHintProvider\ \{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//public:}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ void\ setStrategies(std::vector<std::unique\_ptr<IHintStrategy>>\ strategies)\ \{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ \ \ \ \ this-\/>strategies\ =\ std::move(strategies);}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ std::optional<Hint>\ next(const\ ISudokuGame\&\ game)\ const\ override\ \{}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \ for\ (const\ auto\&\ s\ :\ strategies)\ \{}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (!s)\ continue;}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ auto\ h\ =\ s-\/>getHint(game);}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ if\ (h.has\_value())\ return\ h;}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ return\ std::nullopt;}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//private:}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ \ \ std::vector<std::unique\_ptr<IHintStrategy>>\ strategies;}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}IHintProvider.h"{}}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ "{}HintContext.h"{}}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ HintManager\ stores\ strategies\ together\ with\ metadata\ (weight,\ name).}}
+\DoxyCodeLine{00045\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_hint_manager}{HintManager}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_hint_provider}{IHintProvider}}\ \{}
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry}{StrategyEntry}}\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ std::unique\_ptr<IHintStrategy>\ \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry_ad91897f28272cfbc8f03732125bbe523}{strategy}};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry_a06b8d4887376cc8e7b39cd08fb831fe5}{weight}}\ =\ 1;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ std::string\ \mbox{\hyperlink{struct_hint_manager_1_1_strategy_entry_a546f83073523db98a7dba6bccc20f812}{name}};}
+\DoxyCodeLine{00059\ \ \ \ \ \};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_hint_manager_a97823ae8f506c34eb13d67cf951883e3}{setStrategyEntries}}(std::vector<StrategyEntry>\ entries)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_hint_manager_af3d122d3d28195041d62d168e321eb79}{strategies}}\ =\ std::move(entries);}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//\ next\ builds\ a\ HintContext\ (precomputes\ candidates\ once)\ and\ then\ asks\ strategies\ in\ any\ order,}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ collects\ all\ available\ hints\ and\ chooses\ one\ via\ weighted\ random\ selection.}}
+\DoxyCodeLine{00085\ \ \ \ \ std::optional<Hint>\ \mbox{\hyperlink{class_hint_manager_a00b88f6b25ddbba6a60fddf4aad085a9}{next}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_i_sudoku_game}{ISudokuGame}}\&\ game)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00089\ \ \ \ \ std::vector<StrategyEntry>\ \mbox{\hyperlink{class_hint_manager_af3d122d3d28195041d62d168e321eb79}{strategies}};}
+\DoxyCodeLine{00090\ \};}
+
+\end{DoxyCode}

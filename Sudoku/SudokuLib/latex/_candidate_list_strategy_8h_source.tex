@@ -1,0 +1,59 @@
+\doxysection{Candidate\+List\+Strategy.\+h}
+\hypertarget{_candidate_list_strategy_8h_source}{}\label{_candidate_list_strategy_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\#include\ "{}HintUtils.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//class\ CandidateListStrategy\ :\ public\ IHintStrategy\ \{}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//public:}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ \ \ std::optional<Hint>\ getHint(const\ ISudokuGame\&\ game)\ const\ override\ \{}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ \ \ \ \ for\ (int\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (game.getCellState(r,\ c)\ ==\ CellState::EMPTY)\ \{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ auto\ candidates\ =\ computeCandidates(game,\ r,\ c);}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (!candidates.empty()\ \&\&\ candidates.size()\ <=\ 3)\ \{}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Hint\ h;\ h.row\ =\ r;\ h.col\ =\ c;\ h.type\ =\ HintType::CandidateList;\ h.candidates\ =\ candidates;}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.message\ =\ "{}Candidati\ pe\ ("{}\ +\ std::to\_string(r)\ +\ "{},"{}\ +\ std::to\_string(c)\ +\ "{}):\ "{};}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (size\_t\ i\ =\ 0;\ i\ <\ candidates.size();\ ++i)\ \{}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.message\ +=\ std::to\_string(candidates[i]);}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (i\ +\ 1\ <\ candidates.size())\ h.message\ +=\ "{},"{};}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ h;}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ return\ std::nullopt;}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}HintContext.h"{}}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_candidate_list_strategy}{CandidateListStrategy}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_hint_strategy}{IHintStrategy}}\ \{}
+\DoxyCodeLine{00034\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00035\ \ \ \ \ std::optional<Hint>\ \mbox{\hyperlink{class_candidate_list_strategy_a5b1aa2224eb38826bdbc0fc9dc119346}{getHint}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hint_context}{HintContext}}\&\ ctx)\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ candidates\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ c);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!candidates.empty()\ \&\&\ candidates.size()\ <=\ 3)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ r;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ c;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::CandidateList;\ h.\mbox{\hyperlink{struct_hint_a67104e0d228d14a007edc50cf9016909}{candidates}}\ =\ candidates;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Candidati\ pe\ ("{}}\ +\ std::to\_string(r)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(c)\ +\ \textcolor{stringliteral}{"{}):\ "{}};}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ candidates.size();\ ++i)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ +=\ std::to\_string(candidates[i]);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ +\ 1\ <\ candidates.size())\ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ +=\ \textcolor{stringliteral}{"{},\ "{}};}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \};}
+
+\end{DoxyCode}

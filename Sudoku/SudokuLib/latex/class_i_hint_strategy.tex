@@ -1,0 +1,59 @@
+\doxysection{IHint\+Strategy Class Reference}
+\hypertarget{class_i_hint_strategy}{}\label{class_i_hint_strategy}\index{IHintStrategy@{IHintStrategy}}
+
+
+Interface for individual hint strategies.  
+
+
+
+
+{\ttfamily \#include $<$IHint\+Strategy.\+h$>$}
+
+Inheritance diagram for IHint\+Strategy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.426752cm]{class_i_hint_strategy}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ \mbox{\hyperlink{class_i_hint_strategy_ace8a950e5fc20e174161708d49a454af}{get\+Hint}} (const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&ctx) const =0
+\begin{DoxyCompactList}\small\item\em Compute a hint using the provided precomputed hint context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Interface for individual hint strategies. 
+
+Implementations analyze a \doxylink{struct_hint_context}{Hint\+Context} and return an optional \doxylink{struct_hint}{Hint} when they can produce a meaningful suggestion. 
+
+\label{doc-func-members}
+\Hypertarget{class_i_hint_strategy_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i_hint_strategy_ace8a950e5fc20e174161708d49a454af}\index{IHintStrategy@{IHintStrategy}!getHint@{getHint}}
+\index{getHint@{getHint}!IHintStrategy@{IHintStrategy}}
+\doxysubsubsection{\texorpdfstring{getHint()}{getHint()}}
+{\footnotesize\ttfamily \label{class_i_hint_strategy_ace8a950e5fc20e174161708d49a454af} 
+virtual std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ IHint\+Strategy\+::get\+Hint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&}]{ctx}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Compute a hint using the provided precomputed hint context. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The \doxylink{struct_hint_context}{Hint\+Context} containing a read-\/only game snapshot and precomputed candidates. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Optional \doxylink{struct_hint}{Hint}; std\+::nullopt if the strategy has no suggestion. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_candidate_list_strategy_a5b1aa2224eb38826bdbc0fc9dc119346}{Candidate\+List\+Strategy}}, \mbox{\hyperlink{class_hidden_single_strategy_a791be71309f23a074545fb62d3526a23}{Hidden\+Single\+Strategy}}, \mbox{\hyperlink{class_local_reasoning_strategy_a181bab080e109112170fc78f9dd0bf79}{Local\+Reasoning\+Strategy}}, \mbox{\hyperlink{class_naked_single_strategy_a9ce44d05185f07bd73bd6953df368111}{Naked\+Single\+Strategy}}, and \mbox{\hyperlink{class_safe_cell_strategy_a6ef513d23bdc3bc794fa711bb246d1ec}{Safe\+Cell\+Strategy}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+IHint\+Strategy.\+h\end{DoxyCompactItemize}

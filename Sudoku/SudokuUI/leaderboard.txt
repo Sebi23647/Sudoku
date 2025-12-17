@@ -8,5 +8,7 @@ lorand,Medium,354
 ss,Easy,19
 sss,Easy,85
 t,Medium,225
+teeeooo,Easy,144
+teo,Hard,315
 teodoraaa,Easy,66
 test,Easy,197

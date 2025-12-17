@@ -1,0 +1,31 @@
+\doxysection{Hint\+Manager\+::Strategy\+Entry Struct Reference}
+\hypertarget{struct_hint_manager_1_1_strategy_entry}{}\label{struct_hint_manager_1_1_strategy_entry}\index{HintManager::StrategyEntry@{HintManager::StrategyEntry}}
+
+
+Entry describing a strategy, its selection weight and a name.  
+
+
+
+
+{\ttfamily \#include $<$Hint\+Manager.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_hint_manager_1_1_strategy_entry_ad91897f28272cfbc8f03732125bbe523}\label{struct_hint_manager_1_1_strategy_entry_ad91897f28272cfbc8f03732125bbe523} 
+std\+::unique\+\_\+ptr$<$ \mbox{\hyperlink{class_i_hint_strategy}{IHint\+Strategy}} $>$ {\bfseries strategy}
+\begin{DoxyCompactList}\small\item\em Owned strategy instance that produces hints. \end{DoxyCompactList}\item 
+\Hypertarget{struct_hint_manager_1_1_strategy_entry_a06b8d4887376cc8e7b39cd08fb831fe5}\label{struct_hint_manager_1_1_strategy_entry_a06b8d4887376cc8e7b39cd08fb831fe5} 
+int {\bfseries weight} = 1
+\begin{DoxyCompactList}\small\item\em Selection weight used when multiple strategies provide hints (default 1). \end{DoxyCompactList}\item 
+\Hypertarget{struct_hint_manager_1_1_strategy_entry_a546f83073523db98a7dba6bccc20f812}\label{struct_hint_manager_1_1_strategy_entry_a546f83073523db98a7dba6bccc20f812} 
+std\+::string {\bfseries name}
+\begin{DoxyCompactList}\small\item\em Optional human-\/readable name used for debugging/logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Entry describing a strategy, its selection weight and a name. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Hint\+Manager.\+h\end{DoxyCompactItemize}

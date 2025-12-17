@@ -1,0 +1,59 @@
+\doxysection{IHint\+Provider Class Reference}
+\hypertarget{class_i_hint_provider}{}\label{class_i_hint_provider}\index{IHintProvider@{IHintProvider}}
+
+
+Public API for hint providers used by the UI.  
+
+
+
+
+{\ttfamily \#include $<$IHint\+Provider.\+h$>$}
+
+Inheritance diagram for IHint\+Provider\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_i_hint_provider}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ \mbox{\hyperlink{class_i_hint_provider_ad3b845c24b238bffba1c79209f24c4e4}{next}} (const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \&game) const =0
+\begin{DoxyCompactList}\small\item\em Request the next hint for the provided game state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Public API for hint providers used by the UI. 
+
+The UI calls \doxylink{class_i_hint_provider_ad3b845c24b238bffba1c79209f24c4e4}{next()} with a snapshot of the \doxylink{class_i_sudoku_game}{ISudoku\+Game} to request a hint. Implementations may aggregate strategies or provide simpler behavior. 
+
+\label{doc-func-members}
+\Hypertarget{class_i_hint_provider_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i_hint_provider_ad3b845c24b238bffba1c79209f24c4e4}\index{IHintProvider@{IHintProvider}!next@{next}}
+\index{next@{next}!IHintProvider@{IHintProvider}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily \label{class_i_hint_provider_ad3b845c24b238bffba1c79209f24c4e4} 
+virtual std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ IHint\+Provider\+::next (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{class_i_sudoku_game}{ISudoku\+Game}} \&}]{game}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Request the next hint for the provided game state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em game} & Read-\/only reference to the \doxylink{class_i_sudoku_game}{ISudoku\+Game} to analyze. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Optional \doxylink{struct_hint}{Hint}; std\+::nullopt when no hint is available. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_hint_manager_a00b88f6b25ddbba6a60fddf4aad085a9}{Hint\+Manager}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+IHint\+Provider.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,30 @@
+\doxysection{IHint\+Provider.\+h}
+\hypertarget{_i_hint_provider_8h_source}{}\label{_i_hint_provider_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\#include\ <optional>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\#include\ "{}ISudokuGame.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\#include\ "{}Hint.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//class\ IHintProvider\ \{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//public:}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ virtual\ \string~IHintProvider()\ =\ default;}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ virtual\ std::optional<Hint>\ next(const\ ISudokuGame\&\ game)\ const\ =\ 0;}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}Hint.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}ISudokuGame.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ Public\ API\ for\ hint\ providers:\ UI\ calls\ next()\ with\ ISudokuGame\ snapshot;\ HintManager\ builds\ HintContext\ internally;}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_hint_provider}{IHintProvider}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_i_hint_provider}{\string~IHintProvider}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ revealSolution\ option\ could\ be\ added\ later\ as\ overload/parameters}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ std::optional<Hint>\ \mbox{\hyperlink{class_i_hint_provider_ad3b845c24b238bffba1c79209f24c4e4}{next}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_i_sudoku_game}{ISudokuGame}}\&\ game)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00037\ \};}
+
+\end{DoxyCode}

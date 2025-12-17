@@ -22,13 +22,13 @@ struct HintContext {
      * contain a vector of possible candidates (1-9). Non-empty cells have an
      * empty candidate vector.
      */
-    std::vector<std::vector<int>> candidates; // 81 entries, each a vector<int>
+    std::vector<std::vector<int>> candidates;
 
     /**
      * @brief When true strategies are allowed to consult the stored solution
      * for stronger hints. Use with care; typically false for normal hints.
      */
-    bool revealSolution = false; // whether strategies are allowed to read the stored solution
+    bool revealSolution = false;
 
     /**
      * @brief Construct a HintContext for the provided game and options.

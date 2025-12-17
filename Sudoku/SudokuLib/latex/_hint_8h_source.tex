@@ -1,0 +1,53 @@
+\doxysection{Hint.\+h}
+\hypertarget{_hint_8h_source}{}\label{_hint_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\#include\ <vector>}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\#include\ <string>}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\#include\ <optional>}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//enum\ class\ HintType\ \{}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ \ \ NakedSingle,}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ HiddenSingle,}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ CandidateList,}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ SafeCell,}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ LocalReasoning}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//struct\ Hint\ \{}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ int\ row\ =\ -\/1;}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ int\ col\ =\ -\/1;}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ int\ value\ =\ 0;\ //\ 0\ if\ no\ direct\ value\ suggested\ (soft\ hint)}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ HintType\ type\ =\ HintType::CandidateList;}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ std::vector<int>\ candidates;\ //\ optional\ list\ of\ candidates\ for\ soft\ hints}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ std::string\ message;\ //\ human-\/readable\ explanation}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{enum\ class}\ HintType\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ NakedSingle,}
+\DoxyCodeLine{00039\ \ \ \ \ HiddenSingle,}
+\DoxyCodeLine{00041\ \ \ \ \ CandidateList,}
+\DoxyCodeLine{00043\ \ \ \ \ SafeCell,}
+\DoxyCodeLine{00045\ \ \ \ \ LocalReasoning}
+\DoxyCodeLine{00046\ \};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_hint}{Hint}}\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ -\/1;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ -\/1;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}}\ =\ 0;\ \textcolor{comment}{//\ 0\ if\ no\ direct\ value\ suggested\ (soft\ hint)}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00071\ \ \ \ \ HintType\ \mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::CandidateList;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00079\ \ \ \ \ std::vector<int>\ \mbox{\hyperlink{struct_hint_a67104e0d228d14a007edc50cf9016909}{candidates}};\ \textcolor{comment}{//\ optional\ list\ of\ candidates\ for\ soft\ hints\ (numbers)}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00084\ \ \ \ \ std::string\ \mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}};\ \textcolor{comment}{//\ human-\/readable\ explanation}}
+\DoxyCodeLine{00085\ \};}
+
+\end{DoxyCode}

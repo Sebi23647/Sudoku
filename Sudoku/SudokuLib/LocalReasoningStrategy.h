@@ -43,7 +43,7 @@ public:
                             if ((rowCount == 1) || (colCount == 1) || (boxCount == 1)) {
                                 Hint h; h.row = r; h.col = c; h.type = HintType::LocalReasoning;
                                 h.candidates = cand;
-                                h.message = "Rationament local: celula (" + std::to_string(r) + "," + std::to_string(c) + ") are candidati restransi; verifica cifra " + std::to_string(v);
+                                h.message = "Local Reasoning: Cell (" + std::to_string(r) + "," + std::to_string(c) + ") has limited candidates; Check number " + std::to_string(v);
                                 return h;
                             }
                         }

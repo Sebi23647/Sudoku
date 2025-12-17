@@ -13,12 +13,12 @@ public:
                     if (candidates.size() == 1) {
                         Hint h; h.row = r; h.col = c; h.type = HintType::SafeCell; h.candidates = candidates;
                         h.value = candidates[0]; // reveal definite value
-                        h.message = "Celula sigura (unic candidat): valoare sugerata " + std::to_string(h.value) + " la (" + std::to_string(r) + "," + std::to_string(c) + ")";
+                        h.message = "Safe cell (unique candidate): suggested value " + std::to_string(h.value) + " at (" + std::to_string(r) + "," + std::to_string(c) + ")";
                         return h;
                     }
                     else if (candidates.size() == 2) {
                         Hint h; h.row = r; h.col = c; h.type = HintType::SafeCell; h.candidates = candidates;
-                        h.message = "Celula cu 2 candidati la (" + std::to_string(r) + "," + std::to_string(c) + "): " + std::to_string(candidates[0]) + ", " + std::to_string(candidates[1]);
+                        h.message = "Cell with 2 candidates at (" + std::to_string(r) + "," + std::to_string(c) + "): " + std::to_string(candidates[0]) + ", " + std::to_string(candidates[1]);
                         return h;
                     }
                 }

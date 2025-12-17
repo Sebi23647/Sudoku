@@ -1,0 +1,149 @@
+\doxysection{Hidden\+Single\+Strategy.\+h}
+\hypertarget{_hidden_single_strategy_8h_source}{}\label{_hidden_single_strategy_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\#include\ "{}HintUtils.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//class\ HiddenSingleStrategy\ :\ public\ IHintStrategy\ \{}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//public:}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ \ \ \ std::optional<Hint>\ getHint(const\ ISudokuGame\&\ game)\ const\ override\ \{}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Row-\/based\ hidden\ single}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ \ \ \ \ \ \ \ for\ (int\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}}
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\ count\ =\ 0,\ lastC\ =\ -\/1;}}
+\DoxyCodeLine{00012\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}}
+\DoxyCodeLine{00013\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (game.getCellState(r,\ c)\ ==\ CellState::EMPTY\ \&\&\ isSafeCandidate(game,\ r,\ c,\ n))\ \{}}
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++count;\ lastC\ =\ c;}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (count\ ==\ 1)\ \{}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Hint\ h;\ h.row\ =\ r;\ h.col\ =\ lastC;\ h.value\ =\ n;\ h.type\ =\ HintType::HiddenSingle;}}
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.message\ =\ "{}Hidden\ Single\ (row):\ cifra\ "{}\ +\ std::to\_string(n)\ +\ "{}\ apare\ doar\ o\ data\ disponibila\ in\ randul\ "{}\ +\ std::to\_string(r);}}
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ h;}}
+\DoxyCodeLine{00021\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00022\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00024\ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Column-\/based\ hidden\ single}}
+\DoxyCodeLine{00025\ \textcolor{comment}{//\ \ \ \ \ \ \ \ for\ (int\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}}
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}}
+\DoxyCodeLine{00027\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\ count\ =\ 0,\ lastR\ =\ -\/1;}}
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}}
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (game.getCellState(r,\ c)\ ==\ CellState::EMPTY\ \&\&\ isSafeCandidate(game,\ r,\ c,\ n))\ \{}}
+\DoxyCodeLine{00030\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++count;\ lastR\ =\ r;}}
+\DoxyCodeLine{00031\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00033\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (count\ ==\ 1)\ \{}}
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Hint\ h;\ h.row\ =\ lastR;\ h.col\ =\ c;\ h.value\ =\ n;\ h.type\ =\ HintType::HiddenSingle;}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.message\ =\ "{}Hidden\ Single\ (column):\ cifra\ "{}\ +\ std::to\_string(n)\ +\ "{}\ apare\ doar\ o\ data\ disponibila\ in\ coloana\ "{}\ +\ std::to\_string(c);}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ h;}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00038\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00040\ \textcolor{comment}{//\ \ \ \ \ \ \ \ //\ Box-\/based\ hidden\ single}}
+\DoxyCodeLine{00041\ \textcolor{comment}{//\ \ \ \ \ \ \ \ for\ (int\ br\ =\ 0;\ br\ <\ 3;\ ++br)\ \{}}
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ bc\ =\ 0;\ bc\ <\ 3;\ ++bc)\ \{}}
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\ sr\ =\ br\ *\ 3,\ sc\ =\ bc\ *\ 3;}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\ count\ =\ 0,\ lastR\ =\ -\/1,\ lastC\ =\ -\/1;}}
+\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ i\ =\ 0;\ i\ <\ 3;\ ++i)\ \{}}
+\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ for\ (int\ j\ =\ 0;\ j\ <\ 3;\ ++j)\ \{}}
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ int\ r\ =\ sr\ +\ i,\ c\ =\ sc\ +\ j;}}
+\DoxyCodeLine{00049\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (game.getCellState(r,\ c)\ ==\ CellState::EMPTY\ \&\&\ isSafeCandidate(game,\ r,\ c,\ n))\ \{}}
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++count;\ lastR\ =\ r;\ lastC\ =\ c;}}
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00052\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00053\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (count\ ==\ 1)\ \{}}
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Hint\ h;\ h.row\ =\ lastR;\ h.col\ =\ lastC;\ h.value\ =\ n;\ h.type\ =\ HintType::HiddenSingle;}}
+\DoxyCodeLine{00056\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.message\ =\ "{}Hidden\ Single\ (box):\ cifra\ "{}\ +\ std::to\_string(n)\ +\ "{}\ apare\ o\ singura\ data\ disponibila\ in\ box"{};}}
+\DoxyCodeLine{00057\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ h;}}
+\DoxyCodeLine{00058\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00059\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00060\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00061\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \}}}
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ \ \ \ \ \ \ \ return\ std::nullopt;}}
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ \ \ \ \}}}
+\DoxyCodeLine{00064\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#include\ "{}IHintStrategy.h"{}}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#include\ "{}HintContext.h"{}}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ Hidden\ single:\ finds\ a\ number\ n\ that\ can\ go\ in\ exactly\ one\ empty\ cell\ in\ a\ unit.}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_hidden_single_strategy}{HiddenSingleStrategy}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_hint_strategy}{IHintStrategy}}\ \{}
+\DoxyCodeLine{00074\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00075\ \ \ \ \ std::optional<Hint>\ \mbox{\hyperlink{class_hidden_single_strategy_a791be71309f23a074545fb62d3526a23}{getHint}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{struct_hint_context}{HintContext}}\&\ ctx)\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Row-\/based}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ 0,\ lastC\ =\ -\/1;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cand\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ c);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(cand.begin(),\ cand.end(),\ n)\ !=\ cand.end())\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++count;\ lastC\ =\ c;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ 1)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ r;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ lastC;\ h.\mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}}\ =\ n;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::HiddenSingle;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Hidden\ Single\ (row):\ cifra\ "{}}\ +\ std::to\_string(n)\ +\ \textcolor{stringliteral}{"{}\ poate\ fi\ plasata\ doar\ la\ ("{}}\ +\ std::to\_string(r)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(lastC)\ +\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Column-\/based}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ c\ =\ 0;\ c\ <\ 9;\ ++c)\ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ 0,\ lastR\ =\ -\/1;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ r\ =\ 0;\ r\ <\ 9;\ ++r)\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cand\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ c);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(cand.begin(),\ cand.end(),\ n)\ !=\ cand.end())\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++count;\ lastR\ =\ r;}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ 1)\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ lastR;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ c;\ h.\mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}}\ =\ n;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::HiddenSingle;}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Hidden\ Single\ (col):\ cifra\ "{}}\ +\ std::to\_string(n)\ +\ \textcolor{stringliteral}{"{}\ poate\ fi\ plasata\ doar\ la\ ("{}}\ +\ std::to\_string(lastR)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(c)\ +\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Box-\/based}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ br\ =\ 0;\ br\ <\ 3;\ ++br)\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ bc\ =\ 0;\ bc\ <\ 3;\ ++bc)\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ sr\ =\ br\ *\ 3,\ sc\ =\ bc\ *\ 3;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 1;\ n\ <=\ 9;\ ++n)\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ count\ =\ 0,\ lastR\ =\ -\/1,\ lastC\ =\ -\/1;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ 3;\ ++i)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ 3;\ ++j)\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ sr\ +\ i,\ c\ =\ sc\ +\ j;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ctx.\mbox{\hyperlink{struct_hint_context_a9e04da4ee5ec53b528a2feefe85f3024}{game}}.\mbox{\hyperlink{class_i_sudoku_game_ad0ed9a29039743a9e7ec44bd00c7500a}{getCellState}}(r,\ c)\ ==\ CellState::EMPTY)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ cand\ =\ ctx.\mbox{\hyperlink{struct_hint_context_ad1b29f28d21a6d29d90460abcdae2244}{candidatesAt}}(r,\ c);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::find(cand.begin(),\ cand.end(),\ n)\ !=\ cand.end())\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ++count;\ lastR\ =\ r;\ lastC\ =\ c;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ 1)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_hint}{Hint}}\ h;\ h.\mbox{\hyperlink{struct_hint_ad2c50acfb3b3161daddb39ba19ee4afa}{row}}\ =\ lastR;\ h.\mbox{\hyperlink{struct_hint_a09b8c1425d716ebe00500eccbb901c61}{col}}\ =\ lastC;\ h.\mbox{\hyperlink{struct_hint_a5f10c2141d0d03af9dd5f6b004c50718}{value}}\ =\ n;\ h.\mbox{\hyperlink{struct_hint_a94d67ed3ab0202841c134c8bcace2772}{type}}\ =\ HintType::HiddenSingle;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ h.\mbox{\hyperlink{struct_hint_a3cd5151ad68b06fe2ca2ff2d49b23737}{message}}\ =\ \textcolor{stringliteral}{"{}Hidden\ Single\ (box):\ cifra\ "{}}\ +\ std::to\_string(n)\ +\ \textcolor{stringliteral}{"{}\ poate\ fi\ plasata\ doar\ la\ ("{}}\ +\ std::to\_string(lastR)\ +\ \textcolor{stringliteral}{"{},"{}}\ +\ std::to\_string(lastC)\ +\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ h;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \};}
+
+\end{DoxyCode}

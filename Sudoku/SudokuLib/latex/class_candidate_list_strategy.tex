@@ -1,0 +1,45 @@
+\doxysection{Candidate\+List\+Strategy Class Reference}
+\hypertarget{class_candidate_list_strategy}{}\label{class_candidate_list_strategy}\index{CandidateListStrategy@{CandidateListStrategy}}
+Inheritance diagram for Candidate\+List\+Strategy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_candidate_list_strategy}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ \mbox{\hyperlink{class_candidate_list_strategy_a5b1aa2224eb38826bdbc0fc9dc119346}{get\+Hint}} (const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&ctx) const override
+\begin{DoxyCompactList}\small\item\em Compute a hint using the provided precomputed hint context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\label{doc-func-members}
+\Hypertarget{class_candidate_list_strategy_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_candidate_list_strategy_a5b1aa2224eb38826bdbc0fc9dc119346}\index{CandidateListStrategy@{CandidateListStrategy}!getHint@{getHint}}
+\index{getHint@{getHint}!CandidateListStrategy@{CandidateListStrategy}}
+\doxysubsubsection{\texorpdfstring{getHint()}{getHint()}}
+{\footnotesize\ttfamily \label{class_candidate_list_strategy_a5b1aa2224eb38826bdbc0fc9dc119346} 
+std\+::optional$<$ \mbox{\hyperlink{struct_hint}{Hint}} $>$ Candidate\+List\+Strategy\+::get\+Hint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{struct_hint_context}{Hint\+Context}} \&}]{ctx}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Compute a hint using the provided precomputed hint context. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The \doxylink{struct_hint_context}{Hint\+Context} containing a read-\/only game snapshot and precomputed candidates. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Optional \doxylink{struct_hint}{Hint}; std\+::nullopt if the strategy has no suggestion. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_hint_strategy_ace8a950e5fc20e174161708d49a454af}{IHint\+Strategy}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Candidate\+List\+Strategy.\+h\end{DoxyCompactItemize}
