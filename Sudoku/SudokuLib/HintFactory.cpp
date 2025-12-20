@@ -1,9 +1,4 @@
-#include "HintManager.h"
-#include "NakedSingleStrategy.h"
-#include "HiddenSingleStrategy.h"
-#include "CandidateListStrategy.h"
-#include "SafeCellStrategy.h"
-#include "LocalReasoningStrategy.h"
+#include "HintFactory.h"
 
 std::unique_ptr<IHintProvider> CreateHintManager(Difficulty difficulty) {
     auto mgr = std::make_unique<HintManager>();

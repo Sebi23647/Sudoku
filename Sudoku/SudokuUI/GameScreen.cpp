@@ -747,13 +747,13 @@ void GameScreen::configureHintLimit() {
     }
     switch (game->getCurrentDifficulty()) {
     case Difficulty::EASY:
-        hintLimit = 8;
+        hintLimit = 3;
         break;
     case Difficulty::MEDIUM:
         hintLimit = 5;
         break;
     case Difficulty::HARD:
-        hintLimit = 4;
+        hintLimit = 7;
         break;
     default:
         hintLimit = 5;
